@@ -2,3 +2,6 @@
 /obj
 *.iml
 .gradle
+.idea
+gradle.properties
+local.properties

@@ -4,11 +4,18 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'com.android.tools.build:gradle:0.14.4'
+        classpath files('libs/gradle-witness.jar')
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'witness'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = "1.0.0"
+group   = "org.whispersystems"
 
 repositories {
     mavenCentral()
@@ -16,6 +23,12 @@ repositories {
 
 dependencies {
     compile 'com.google.protobuf:protobuf-java:2.5.0'
+}
+
+dependencyVerification {
+    verify = [
+      'com.google.protobuf:protobuf-java:e0c1c64575c005601725e7c6a02cebf9e1285e888f756b2a1d73ffa8d725cc74',
+    ]
 }
 
 android {
@@ -34,7 +47,49 @@ android {
             }
         }
     }
+}
 
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeRepo) {
+            authentication(userName: libaxolotlSonatypeUsername, password: libaxolotlSonatypePassword)
+        }
+
+        pom.project {
+            name 'libaxolotl'
+            packaging 'aar'
+            description 'Axolotl encryption library for Android'
+            url 'https://github.com/WhisperSystems/libaxolotl'
+
+            scm {
+                url 'scm:git@github.com:WhisperSystems/libaxolotl.git'
+                connection 'scm:git@github.com:WhisperSystems/libaxolotl.git'
+                developerConnection 'scm:git@github.com:WhisperSystems/libaxolotl.git'
+            }
+
+            licenses {
+                license {
+                    name 'GPLv3'
+                    url 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    name 'Moxie Marlinspike'
+                }
+            }
+        }
+    }
 }
 
 tasks.whenTaskAdded { task ->
