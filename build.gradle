@@ -14,8 +14,9 @@ apply plugin: 'witness'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "1.0.0"
-group   = "org.whispersystems"
+archivesBaseName = "axolotl-android"
+version          = "1.0.0"
+group            = "org.whispersystems"
 
 repositories {
     mavenCentral()
@@ -44,6 +45,16 @@ android {
         sourceSets {
             main {
                 jniLibs.srcDirs = ['libs']
+            }
+        }
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "${archivesBaseName}-${version}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
             }
         }
     }
