@@ -86,7 +86,7 @@ public class RatchetingSession {
       secrets.write(Curve.calculateAgreement(parameters.getTheirSignedPreKey(),
                                              parameters.getOurBaseKey().getPrivateKey()));
 
-      if (sessionVersion >= 3 & parameters.getTheirOneTimePreKey().isPresent()) {
+      if (sessionVersion >= 3 && parameters.getTheirOneTimePreKey().isPresent()) {
         secrets.write(Curve.calculateAgreement(parameters.getTheirOneTimePreKey().get(),
                                                parameters.getOurBaseKey().getPrivateKey()));
       }
