@@ -63,6 +63,14 @@ uploadArchives {
                 developerConnection 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
             }
 
+            licenses {
+                license {
+                    name 'GPLv3'
+                    url 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    distribution 'repo'
+                }
+            }
+
             developers {
                 developer {
                     name 'Moxie Marlinspike'
@@ -81,3 +89,22 @@ task installArchives(type: Upload) {
         }
     }
 }
+
+task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+task packageSources(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives(packageJavadoc) {
+        type = 'javadoc'
+    }
+
+    archives packageSources
+}
+
