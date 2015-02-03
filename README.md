@@ -42,6 +42,26 @@ State is kept in the following places:
 
 # Using libaxolotl
 
+## Configuration
+
+On Android:
+
+```
+dependencies {
+  compile 'org.whispersystems:axolotl-android:(latest version number)'
+}
+```
+
+For pure Java apps:
+
+```
+<dependency>
+  <groupId>org.whispersystems</groupId>
+  <artifactId>axolotl-java</groupId>
+  <version>(latest version number)</version>
+</dependency>
+```
+
 ## Install time
 
 At install time, a libaxolotl client needs to generate its identity keys, registration id, and
@@ -96,7 +116,7 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2013-2014 Open Whisper Systems
+Copyright 2013-2015 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
