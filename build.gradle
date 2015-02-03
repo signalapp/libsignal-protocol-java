@@ -1,21 +1,7 @@
-buildscript {
-    dependencies {
-        classpath files('libs/gradle-witness.jar')
-    }
-}
-
 subprojects {
-    apply plugin: 'witness'
-
     ext.version_number     = "1.0.1"
     ext.group_info         = "org.whispersystems"
-    ext.curve25519_version = "0.1.3"
-
-    dependencyVerification {
-        verify = [
-          'com.google.protobuf:protobuf-java:e0c1c64575c005601725e7c6a02cebf9e1285e888f756b2a1d73ffa8d725cc74',
-        ]
-    }
+    ext.curve25519_version = "0.2.1"
 
     if (JavaVersion.current().isJava8Compatible()) {
         allprojects {
