@@ -57,7 +57,7 @@ For pure Java apps:
 ```
 <dependency>
   <groupId>org.whispersystems</groupId>
-  <artifactId>axolotl-java</groupId>
+  <artifactId>axolotl-java</artifactId>
   <version>(latest version number)</version>
 </dependency>
 ```
