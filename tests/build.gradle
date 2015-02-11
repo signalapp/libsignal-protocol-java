@@ -6,7 +6,6 @@ repositories {
 }
 
 dependencies {
-    compile 'junit:junit:3.8.2'
     testCompile 'junit:junit:3.8.2'
 
     compile project(':java')

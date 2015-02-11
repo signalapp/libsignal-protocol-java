@@ -15,7 +15,7 @@ repositories {
 sourceSets {
     test {
         java {
-            srcDirs = ['src/test/java/', project(':tests').file('src/main/java')]
+            srcDirs = ['src/test/java/', project(':tests').file('src/test/java')]
         }
     }
 }
