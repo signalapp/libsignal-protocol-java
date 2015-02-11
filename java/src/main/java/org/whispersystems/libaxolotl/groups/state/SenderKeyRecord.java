@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2014-2015 Open Whisper Systems
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.whispersystems.libaxolotl.groups.state;
 
 import org.whispersystems.libaxolotl.InvalidKeyIdException;
@@ -11,6 +27,12 @@ import java.util.List;
 
 import static org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyRecordStructure;
 
+/**
+ * A durable representation of a set of SenderKeyStates for a specific
+ * SenderKeyName.
+ *
+ * @author Moxie Marlisnpike
+ */
 public class SenderKeyRecord {
 
   private List<SenderKeyState> senderKeyStates = new LinkedList<>();
@@ -23,6 +45,10 @@ public class SenderKeyRecord {
     for (StorageProtos.SenderKeyStateStructure structure : senderKeyRecordStructure.getSenderKeyStatesList()) {
       this.senderKeyStates.add(new SenderKeyState(structure));
     }
+  }
+
+  public boolean isEmpty() {
+    return senderKeyStates.isEmpty();
   }
 
   public SenderKeyState getSenderKeyState() throws InvalidKeyIdException {

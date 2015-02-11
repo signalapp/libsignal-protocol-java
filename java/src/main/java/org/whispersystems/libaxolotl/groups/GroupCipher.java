@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2014-2015 Open Whisper Systems
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.whispersystems.libaxolotl.groups;
 
 import org.whispersystems.libaxolotl.DuplicateMessageException;
@@ -22,18 +38,35 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * The main entry point for axolotl group encrypt/decrypt operations.
+ *
+ * Once a session has been established with {@link org.whispersystems.libaxolotl.groups.GroupSessionBuilder}
+ * and a {@link org.whispersystems.libaxolotl.protocol.SenderKeyDistributionMessage} has been
+ * distributed to each member of the group, this class can be used for all subsequent encrypt/decrypt
+ * operations within that session (ie: until group membership changes).
+ *
+ * @author Moxie Marlinspike
+ */
 public class GroupCipher {
 
   static final Object LOCK = new Object();
 
   private final SenderKeyStore senderKeyStore;
-  private final String         senderKeyId;
+  private final SenderKeyName senderKeyId;
 
-  public GroupCipher(SenderKeyStore senderKeyStore, String senderKeyId) {
+  public GroupCipher(SenderKeyStore senderKeyStore, SenderKeyName senderKeyId) {
     this.senderKeyStore = senderKeyStore;
     this.senderKeyId    = senderKeyId;
   }
 
+  /**
+   * Encrypt a message.
+   *
+   * @param paddedPlaintext The plaintext message bytes, optionally padded.
+   * @return Ciphertext.
+   * @throws NoSessionException
+   */
   public byte[] encrypt(byte[] paddedPlaintext) throws NoSessionException {
     synchronized (LOCK) {
       try {
@@ -58,6 +91,15 @@ public class GroupCipher {
     }
   }
 
+  /**
+   * Decrypt a SenderKey group message.
+   *
+   * @param senderKeyMessageBytes The received ciphertext.
+   * @return Plaintext
+   * @throws LegacyMessageException
+   * @throws InvalidMessageException
+   * @throws DuplicateMessageException
+   */
   public byte[] decrypt(byte[] senderKeyMessageBytes)
       throws LegacyMessageException, InvalidMessageException, DuplicateMessageException
   {
