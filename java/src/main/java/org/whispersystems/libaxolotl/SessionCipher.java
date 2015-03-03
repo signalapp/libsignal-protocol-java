@@ -67,8 +67,7 @@ public class SessionCipher {
   private final SessionStore   sessionStore;
   private final SessionBuilder sessionBuilder;
   private final PreKeyStore    preKeyStore;
-  private final long           recipientId;
-  private final int            deviceId;
+  private final AxolotlAddress remoteAddress;
 
   /**
    * Construct a SessionCipher for encrypt/decrypt operations on a session.
@@ -76,23 +75,21 @@ public class SessionCipher {
    * and stored using {@link SessionBuilder}.
    *
    * @param  sessionStore The {@link SessionStore} that contains a session for this recipient.
-   * @param  recipientId  The remote ID that messages will be encrypted to or decrypted from.
-   * @param  deviceId     The device corresponding to the recipientId.
+   * @param  remoteAddress  The remote address that messages will be encrypted to or decrypted from.
    */
   public SessionCipher(SessionStore sessionStore, PreKeyStore preKeyStore,
                        SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore,
-                       long recipientId, int deviceId)
+                       AxolotlAddress remoteAddress)
   {
     this.sessionStore   = sessionStore;
-    this.recipientId    = recipientId;
-    this.deviceId       = deviceId;
     this.preKeyStore    = preKeyStore;
+    this.remoteAddress  = remoteAddress;
     this.sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
-                                             identityKeyStore, recipientId, deviceId);
+                                             identityKeyStore, remoteAddress);
   }
 
-  public SessionCipher(AxolotlStore store, long recipientId, int deviceId) {
-    this(store, store, store, store, recipientId, deviceId);
+  public SessionCipher(AxolotlStore store, AxolotlAddress remoteAddress) {
+    this(store, store, store, store, remoteAddress);
   }
 
   /**
@@ -103,7 +100,7 @@ public class SessionCipher {
    */
   public CiphertextMessage encrypt(byte[] paddedMessage) {
     synchronized (SESSION_LOCK) {
-      SessionRecord sessionRecord   = sessionStore.loadSession(recipientId, deviceId);
+      SessionRecord sessionRecord   = sessionStore.loadSession(remoteAddress);
       SessionState  sessionState    = sessionRecord.getSessionState();
       ChainKey      chainKey        = sessionState.getSenderChainKey();
       MessageKeys   messageKeys     = chainKey.getMessageKeys();
@@ -129,7 +126,7 @@ public class SessionCipher {
       }
 
       sessionState.setSenderChainKey(chainKey.getNextChainKey());
-      sessionStore.storeSession(recipientId, deviceId, sessionRecord);
+      sessionStore.storeSession(remoteAddress, sessionRecord);
       return ciphertextMessage;
     }
   }
@@ -182,13 +179,13 @@ public class SessionCipher {
              InvalidKeyIdException, InvalidKeyException, UntrustedIdentityException
   {
     synchronized (SESSION_LOCK) {
-      SessionRecord     sessionRecord    = sessionStore.loadSession(recipientId, deviceId);
+      SessionRecord     sessionRecord    = sessionStore.loadSession(remoteAddress);
       Optional<Integer> unsignedPreKeyId = sessionBuilder.process(sessionRecord, ciphertext);
       byte[]            plaintext        = decrypt(sessionRecord, ciphertext.getWhisperMessage());
 
       callback.handlePlaintext(plaintext);
 
-      sessionStore.storeSession(recipientId, deviceId, sessionRecord);
+      sessionStore.storeSession(remoteAddress, sessionRecord);
 
       if (unsignedPreKeyId.isPresent()) {
         preKeyStore.removePreKey(unsignedPreKeyId.get());
@@ -241,16 +238,16 @@ public class SessionCipher {
   {
     synchronized (SESSION_LOCK) {
 
-      if (!sessionStore.containsSession(recipientId, deviceId)) {
-        throw new NoSessionException("No session for: " + recipientId + ", " + deviceId);
+      if (!sessionStore.containsSession(remoteAddress)) {
+        throw new NoSessionException("No session for: " + remoteAddress);
       }
 
-      SessionRecord sessionRecord = sessionStore.loadSession(recipientId, deviceId);
+      SessionRecord sessionRecord = sessionStore.loadSession(remoteAddress);
       byte[]        plaintext     = decrypt(sessionRecord, ciphertext);
 
       callback.handlePlaintext(plaintext);
 
-      sessionStore.storeSession(recipientId, deviceId, sessionRecord);
+      sessionStore.storeSession(remoteAddress, sessionRecord);
 
       return plaintext;
     }
@@ -325,18 +322,18 @@ public class SessionCipher {
 
   public int getRemoteRegistrationId() {
     synchronized (SESSION_LOCK) {
-      SessionRecord record = sessionStore.loadSession(recipientId, deviceId);
+      SessionRecord record = sessionStore.loadSession(remoteAddress);
       return record.getSessionState().getRemoteRegistrationId();
     }
   }
 
   public int getSessionVersion() {
     synchronized (SESSION_LOCK) {
-      if (!sessionStore.containsSession(recipientId, deviceId)) {
-        throw new IllegalStateException(String.format("No session for (%d, %d)!", recipientId, deviceId));
+      if (!sessionStore.containsSession(remoteAddress)) {
+        throw new IllegalStateException(String.format("No session for (%s)!", remoteAddress));
       }
 
-      SessionRecord record = sessionStore.loadSession(recipientId, deviceId);
+      SessionRecord record = sessionStore.loadSession(remoteAddress);
       return record.getSessionState().getSessionVersion();
     }
   }

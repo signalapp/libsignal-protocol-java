@@ -26,13 +26,13 @@ public class InMemoryAxolotlStore implements AxolotlStore {
   }
 
   @Override
-  public void saveIdentity(long recipientId, IdentityKey identityKey) {
-    identityKeyStore.saveIdentity(recipientId, identityKey);
+  public void saveIdentity(String name, IdentityKey identityKey) {
+    identityKeyStore.saveIdentity(name, identityKey);
   }
 
   @Override
-  public boolean isTrustedIdentity(long recipientId, IdentityKey identityKey) {
-    return identityKeyStore.isTrustedIdentity(recipientId, identityKey);
+  public boolean isTrustedIdentity(String name, IdentityKey identityKey) {
+    return identityKeyStore.isTrustedIdentity(name, identityKey);
   }
 
   @Override
@@ -56,33 +56,33 @@ public class InMemoryAxolotlStore implements AxolotlStore {
   }
 
   @Override
-  public SessionRecord loadSession(long recipientId, int deviceId) {
-    return sessionStore.loadSession(recipientId, deviceId);
+  public SessionRecord loadSession(AxolotlAddress address) {
+    return sessionStore.loadSession(address);
   }
 
   @Override
-  public List<Integer> getSubDeviceSessions(long recipientId) {
-    return sessionStore.getSubDeviceSessions(recipientId);
+  public List<Integer> getSubDeviceSessions(String name) {
+    return sessionStore.getSubDeviceSessions(name);
   }
 
   @Override
-  public void storeSession(long recipientId, int deviceId, SessionRecord record) {
-    sessionStore.storeSession(recipientId, deviceId, record);
+  public void storeSession(AxolotlAddress address, SessionRecord record) {
+    sessionStore.storeSession(address, record);
   }
 
   @Override
-  public boolean containsSession(long recipientId, int deviceId) {
-    return sessionStore.containsSession(recipientId, deviceId);
+  public boolean containsSession(AxolotlAddress address) {
+    return sessionStore.containsSession(address);
   }
 
   @Override
-  public void deleteSession(long recipientId, int deviceId) {
-    sessionStore.deleteSession(recipientId, deviceId);
+  public void deleteSession(AxolotlAddress address) {
+    sessionStore.deleteSession(address);
   }
 
   @Override
-  public void deleteAllSessions(long recipientId) {
-    sessionStore.deleteAllSessions(recipientId);
+  public void deleteAllSessions(String name) {
+    sessionStore.deleteAllSessions(name);
   }
 
   @Override

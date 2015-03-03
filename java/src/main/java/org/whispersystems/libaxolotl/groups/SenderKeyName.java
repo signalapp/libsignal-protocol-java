@@ -16,35 +16,31 @@
  */
 package org.whispersystems.libaxolotl.groups;
 
+import org.whispersystems.libaxolotl.AxolotlAddress;
+
 /**
  * A representation of a (groupId + senderId + deviceId) tuple.
  */
 public class SenderKeyName {
 
-  private final String groupId;
-  private final long   senderId;
-  private final int    deviceId;
+  private final String         groupId;
+  private final AxolotlAddress sender;
 
-  public SenderKeyName(String groupId, long senderId, int deviceId) {
+  public SenderKeyName(String groupId, AxolotlAddress sender) {
     this.groupId  = groupId;
-    this.senderId = senderId;
-    this.deviceId = deviceId;
+    this.sender   = sender;
   }
 
   public String getGroupId() {
     return groupId;
   }
 
-  public long getSenderId() {
-    return senderId;
-  }
-
-  public int getDeviceId() {
-    return deviceId;
+  public AxolotlAddress getSender() {
+    return sender;
   }
 
   public String serialize() {
-    return groupId + "::" + String.valueOf(senderId) + "::" + String.valueOf(deviceId);
+    return groupId + "::" + sender.getName() + "::" + String.valueOf(sender.getDeviceId());
   }
 
   @Override
@@ -56,13 +52,12 @@ public class SenderKeyName {
 
     return
         this.groupId.equals(that.groupId) &&
-        this.senderId == that.senderId &&
-        this.deviceId == that.deviceId;
+        this.sender.equals(that.sender);
   }
 
   @Override
   public int hashCode() {
-    return this.groupId.hashCode() ^ (int)this.senderId ^ this.deviceId;
+    return this.groupId.hashCode() ^ this.sender.hashCode();
   }
 
 }

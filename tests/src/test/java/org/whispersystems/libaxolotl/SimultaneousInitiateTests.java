@@ -18,8 +18,8 @@ import java.util.Random;
 
 public class SimultaneousInitiateTests extends TestCase {
 
-  private static final long BOB_RECIPENT_ID    = 12345;
-  private static final long ALICE_RECIPIENT_ID = 6789;
+  private static final AxolotlAddress BOB_ADDRESS   = new AxolotlAddress("+14151231234", 1);
+  private static final AxolotlAddress ALICE_ADDRESS = new AxolotlAddress("+14159998888", 1);
 
   private static final ECKeyPair aliceSignedPreKey = Curve.generateKeyPair();
   private static final ECKeyPair bobSignedPreKey   = Curve.generateKeyPair();
@@ -38,11 +38,11 @@ public class SimultaneousInitiateTests extends TestCase {
     PreKeyBundle alicePreKeyBundle = createAlicePreKeyBundle(aliceStore);
     PreKeyBundle bobPreKeyBundle = createBobPreKeyBundle(bobStore);
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
     aliceSessionBuilder.process(bobPreKeyBundle);
     bobSessionBuilder.process(alicePreKeyBundle);
@@ -61,8 +61,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -92,11 +92,11 @@ public class SimultaneousInitiateTests extends TestCase {
     PreKeyBundle alicePreKeyBundle = createAlicePreKeyBundle(aliceStore);
     PreKeyBundle bobPreKeyBundle = createBobPreKeyBundle(bobStore);
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
     aliceSessionBuilder.process(bobPreKeyBundle);
     bobSessionBuilder.process(alicePreKeyBundle);
@@ -112,7 +112,7 @@ public class SimultaneousInitiateTests extends TestCase {
     byte[] bobPlaintext   = bobSessionCipher.decrypt(new PreKeyWhisperMessage(messageForBob.serialize()));
 
     assertTrue(new String(bobPlaintext).equals("hey there"));
-    assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
     CiphertextMessage aliceResponse = aliceSessionCipher.encrypt("second message".getBytes());
 
@@ -144,11 +144,11 @@ public class SimultaneousInitiateTests extends TestCase {
     PreKeyBundle alicePreKeyBundle = createAlicePreKeyBundle(aliceStore);
     PreKeyBundle bobPreKeyBundle = createBobPreKeyBundle(bobStore);
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
     aliceSessionBuilder.process(bobPreKeyBundle);
     bobSessionBuilder.process(alicePreKeyBundle);
@@ -167,8 +167,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -203,11 +203,11 @@ public class SimultaneousInitiateTests extends TestCase {
     PreKeyBundle alicePreKeyBundle = createAlicePreKeyBundle(aliceStore);
     PreKeyBundle bobPreKeyBundle = createBobPreKeyBundle(bobStore);
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
     aliceSessionBuilder.process(bobPreKeyBundle);
     bobSessionBuilder.process(alicePreKeyBundle);
@@ -226,8 +226,8 @@ public class SimultaneousInitiateTests extends TestCase {
     assertTrue(new String(alicePlaintext).equals("sample message"));
     assertTrue(new String(bobPlaintext).equals("hey there"));
 
-    assertTrue(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getSessionVersion() == 3);
-    assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+    assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+    assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
     assertFalse(isSessionIdEqual(aliceStore, bobStore));
 
@@ -277,11 +277,11 @@ public class SimultaneousInitiateTests extends TestCase {
     AxolotlStore bobStore   = new InMemoryAxolotlStore();
 
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
     for (int i=0;i<15;i++) {
       PreKeyBundle alicePreKeyBundle = createAlicePreKeyBundle(aliceStore);
@@ -304,8 +304,8 @@ public class SimultaneousInitiateTests extends TestCase {
       assertTrue(new String(alicePlaintext).equals("sample message"));
       assertTrue(new String(bobPlaintext).equals("hey there"));
 
-      assertTrue(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getSessionVersion() == 3);
-      assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
       assertFalse(isSessionIdEqual(aliceStore, bobStore));
     }
@@ -356,11 +356,11 @@ public class SimultaneousInitiateTests extends TestCase {
     AxolotlStore bobStore   = new InMemoryAxolotlStore();
 
 
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
+    SessionBuilder bobSessionBuilder   = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
-    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_RECIPENT_ID, 1);
-    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_RECIPIENT_ID, 1);
+    SessionCipher aliceSessionCipher = new SessionCipher(aliceStore, BOB_ADDRESS);
+    SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
 
 //    PreKeyBundle aliceLostPreKeyBundle = createAlicePreKeyBundle(aliceStore);
     PreKeyBundle bobLostPreKeyBundle   = createBobPreKeyBundle(bobStore);
@@ -392,8 +392,8 @@ public class SimultaneousInitiateTests extends TestCase {
       assertTrue(new String(alicePlaintext).equals("sample message"));
       assertTrue(new String(bobPlaintext).equals("hey there"));
 
-      assertTrue(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getSessionVersion() == 3);
-      assertTrue(bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getSessionVersion() == 3);
+      assertTrue(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+      assertTrue(bobStore.loadSession(ALICE_ADDRESS).getSessionState().getSessionVersion() == 3);
 
       assertFalse(isSessionIdEqual(aliceStore, bobStore));
     }
@@ -447,8 +447,8 @@ public class SimultaneousInitiateTests extends TestCase {
   }
 
   private boolean isSessionIdEqual(AxolotlStore aliceStore, AxolotlStore bobStore) {
-    return Arrays.equals(aliceStore.loadSession(BOB_RECIPENT_ID, 1).getSessionState().getAliceBaseKey(),
-                         bobStore.loadSession(ALICE_RECIPIENT_ID, 1).getSessionState().getAliceBaseKey());
+    return Arrays.equals(aliceStore.loadSession(BOB_ADDRESS).getSessionState().getAliceBaseKey(),
+                         bobStore.loadSession(ALICE_ADDRESS).getSessionState().getAliceBaseKey());
   }
 
   private PreKeyBundle createAlicePreKeyBundle(AxolotlStore aliceStore) throws InvalidKeyException {

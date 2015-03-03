@@ -2,7 +2,6 @@ package org.whispersystems.libaxolotl;
 
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SessionStore;
-import org.whispersystems.libaxolotl.util.Pair;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,15 +11,15 @@ import java.util.Map;
 
 public class InMemorySessionStore implements SessionStore {
 
-  private Map<Pair<Long, Integer>, byte[]> sessions = new HashMap<>();
+  private Map<AxolotlAddress, byte[]> sessions = new HashMap<>();
 
   public InMemorySessionStore() {}
 
   @Override
-  public synchronized SessionRecord loadSession(long recipientId, int deviceId) {
+  public synchronized SessionRecord loadSession(AxolotlAddress remoteAddress) {
     try {
-      if (containsSession(recipientId, deviceId)) {
-        return new SessionRecord(sessions.get(new Pair<>(recipientId, deviceId)));
+      if (containsSession(remoteAddress)) {
+        return new SessionRecord(sessions.get(remoteAddress));
       } else {
         return new SessionRecord();
       }
@@ -30,12 +29,12 @@ public class InMemorySessionStore implements SessionStore {
   }
 
   @Override
-  public synchronized List<Integer> getSubDeviceSessions(long recipientId) {
+  public synchronized List<Integer> getSubDeviceSessions(String name) {
     List<Integer> deviceIds = new LinkedList<>();
 
-    for (Pair<Long, Integer> key : sessions.keySet()) {
-      if (key.first() == recipientId) {
-        deviceIds.add(key.second());
+    for (AxolotlAddress key : sessions.keySet()) {
+      if (key.getName().equals(name)) {
+        deviceIds.add(key.getDeviceId());
       }
     }
 
@@ -43,24 +42,24 @@ public class InMemorySessionStore implements SessionStore {
   }
 
   @Override
-  public synchronized void storeSession(long recipientId, int deviceId, SessionRecord record) {
-    sessions.put(new Pair<>(recipientId, deviceId), record.serialize());
+  public synchronized void storeSession(AxolotlAddress address, SessionRecord record) {
+    sessions.put(address, record.serialize());
   }
 
   @Override
-  public synchronized boolean containsSession(long recipientId, int deviceId) {
-    return sessions.containsKey(new Pair<>(recipientId, deviceId));
+  public synchronized boolean containsSession(AxolotlAddress address) {
+    return sessions.containsKey(address);
   }
 
   @Override
-  public synchronized void deleteSession(long recipientId, int deviceId) {
-    sessions.remove(new Pair<>(recipientId, deviceId));
+  public synchronized void deleteSession(AxolotlAddress address) {
+    sessions.remove(address);
   }
 
   @Override
-  public synchronized void deleteAllSessions(long recipientId) {
-    for (Pair<Long, Integer> key : sessions.keySet()) {
-      if (key.first() == recipientId) {
+  public synchronized void deleteAllSessions(String name) {
+    for (AxolotlAddress key : sessions.keySet()) {
+      if (key.getName().equals(name)) {
         sessions.remove(key);
       }
     }

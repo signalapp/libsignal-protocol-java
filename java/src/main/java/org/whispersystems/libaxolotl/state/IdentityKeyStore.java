@@ -32,10 +32,10 @@ public interface IdentityKeyStore {
    * <p>
    * Store a remote client's identity key as trusted.
    *
-   * @param recipientId The recipient ID of the remote client.
+   * @param name        The name of the remote client.
    * @param identityKey The remote client's identity key.
    */
-  public void            saveIdentity(long recipientId, IdentityKey identityKey);
+  public void            saveIdentity(String name, IdentityKey identityKey);
 
 
   /**
@@ -48,10 +48,10 @@ public interface IdentityKeyStore {
    * store.  Only if it mismatches an entry in the local store is it considered
    * 'untrusted.'
    *
-   * @param recipientId The recipient ID of the remote client.
+   * @param name        The name of the remote client.
    * @param identityKey The identity key to verify.
    * @return true if trusted, false if untrusted.
    */
-  public boolean         isTrustedIdentity(long recipientId, IdentityKey identityKey);
+  public boolean         isTrustedIdentity(String name, IdentityKey identityKey);
 
 }

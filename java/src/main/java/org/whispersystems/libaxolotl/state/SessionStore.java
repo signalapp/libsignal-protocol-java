@@ -1,5 +1,7 @@
 package org.whispersystems.libaxolotl.state;
 
+import org.whispersystems.libaxolotl.AxolotlAddress;
+
 import java.util.List;
 
 /**
@@ -19,50 +21,46 @@ public interface SessionStore {
    * durable session state (what is returned by subsequent calls to this method) without the
    * store method being called here first.
    *
-   * @param recipientId The recipientID of the remote client.
-   * @param deviceId The deviceID of the remote client.
+   * @param address The name and device ID of the remote client.
    * @return a copy of the SessionRecord corresponding to the recipientId + deviceId tuple, or
    *         a new SessionRecord if one does not currently exist.
    */
-  public SessionRecord loadSession(long recipientId, int deviceId);
+  public SessionRecord loadSession(AxolotlAddress address);
 
   /**
    * Returns all known devices with active sessions for a recipient
    *
-   * @param recipientId the recipient ID.
+   * @param name the name of the client.
    * @return all known sub-devices with active sessions.
    */
-  public List<Integer> getSubDeviceSessions(long recipientId);
+  public List<Integer> getSubDeviceSessions(String name);
 
   /**
    * Commit to storage the {@link SessionRecord} for a given recipientId + deviceId tuple.
-   * @param recipientId the recipient ID of the remote client.
-   * @param deviceId the device ID of the remote client.
+   * @param address the address of the remote client.
    * @param record the current SessionRecord for the remote client.
    */
-  public void storeSession(long recipientId, int deviceId, SessionRecord record);
+  public void storeSession(AxolotlAddress address, SessionRecord record);
 
   /**
    * Determine whether there is a committed {@link SessionRecord} for a recipientId + deviceId tuple.
-   * @param recipientId the recipient ID of the remote client.
-   * @param deviceId the device ID of the remote client.
+   * @param address the address of the remote client.
    * @return true if a {@link SessionRecord} exists, false otherwise.
    */
-  public boolean containsSession(long recipientId, int deviceId);
+  public boolean containsSession(AxolotlAddress address);
 
   /**
    * Remove a {@link SessionRecord} for a recipientId + deviceId tuple.
    *
-   * @param recipientId the recipient ID of the remote client.
-   * @param deviceId the device ID of the remote client.
+   * @param address the address of the remote client.
    */
-  public void deleteSession(long recipientId, int deviceId);
+  public void deleteSession(AxolotlAddress address);
 
   /**
    * Remove the {@link SessionRecord}s corresponding to all devices of a recipientId.
    *
-   * @param recipientId the recipient ID of the remote client.
+   * @param name the name of the remote client.
    */
-  public void deleteAllSessions(long recipientId);
+  public void deleteAllSessions(String name);
 
 }

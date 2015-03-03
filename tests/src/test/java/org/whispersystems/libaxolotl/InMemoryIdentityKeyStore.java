@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class InMemoryIdentityKeyStore implements IdentityKeyStore {
 
-  private final Map<Long, IdentityKey> trustedKeys = new HashMap<>();
+  private final Map<String, IdentityKey> trustedKeys = new HashMap<>();
 
   private final IdentityKeyPair identityKeyPair;
   private final int             localRegistrationId;
@@ -39,13 +39,13 @@ public class InMemoryIdentityKeyStore implements IdentityKeyStore {
   }
 
   @Override
-  public void saveIdentity(long recipientId, IdentityKey identityKey) {
-    trustedKeys.put(recipientId, identityKey);
+  public void saveIdentity(String name, IdentityKey identityKey) {
+    trustedKeys.put(name, identityKey);
   }
 
   @Override
-  public boolean isTrustedIdentity(long recipientId, IdentityKey identityKey) {
-    IdentityKey trusted = trustedKeys.get(recipientId);
+  public boolean isTrustedIdentity(String name, IdentityKey identityKey) {
+    IdentityKey trusted = trustedKeys.get(name);
     return (trusted == null || trusted.equals(identityKey));
   }
 }
