@@ -1,5 +1,7 @@
-package org.whispersystems.libaxolotl;
+package org.whispersystems.libaxolotl.state.impl;
 
+import org.whispersystems.libaxolotl.IdentityKey;
+import org.whispersystems.libaxolotl.IdentityKeyPair;
 import org.whispersystems.libaxolotl.ecc.Curve;
 import org.whispersystems.libaxolotl.ecc.ECKeyPair;
 import org.whispersystems.libaxolotl.state.IdentityKeyStore;
@@ -16,16 +18,9 @@ public class InMemoryIdentityKeyStore implements IdentityKeyStore {
   private final IdentityKeyPair identityKeyPair;
   private final int             localRegistrationId;
 
-  public InMemoryIdentityKeyStore() {
-    try {
-      ECKeyPair identityKeyPairKeys = Curve.generateKeyPair();
-
-      this.identityKeyPair = new IdentityKeyPair(new IdentityKey(identityKeyPairKeys.getPublicKey()),
-                                                 identityKeyPairKeys.getPrivateKey());
-      this.localRegistrationId = SecureRandom.getInstance("SHA1PRNG").nextInt(16380) + 1;
-    } catch (NoSuchAlgorithmException e) {
-      throw new AssertionError(e);
-    }
+  public InMemoryIdentityKeyStore(IdentityKeyPair identityKeyPair, int localRegistrationId) {
+    this.identityKeyPair     = identityKeyPair;
+    this.localRegistrationId = localRegistrationId;
   }
 
   @Override

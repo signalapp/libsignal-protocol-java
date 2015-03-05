@@ -1,5 +1,6 @@
-package org.whispersystems.libaxolotl;
+package org.whispersystems.libaxolotl.state.impl;
 
+import org.whispersystems.libaxolotl.AxolotlAddress;
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SessionStore;
 
@@ -33,7 +34,9 @@ public class InMemorySessionStore implements SessionStore {
     List<Integer> deviceIds = new LinkedList<>();
 
     for (AxolotlAddress key : sessions.keySet()) {
-      if (key.getName().equals(name)) {
+      if (key.getName().equals(name) &&
+          key.getDeviceId() != 1)
+      {
         deviceIds.add(key.getDeviceId());
       }
     }

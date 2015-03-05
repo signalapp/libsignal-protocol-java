@@ -1,5 +1,9 @@
-package org.whispersystems.libaxolotl;
+package org.whispersystems.libaxolotl.state.impl;
 
+import org.whispersystems.libaxolotl.AxolotlAddress;
+import org.whispersystems.libaxolotl.IdentityKey;
+import org.whispersystems.libaxolotl.IdentityKeyPair;
+import org.whispersystems.libaxolotl.InvalidKeyIdException;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.PreKeyRecord;
 import org.whispersystems.libaxolotl.state.SessionRecord;
@@ -9,11 +13,15 @@ import java.util.List;
 
 public class InMemoryAxolotlStore implements AxolotlStore {
 
-  private final InMemoryIdentityKeyStore  identityKeyStore  = new InMemoryIdentityKeyStore();
   private final InMemoryPreKeyStore       preKeyStore       = new InMemoryPreKeyStore();
   private final InMemorySessionStore      sessionStore      = new InMemorySessionStore();
   private final InMemorySignedPreKeyStore signedPreKeyStore = new InMemorySignedPreKeyStore();
 
+  private final InMemoryIdentityKeyStore  identityKeyStore;
+
+  public InMemoryAxolotlStore(IdentityKeyPair identityKeyPair, int registrationId) {
+    this.identityKeyStore = new InMemoryIdentityKeyStore(identityKeyPair, registrationId);
+  }
 
   @Override
   public IdentityKeyPair getIdentityKeyPair() {

@@ -1,5 +1,6 @@
-package org.whispersystems.libaxolotl;
+package org.whispersystems.libaxolotl.state.impl;
 
+import org.whispersystems.libaxolotl.InvalidKeyIdException;
 import org.whispersystems.libaxolotl.state.SignedPreKeyRecord;
 import org.whispersystems.libaxolotl.state.SignedPreKeyStore;
 

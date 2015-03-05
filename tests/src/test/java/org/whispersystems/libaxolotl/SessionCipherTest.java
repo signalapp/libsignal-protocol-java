@@ -49,8 +49,8 @@ public class SessionCipherTest extends TestCase {
 
   private void runInteraction(SessionRecord aliceSessionRecord, SessionRecord bobSessionRecord)
       throws DuplicateMessageException, LegacyMessageException, InvalidMessageException, NoSuchAlgorithmException, NoSessionException {
-    AxolotlStore aliceStore = new InMemoryAxolotlStore();
-    AxolotlStore bobStore   = new InMemoryAxolotlStore();
+    AxolotlStore aliceStore = new TestInMemoryAxolotlStore();
+    AxolotlStore bobStore   = new TestInMemoryAxolotlStore();
 
     aliceStore.storeSession(new AxolotlAddress("+14159999999", 1), aliceSessionRecord);
     bobStore.storeSession(new AxolotlAddress("+14158888888", 1), bobSessionRecord);

@@ -25,10 +25,10 @@ public class SessionBuilderTest extends TestCase {
 
   public void testBasicPreKeyV2()
       throws InvalidKeyException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, UntrustedIdentityException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore bobStore      = new InMemoryAxolotlStore();
+    AxolotlStore bobStore      = new TestInMemoryAxolotlStore();
     ECKeyPair    bobPreKeyPair = Curve.generateKeyPair();
     PreKeyBundle bobPreKey     = new PreKeyBundle(bobStore.getLocalRegistrationId(), 1,
                                                   31337, bobPreKeyPair.getPublicKey(),
@@ -64,7 +64,7 @@ public class SessionBuilderTest extends TestCase {
 
     runInteraction(aliceStore, bobStore);
 
-    aliceStore          = new InMemoryAxolotlStore();
+    aliceStore          = new TestInMemoryAxolotlStore();
     aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
     aliceSessionCipher  = new SessionCipher(aliceStore, BOB_ADDRESS);
 
@@ -104,10 +104,10 @@ public class SessionBuilderTest extends TestCase {
 
   public void testBasicPreKeyV3()
       throws InvalidKeyException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, UntrustedIdentityException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    final AxolotlStore bobStore                 = new InMemoryAxolotlStore();
+    final AxolotlStore bobStore                 = new TestInMemoryAxolotlStore();
           ECKeyPair    bobPreKeyPair            = Curve.generateKeyPair();
           ECKeyPair    bobSignedPreKeyPair      = Curve.generateKeyPair();
           byte[]       bobSignedPreKeySignature = Curve.calculateSignature(bobStore.getIdentityKeyPair().getPrivateKey(),
@@ -156,7 +156,7 @@ public class SessionBuilderTest extends TestCase {
 
     runInteraction(aliceStore, bobStore);
 
-    aliceStore          = new InMemoryAxolotlStore();
+    aliceStore          = new TestInMemoryAxolotlStore();
     aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
     aliceSessionCipher  = new SessionCipher(aliceStore, BOB_ADDRESS);
 
@@ -198,10 +198,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testBadSignedPreKeySignature() throws InvalidKeyException, UntrustedIdentityException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    IdentityKeyStore bobIdentityKeyStore = new InMemoryIdentityKeyStore();
+    IdentityKeyStore bobIdentityKeyStore = new TestInMemoryIdentityKeyStore();
 
     ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
     ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
@@ -237,10 +237,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testRepeatBundleMessageV2() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore bobStore = new InMemoryAxolotlStore();
+    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
     ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
     ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
@@ -290,10 +290,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testRepeatBundleMessageV3() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, InvalidKeyIdException, DuplicateMessageException, LegacyMessageException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore bobStore = new InMemoryAxolotlStore();
+    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
     ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
     ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
@@ -344,10 +344,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testBadMessageBundle() throws InvalidKeyException, UntrustedIdentityException, InvalidVersionException, InvalidMessageException, DuplicateMessageException, LegacyMessageException, InvalidKeyIdException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore bobStore = new InMemoryAxolotlStore();
+    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
     ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
     ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
@@ -397,10 +397,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testBasicKeyExchange() throws InvalidKeyException, LegacyMessageException, InvalidMessageException, DuplicateMessageException, UntrustedIdentityException, StaleKeyExchangeException, InvalidVersionException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore   bobStore          = new InMemoryAxolotlStore();
+    AxolotlStore   bobStore          = new TestInMemoryAxolotlStore();
     SessionBuilder bobSessionBuilder = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
     KeyExchangeMessage aliceKeyExchangeMessage      = aliceSessionBuilder.process();
@@ -420,7 +420,7 @@ public class SessionBuilderTest extends TestCase {
 
     runInteraction(aliceStore, bobStore);
 
-    aliceStore              = new InMemoryAxolotlStore();
+    aliceStore              = new TestInMemoryAxolotlStore();
     aliceSessionBuilder     = new SessionBuilder(aliceStore, BOB_ADDRESS);
     aliceKeyExchangeMessage = aliceSessionBuilder.process();
 
@@ -439,10 +439,10 @@ public class SessionBuilderTest extends TestCase {
 
   public void testSimultaneousKeyExchange()
       throws InvalidKeyException, DuplicateMessageException, LegacyMessageException, InvalidMessageException, UntrustedIdentityException, StaleKeyExchangeException, NoSessionException {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore   bobStore          = new InMemoryAxolotlStore();
+    AxolotlStore   bobStore          = new TestInMemoryAxolotlStore();
     SessionBuilder bobSessionBuilder = new SessionBuilder(bobStore, ALICE_ADDRESS);
 
     KeyExchangeMessage aliceKeyExchange = aliceSessionBuilder.process();
@@ -467,10 +467,10 @@ public class SessionBuilderTest extends TestCase {
   }
 
   public void testOptionalOneTimePreKey() throws Exception {
-    AxolotlStore   aliceStore          = new InMemoryAxolotlStore();
+    AxolotlStore   aliceStore          = new TestInMemoryAxolotlStore();
     SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
 
-    AxolotlStore bobStore = new InMemoryAxolotlStore();
+    AxolotlStore bobStore = new TestInMemoryAxolotlStore();
 
     ECKeyPair bobPreKeyPair            = Curve.generateKeyPair();
     ECKeyPair bobSignedPreKeyPair      = Curve.generateKeyPair();
