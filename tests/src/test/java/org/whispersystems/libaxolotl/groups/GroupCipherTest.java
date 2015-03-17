@@ -30,9 +30,9 @@ public class GroupCipherTest extends TestCase {
     GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, GROUP_SENDER);
     GroupCipher bobGroupCipher   = new GroupCipher(bobStore, GROUP_SENDER);
 
-    SenderKeyDistributionMessage aliceDistributionMessage = aliceSessionBuilder.create(GROUP_SENDER);
-
-    bobSessionBuilder.process(GROUP_SENDER, aliceDistributionMessage);
+    SenderKeyDistributionMessage sentAliceDistributionMessage     = aliceSessionBuilder.create(GROUP_SENDER);
+    SenderKeyDistributionMessage receivedAliceDistributionMessage = new SenderKeyDistributionMessage(sentAliceDistributionMessage.serialize());
+    bobSessionBuilder.process(GROUP_SENDER, receivedAliceDistributionMessage);
 
     byte[] ciphertextFromAlice = aliceGroupCipher.encrypt("smert ze smert".getBytes());
     byte[] plaintextFromAlice  = bobGroupCipher.decrypt(ciphertextFromAlice);
@@ -54,10 +54,12 @@ public class GroupCipherTest extends TestCase {
     GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, aliceName);
     GroupCipher bobGroupCipher   = new GroupCipher(bobStore, aliceName);
 
-    SenderKeyDistributionMessage aliceDistributionMessage =
+    SenderKeyDistributionMessage sentAliceDistributionMessage =
         aliceSessionBuilder.create(aliceName);
+    SenderKeyDistributionMessage receivedAliceDistributionMessage =
+        new SenderKeyDistributionMessage(sentAliceDistributionMessage.serialize());
 
-    bobSessionBuilder.process(aliceName, aliceDistributionMessage);
+    bobSessionBuilder.process(aliceName, receivedAliceDistributionMessage);
 
     byte[] ciphertextFromAlice  = aliceGroupCipher.encrypt("smert ze smert".getBytes());
     byte[] ciphertextFromAlice2 = aliceGroupCipher.encrypt("smert ze smert2".getBytes());
@@ -79,6 +81,40 @@ public class GroupCipherTest extends TestCase {
     assertTrue(new String(plaintextFromAlice2).equals("smert ze smert2"));
     assertTrue(new String(plaintextFromAlice3).equals("smert ze smert3"));
   }
+
+  public void testLateJoin() throws NoSessionException, InvalidMessageException, LegacyMessageException, DuplicateMessageException {
+    InMemorySenderKeyStore aliceStore = new InMemorySenderKeyStore();
+    InMemorySenderKeyStore bobStore   = new InMemorySenderKeyStore();
+
+    GroupSessionBuilder aliceSessionBuilder = new GroupSessionBuilder(aliceStore);
+
+
+    SenderKeyName aliceName = GROUP_SENDER;
+
+    GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, aliceName);
+
+
+    SenderKeyDistributionMessage aliceDistributionMessage = aliceSessionBuilder.create(aliceName);
+    // Send off to some people.
+
+    for (int i=0;i<100;i++) {
+      aliceGroupCipher.encrypt("up the punks up the punks up the punks".getBytes());
+    }
+
+    // Now Bob Joins.
+    GroupSessionBuilder bobSessionBuilder = new GroupSessionBuilder(bobStore);
+    GroupCipher         bobGroupCipher    = new GroupCipher(bobStore, aliceName);
+
+
+    SenderKeyDistributionMessage distributionMessageToBob = aliceSessionBuilder.create(aliceName);
+    bobSessionBuilder.process(aliceName, new SenderKeyDistributionMessage(distributionMessageToBob.serialize()));
+
+    byte[] ciphertext = aliceGroupCipher.encrypt("welcome to the group".getBytes());
+    byte[] plaintext  = bobGroupCipher.decrypt(ciphertext);
+
+    assertEquals(new String(plaintext), "welcome to the group");
+  }
+
 
   public void testOutOfOrder()
       throws LegacyMessageException, DuplicateMessageException, InvalidMessageException, NoSessionException
