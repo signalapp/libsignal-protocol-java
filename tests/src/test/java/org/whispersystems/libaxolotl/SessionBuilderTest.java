@@ -135,7 +135,7 @@ public class SessionBuilderTest extends TestCase {
     bobStore.storeSignedPreKey(22, new SignedPreKeyRecord(22, System.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
 
     SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
-    byte[] plaintext = bobSessionCipher.decrypt(incomingMessage, new SessionCipher.DecryptionCallback() {
+    byte[] plaintext = bobSessionCipher.decrypt(incomingMessage, new DecryptionCallback() {
       @Override
       public void handlePlaintext(byte[] plaintext) {
         assertTrue(originalMessage.equals(new String(plaintext)));

@@ -16,6 +16,7 @@
  */
 package org.whispersystems.libaxolotl.groups;
 
+import org.whispersystems.libaxolotl.DecryptionCallback;
 import org.whispersystems.libaxolotl.DuplicateMessageException;
 import org.whispersystems.libaxolotl.InvalidKeyIdException;
 import org.whispersystems.libaxolotl.InvalidMessageException;
@@ -101,6 +102,27 @@ public class GroupCipher {
    * @throws DuplicateMessageException
    */
   public byte[] decrypt(byte[] senderKeyMessageBytes)
+      throws LegacyMessageException, DuplicateMessageException, InvalidMessageException
+  {
+    return decrypt(senderKeyMessageBytes, new NullDecryptionCallback());
+  }
+
+  /**
+   * Decrypt a SenderKey group message.
+   *
+   * @param senderKeyMessageBytes The received ciphertext.
+   * @param callback   A callback that is triggered after decryption is complete,
+   *                    but before the updated session state has been committed to the session
+   *                    DB.  This allows some implementations to store the committed plaintext
+   *                    to a DB first, in case they are concerned with a crash happening between
+   *                    the time the session state is updated but before they're able to store
+   *                    the plaintext to disk.
+   * @return Plaintext
+   * @throws LegacyMessageException
+   * @throws InvalidMessageException
+   * @throws DuplicateMessageException
+   */
+  public byte[] decrypt(byte[] senderKeyMessageBytes, DecryptionCallback callback)
       throws LegacyMessageException, InvalidMessageException, DuplicateMessageException
   {
     synchronized (LOCK) {
@@ -114,6 +136,8 @@ public class GroupCipher {
         SenderMessageKey senderKey = getSenderKey(senderKeyState, senderKeyMessage.getIteration());
 
         byte[] plaintext = getPlainText(senderKey.getIv(), senderKey.getCipherKey(), senderKeyMessage.getCipherText());
+
+        callback.handlePlaintext(plaintext);
 
         senderKeyStore.storeSenderKey(senderKeyId, record);
 
@@ -183,6 +207,11 @@ public class GroupCipher {
     {
       throw new AssertionError(e);
     }
+  }
+
+  private static class NullDecryptionCallback implements DecryptionCallback {
+    @Override
+    public void handlePlaintext(byte[] plaintext) {}
   }
 
 }

@@ -455,10 +455,6 @@ public class SessionCipher {
     }
   }
 
-  public static interface DecryptionCallback {
-    public void handlePlaintext(byte[] plaintext);
-  }
-
   private static class NullDecryptionCallback implements DecryptionCallback {
     @Override
     public void handlePlaintext(byte[] plaintext) {}
