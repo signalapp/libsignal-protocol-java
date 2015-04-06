@@ -102,7 +102,7 @@ public class GroupCipher {
    * @throws DuplicateMessageException
    */
   public byte[] decrypt(byte[] senderKeyMessageBytes)
-      throws LegacyMessageException, DuplicateMessageException, InvalidMessageException
+      throws LegacyMessageException, DuplicateMessageException, InvalidMessageException, NoSessionException
   {
     return decrypt(senderKeyMessageBytes, new NullDecryptionCallback());
   }
@@ -123,11 +123,17 @@ public class GroupCipher {
    * @throws DuplicateMessageException
    */
   public byte[] decrypt(byte[] senderKeyMessageBytes, DecryptionCallback callback)
-      throws LegacyMessageException, InvalidMessageException, DuplicateMessageException
+      throws LegacyMessageException, InvalidMessageException, DuplicateMessageException,
+             NoSessionException
   {
     synchronized (LOCK) {
       try {
-        SenderKeyRecord  record           = senderKeyStore.loadSenderKey(senderKeyId);
+        SenderKeyRecord record = senderKeyStore.loadSenderKey(senderKeyId);
+
+        if (record.isEmpty()) {
+          throw new NoSessionException("No sender key for: " + senderKeyId);
+        }
+
         SenderKeyMessage senderKeyMessage = new SenderKeyMessage(senderKeyMessageBytes);
         SenderKeyState   senderKeyState   = record.getSenderKeyState(senderKeyMessage.getKeyId());
 

@@ -18,6 +18,30 @@ public class GroupCipherTest extends TestCase {
   private static final AxolotlAddress SENDER_ADDRESS = new AxolotlAddress("+14150001111", 1);
   private static final SenderKeyName  GROUP_SENDER   = new SenderKeyName("nihilist history reading group", SENDER_ADDRESS);
 
+  public void testNoSession() throws InvalidMessageException, LegacyMessageException, NoSessionException, DuplicateMessageException {
+    InMemorySenderKeyStore aliceStore = new InMemorySenderKeyStore();
+    InMemorySenderKeyStore bobStore   = new InMemorySenderKeyStore();
+
+    GroupSessionBuilder aliceSessionBuilder = new GroupSessionBuilder(aliceStore);
+    GroupSessionBuilder bobSessionBuilder   = new GroupSessionBuilder(bobStore);
+
+    GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, GROUP_SENDER);
+    GroupCipher bobGroupCipher   = new GroupCipher(bobStore, GROUP_SENDER);
+
+    SenderKeyDistributionMessage sentAliceDistributionMessage     = aliceSessionBuilder.create(GROUP_SENDER);
+    SenderKeyDistributionMessage receivedAliceDistributionMessage = new SenderKeyDistributionMessage(sentAliceDistributionMessage.serialize());
+
+//    bobSessionBuilder.process(GROUP_SENDER, receivedAliceDistributionMessage);
+
+    byte[] ciphertextFromAlice = aliceGroupCipher.encrypt("smert ze smert".getBytes());
+    try {
+      byte[] plaintextFromAlice  = bobGroupCipher.decrypt(ciphertextFromAlice);
+      throw new AssertionError("Should be no session!");
+    } catch (NoSessionException e) {
+      // good
+    }
+  }
+
   public void testBasicEncryptDecrypt()
       throws LegacyMessageException, DuplicateMessageException, InvalidMessageException, NoSessionException
   {
