@@ -11,16 +11,16 @@ public class CurveTest extends TestCase {
     assertFalse(Curve.isNative());
   }
 
-  public void testSignatureOverflow() throws InvalidKeyException {
-    ECKeyPair keys    = Curve.generateKeyPair();
-    byte[]    message = new byte[4096];
+  public void testLargeSignatures() throws InvalidKeyException {
+    ECKeyPair keys      = Curve.generateKeyPair();
+    byte[]    message   = new byte[1024 * 1024];
+    byte[]    signature = Curve.calculateSignature(keys.getPrivateKey(), message);
 
-    try {
-      byte[] signature = Curve.calculateSignature(keys.getPrivateKey(), message);
-      throw new InvalidKeyException("Should have asserted!");
-    } catch (IllegalArgumentException e) {
-      // Success!
-    }
+    assertTrue(Curve.verifySignature(keys.getPublicKey(), message, signature));
+
+    message[0] ^= 0x01;
+
+    assertFalse(Curve.verifySignature(keys.getPublicKey(), message, signature));
   }
 
 }

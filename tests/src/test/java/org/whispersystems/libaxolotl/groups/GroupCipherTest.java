@@ -12,6 +12,8 @@ import org.whispersystems.libaxolotl.protocol.SenderKeyDistributionMessage;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class GroupCipherTest extends TestCase {
 
@@ -62,6 +64,29 @@ public class GroupCipherTest extends TestCase {
     byte[] plaintextFromAlice  = bobGroupCipher.decrypt(ciphertextFromAlice);
 
     assertTrue(new String(plaintextFromAlice).equals("smert ze smert"));
+  }
+
+  public void testLargeMessages() throws InvalidMessageException, LegacyMessageException, NoSessionException, DuplicateMessageException {
+    InMemorySenderKeyStore aliceStore = new InMemorySenderKeyStore();
+    InMemorySenderKeyStore bobStore   = new InMemorySenderKeyStore();
+
+    GroupSessionBuilder aliceSessionBuilder = new GroupSessionBuilder(aliceStore);
+    GroupSessionBuilder bobSessionBuilder   = new GroupSessionBuilder(bobStore);
+
+    GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, GROUP_SENDER);
+    GroupCipher bobGroupCipher   = new GroupCipher(bobStore, GROUP_SENDER);
+
+    SenderKeyDistributionMessage sentAliceDistributionMessage     = aliceSessionBuilder.create(GROUP_SENDER);
+    SenderKeyDistributionMessage receivedAliceDistributionMessage = new SenderKeyDistributionMessage(sentAliceDistributionMessage.serialize());
+    bobSessionBuilder.process(GROUP_SENDER, receivedAliceDistributionMessage);
+
+    byte[] plaintext = new byte[1024 * 1024];
+    new Random().nextBytes(plaintext);
+
+    byte[] ciphertextFromAlice = aliceGroupCipher.encrypt(plaintext);
+    byte[] plaintextFromAlice  = bobGroupCipher.decrypt(ciphertextFromAlice);
+
+    assertTrue(Arrays.equals(plaintext, plaintextFromAlice));
   }
 
   public void testBasicRatchet()
