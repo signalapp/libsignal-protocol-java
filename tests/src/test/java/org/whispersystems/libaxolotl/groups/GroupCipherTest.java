@@ -210,6 +210,37 @@ public class GroupCipherTest extends TestCase {
     }
   }
 
+
+  public void testTooFarInFuture() throws DuplicateMessageException, InvalidMessageException, LegacyMessageException, NoSessionException {
+    InMemorySenderKeyStore aliceStore = new InMemorySenderKeyStore();
+    InMemorySenderKeyStore bobStore   = new InMemorySenderKeyStore();
+
+    GroupSessionBuilder aliceSessionBuilder = new GroupSessionBuilder(aliceStore);
+    GroupSessionBuilder bobSessionBuilder   = new GroupSessionBuilder(bobStore);
+
+    SenderKeyName aliceName = GROUP_SENDER;
+
+    GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, aliceName);
+    GroupCipher bobGroupCipher   = new GroupCipher(bobStore, aliceName);
+
+    SenderKeyDistributionMessage aliceDistributionMessage = aliceSessionBuilder.create(aliceName);
+
+    bobSessionBuilder.process(aliceName, aliceDistributionMessage);
+
+    for (int i=0;i<2001;i++) {
+      aliceGroupCipher.encrypt("up the punks".getBytes());
+    }
+
+    byte[] tooFarCiphertext = aliceGroupCipher.encrypt("notta gonna worka".getBytes());
+    try {
+      bobGroupCipher.decrypt(tooFarCiphertext);
+      throw new AssertionError("Should have failed!");
+    } catch (InvalidMessageException e) {
+      // good
+    }
+  }
+
+
   private int randomInt() {
     try {
       return SecureRandom.getInstance("SHA1PRNG").nextInt(Integer.MAX_VALUE);
