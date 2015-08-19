@@ -104,7 +104,7 @@ public class SessionBuilder {
     Optional<Integer> unsignedPreKeyId;
 
     if (!identityKeyStore.isTrustedIdentity(remoteAddress.getName(), theirIdentityKey)) {
-      throw new UntrustedIdentityException();
+      throw new UntrustedIdentityException(remoteAddress.getName(), theirIdentityKey);
     }
 
     switch (messageVersion) {
@@ -211,7 +211,7 @@ public class SessionBuilder {
   public void process(PreKeyBundle preKey) throws InvalidKeyException, UntrustedIdentityException {
     synchronized (SessionCipher.SESSION_LOCK) {
       if (!identityKeyStore.isTrustedIdentity(remoteAddress.getName(), preKey.getIdentityKey())) {
-        throw new UntrustedIdentityException();
+        throw new UntrustedIdentityException(remoteAddress.getName(), preKey.getIdentityKey());
       }
 
       if (preKey.getSignedPreKey() != null &&
@@ -272,7 +272,7 @@ public class SessionBuilder {
   {
     synchronized (SessionCipher.SESSION_LOCK) {
       if (!identityKeyStore.isTrustedIdentity(remoteAddress.getName(), message.getIdentityKey())) {
-        throw new UntrustedIdentityException();
+        throw new UntrustedIdentityException(remoteAddress.getName(), message.getIdentityKey());
       }
 
       KeyExchangeMessage responseMessage = null;
