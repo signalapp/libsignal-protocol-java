@@ -13,12 +13,14 @@ import org.whispersystems.libaxolotl.ratchet.RatchetingSession;
 import org.whispersystems.libaxolotl.state.AxolotlStore;
 import org.whispersystems.libaxolotl.state.SessionRecord;
 import org.whispersystems.libaxolotl.state.SessionState;
+import org.whispersystems.libaxolotl.util.Pair;
 import org.whispersystems.libaxolotl.util.guava.Optional;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -45,6 +47,38 @@ public class SessionCipherTest extends TestCase {
 
     initializeSessionsV3(aliceSessionRecord.getSessionState(), bobSessionRecord.getSessionState());
     runInteraction(aliceSessionRecord, bobSessionRecord);
+  }
+
+  public void testMessageKeyLimits() throws Exception {
+    SessionRecord aliceSessionRecord = new SessionRecord();
+    SessionRecord bobSessionRecord   = new SessionRecord();
+
+    initializeSessionsV3(aliceSessionRecord.getSessionState(), bobSessionRecord.getSessionState());
+
+    AxolotlStore aliceStore = new TestInMemoryAxolotlStore();
+    AxolotlStore bobStore   = new TestInMemoryAxolotlStore();
+
+    aliceStore.storeSession(new AxolotlAddress("+14159999999", 1), aliceSessionRecord);
+    bobStore.storeSession(new AxolotlAddress("+14158888888", 1), bobSessionRecord);
+
+    SessionCipher     aliceCipher    = new SessionCipher(aliceStore, new AxolotlAddress("+14159999999", 1));
+    SessionCipher     bobCipher      = new SessionCipher(bobStore, new AxolotlAddress("+14158888888", 1));
+
+    List<CiphertextMessage> inflight = new LinkedList<>();
+
+    for (int i=0;i<2010;i++) {
+      inflight.add(aliceCipher.encrypt("you've never been so hungry, you've never been so cold".getBytes()));
+    }
+
+    bobCipher.decrypt(new WhisperMessage(inflight.get(1000).serialize()));
+    bobCipher.decrypt(new WhisperMessage(inflight.get(inflight.size()-1).serialize()));
+
+    try {
+      bobCipher.decrypt(new WhisperMessage(inflight.get(0).serialize()));
+      throw new AssertionError("Should have failed!");
+    } catch (DuplicateMessageException dme) {
+      // good
+    }
   }
 
   private void runInteraction(SessionRecord aliceSessionRecord, SessionRecord bobSessionRecord)
@@ -111,7 +145,7 @@ public class SessionCipherTest extends TestCase {
       assertTrue(Arrays.equals(receivedPlaintext, alicePlaintextMessages.get(i)));
     }
 
-    for (int i=bobCiphertextMessages.size() / 2;i<bobCiphertextMessages.size();i++) {
+    for (int i=bobCiphertextMessages.size() / 2;i<bobCiphertextMessages.size(); i++) {
       byte[] receivedPlaintext = aliceCipher.decrypt(new WhisperMessage(bobCiphertextMessages.get(i).serialize()));
       assertTrue(Arrays.equals(receivedPlaintext, bobPlaintextMessages.get(i)));
     }
@@ -164,9 +198,9 @@ public class SessionCipherTest extends TestCase {
     ECKeyPair       aliceBaseKey         = Curve.generateKeyPair();
     ECKeyPair       aliceEphemeralKey    = Curve.generateKeyPair();
 
-    ECKeyPair       alicePreKey          = aliceBaseKey;
+    ECKeyPair alicePreKey = aliceBaseKey;
 
-    ECKeyPair       bobIdentityKeyPair   = Curve.generateKeyPair();
+    ECKeyPair       bobIdentityKeyPair = Curve.generateKeyPair();
     IdentityKeyPair bobIdentityKey       = new IdentityKeyPair(new IdentityKey(bobIdentityKeyPair.getPublicKey()),
                                                                bobIdentityKeyPair.getPrivateKey());
     ECKeyPair       bobBaseKey           = Curve.generateKeyPair();
@@ -195,4 +229,5 @@ public class SessionCipherTest extends TestCase {
     RatchetingSession.initializeSession(aliceSessionState, 3, aliceParameters);
     RatchetingSession.initializeSession(bobSessionState, 3, bobParameters);
   }
+
 }

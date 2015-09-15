@@ -40,6 +40,8 @@ import static org.whispersystems.libaxolotl.state.StorageProtos.SenderKeyStateSt
  */
 public class SenderKeyState {
 
+  private static final int MAX_MESSAGE_KEYS = 2000;
+
   private SenderKeyStateStructure senderKeyStateStructure;
 
   public SenderKeyState(int id, int iteration, byte[] chainKey, ECPublicKey signatureKey) {
@@ -126,9 +128,15 @@ public class SenderKeyState {
                                                 .setSeed(ByteString.copyFrom(senderMessageKey.getSeed()))
                                                 .build();
 
-    this.senderKeyStateStructure = this.senderKeyStateStructure.toBuilder()
-                                                               .addSenderMessageKeys(senderMessageKeyStructure)
-                                                               .build();
+    SenderKeyStateStructure.Builder builder = this.senderKeyStateStructure.toBuilder();
+
+    builder.addSenderMessageKeys(senderMessageKeyStructure);
+
+    if (builder.getSenderMessageKeysCount() > MAX_MESSAGE_KEYS) {
+      builder.removeSenderMessageKeys(0);
+    }
+
+    this.senderKeyStateStructure = builder.build();
   }
 
   public SenderMessageKey removeSenderMessageKey(int iteration) {

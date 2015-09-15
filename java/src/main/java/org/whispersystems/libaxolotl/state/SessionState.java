@@ -49,6 +49,8 @@ import static org.whispersystems.libaxolotl.state.StorageProtos.SessionStructure
 
 public class SessionState {
 
+  private static final int MAX_MESSAGE_KEYS = 2000;
+
   private SessionStructure sessionStructure;
 
   public SessionState() {
@@ -323,12 +325,15 @@ public class SessionState {
                                                               .setIv(ByteString.copyFrom(messageKeys.getIv().getIV()))
                                                               .build();
 
-    Chain updatedChain = chain.toBuilder()
-                              .addMessageKeys(messageKeyStructure)
-                              .build();
+    Chain.Builder updatedChain = chain.toBuilder().addMessageKeys(messageKeyStructure);
+
+    if (updatedChain.getMessageKeysCount() > MAX_MESSAGE_KEYS) {
+      updatedChain.removeMessageKeys(0);
+    }
 
     this.sessionStructure = this.sessionStructure.toBuilder()
-                                                 .setReceiverChains(chainAndIndex.second(), updatedChain)
+                                                 .setReceiverChains(chainAndIndex.second(),
+                                                                    updatedChain.build())
                                                  .build();
   }
 

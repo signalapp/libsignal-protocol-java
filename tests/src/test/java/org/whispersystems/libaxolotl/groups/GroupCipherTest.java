@@ -13,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class GroupCipherTest extends TestCase {
@@ -236,6 +238,39 @@ public class GroupCipherTest extends TestCase {
       bobGroupCipher.decrypt(tooFarCiphertext);
       throw new AssertionError("Should have failed!");
     } catch (InvalidMessageException e) {
+      // good
+    }
+  }
+
+  public void testMessageKeyLimit() throws Exception {
+    InMemorySenderKeyStore aliceStore = new InMemorySenderKeyStore();
+    InMemorySenderKeyStore bobStore   = new InMemorySenderKeyStore();
+
+    GroupSessionBuilder aliceSessionBuilder = new GroupSessionBuilder(aliceStore);
+    GroupSessionBuilder bobSessionBuilder   = new GroupSessionBuilder(bobStore);
+
+    SenderKeyName aliceName = GROUP_SENDER;
+
+    GroupCipher aliceGroupCipher = new GroupCipher(aliceStore, aliceName);
+    GroupCipher bobGroupCipher   = new GroupCipher(bobStore, aliceName);
+
+    SenderKeyDistributionMessage aliceDistributionMessage = aliceSessionBuilder.create(aliceName);
+
+    bobSessionBuilder.process(aliceName, aliceDistributionMessage);
+
+    List<byte[]> inflight = new LinkedList<>();
+
+    for (int i=0;i<2010;i++) {
+      inflight.add(aliceGroupCipher.encrypt("up the punks".getBytes()));
+    }
+
+    bobGroupCipher.decrypt(inflight.get(1000));
+    bobGroupCipher.decrypt(inflight.get(inflight.size()-1));
+
+    try {
+      bobGroupCipher.decrypt(inflight.get(0));
+      throw new AssertionError("Should have failed!");
+    } catch (DuplicateMessageException e) {
       // good
     }
   }
