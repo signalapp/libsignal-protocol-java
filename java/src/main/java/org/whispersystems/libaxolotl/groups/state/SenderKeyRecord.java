@@ -72,7 +72,7 @@ public class SenderKeyRecord {
   }
 
   public void addSenderKeyState(int id, int iteration, byte[] chainKey, ECPublicKey signatureKey) {
-    senderKeyStates.add(new SenderKeyState(id, iteration, chainKey, signatureKey));
+    senderKeyStates.addFirst(new SenderKeyState(id, iteration, chainKey, signatureKey));
 
     if (senderKeyStates.size() > MAX_STATES) {
       senderKeyStates.removeLast();
