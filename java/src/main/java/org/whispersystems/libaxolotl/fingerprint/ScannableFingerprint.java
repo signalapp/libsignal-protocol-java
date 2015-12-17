@@ -58,7 +58,10 @@ public class ScannableFingerprint {
       if (!combinedFingerprint.getLocalFingerprint().getIdentifier().equals(scannedFingerprint.getRemoteFingerprint().getIdentifier()) ||
           !combinedFingerprint.getRemoteFingerprint().getIdentifier().equals(scannedFingerprint.getLocalFingerprint().getIdentifier()))
       {
-        throw new FingerprintIdentifierMismatchException();
+        throw new FingerprintIdentifierMismatchException(combinedFingerprint.getLocalFingerprint().getIdentifier().toString(),
+                                                         combinedFingerprint.getRemoteFingerprint().getIdentifier().toString(),
+                                                         scannedFingerprint.getLocalFingerprint().getIdentifier().toString(),
+                                                         scannedFingerprint.getRemoteFingerprint().getIdentifier().toString());
       }
 
       return MessageDigest.isEqual(combinedFingerprint.getLocalFingerprint().toByteArray(), scannedFingerprint.getRemoteFingerprint().toByteArray()) &&
