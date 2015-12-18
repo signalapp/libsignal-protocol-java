@@ -8,7 +8,7 @@ import org.whispersystems.libaxolotl.ecc.ECKeyPair;
 
 public class NumericFingerprintGeneratorTest extends TestCase {
 
-  public void testMatchingFingerprints() throws FingerprintVersionMismatchException, FingerprintIdentifierMismatchException {
+  public void testMatchingFingerprints() throws FingerprintVersionMismatchException, FingerprintIdentifierMismatchException, FingerprintParsingException {
     ECKeyPair aliceKeyPair = Curve.generateKeyPair();
     ECKeyPair bobKeyPair   = Curve.generateKeyPair();
 
@@ -31,7 +31,7 @@ public class NumericFingerprintGeneratorTest extends TestCase {
     assertEquals(aliceFingerprint.getDisplayableFingerprint().getDisplayText().length(), 60);
   }
 
-  public void testMismatchingFingerprints() throws FingerprintVersionMismatchException, FingerprintIdentifierMismatchException {
+  public void testMismatchingFingerprints() throws FingerprintVersionMismatchException, FingerprintIdentifierMismatchException, FingerprintParsingException {
     ECKeyPair aliceKeyPair = Curve.generateKeyPair();
     ECKeyPair bobKeyPair   = Curve.generateKeyPair();
     ECKeyPair mitmKeyPair  = Curve.generateKeyPair();
@@ -54,7 +54,7 @@ public class NumericFingerprintGeneratorTest extends TestCase {
     assertFalse(bobFingerprint.getScannableFingerprint().compareTo(aliceFingerprint.getScannableFingerprint().getSerialized()));
   }
 
-  public void testMismatchingIdentifiers() throws FingerprintVersionMismatchException {
+  public void testMismatchingIdentifiers() throws FingerprintVersionMismatchException, FingerprintParsingException {
     ECKeyPair aliceKeyPair = Curve.generateKeyPair();
     ECKeyPair bobKeyPair   = Curve.generateKeyPair();
 
