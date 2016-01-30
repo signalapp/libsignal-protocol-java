@@ -54,13 +54,14 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
 
   private String getDisplayStringFor(String stableIdentifier, IdentityKey identityKey) {
     try {
-      MessageDigest digest = MessageDigest.getInstance("SHA-512");
-      byte[]        hash   = ByteUtil.combine(ByteUtil.shortToByteArray(VERSION),
-                                              identityKey.getPublicKey().serialize(),
-                                              stableIdentifier.getBytes());
+      MessageDigest digest    = MessageDigest.getInstance("SHA-512");
+      byte[]        publicKey = identityKey.getPublicKey().serialize();
+      byte[]        hash      = ByteUtil.combine(ByteUtil.shortToByteArray(VERSION),
+                                                 publicKey, stableIdentifier.getBytes());
 
       for (int i=0;i<iterations;i++) {
-        hash = digest.digest(hash);
+        digest.update(hash);
+        hash = digest.digest(publicKey);
       }
 
       return getEncodedChunk(hash, 0) +
