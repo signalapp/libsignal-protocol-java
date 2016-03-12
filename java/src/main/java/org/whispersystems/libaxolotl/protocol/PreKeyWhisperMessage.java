@@ -51,14 +51,17 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
         throw new InvalidVersionException("Unknown version: " + this.version);
       }
 
+      if (this.version < CiphertextMessage.CURRENT_VERSION) {
+        throw new LegacyMessageException("Legacy version: " + this.version);
+      }
+
       WhisperProtos.PreKeyWhisperMessage preKeyWhisperMessage
           = WhisperProtos.PreKeyWhisperMessage.parseFrom(ByteString.copyFrom(serialized, 1,
                                                                              serialized.length-1));
 
-      if ((version == 2 && !preKeyWhisperMessage.hasPreKeyId())        ||
-          (version == 3 && !preKeyWhisperMessage.hasSignedPreKeyId())  ||
-          !preKeyWhisperMessage.hasBaseKey()                           ||
-          !preKeyWhisperMessage.hasIdentityKey()                       ||
+      if (!preKeyWhisperMessage.hasSignedPreKeyId()  ||
+          !preKeyWhisperMessage.hasBaseKey()         ||
+          !preKeyWhisperMessage.hasIdentityKey()     ||
           !preKeyWhisperMessage.hasMessage())
       {
         throw new InvalidMessageException("Incomplete message.");

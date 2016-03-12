@@ -21,6 +21,8 @@ import org.whispersystems.libaxolotl.ecc.Curve;
 import org.whispersystems.libaxolotl.ecc.ECKeyPair;
 import org.whispersystems.libaxolotl.ecc.ECPublicKey;
 import org.whispersystems.libaxolotl.kdf.HKDF;
+import org.whispersystems.libaxolotl.kdf.HKDFv3;
+import org.whispersystems.libaxolotl.protocol.CiphertextMessage;
 import org.whispersystems.libaxolotl.state.SessionState;
 import org.whispersystems.libaxolotl.util.ByteUtil;
 import org.whispersystems.libaxolotl.util.Pair;
@@ -32,9 +34,7 @@ import java.util.Arrays;
 
 public class RatchetingSession {
 
-  public static void initializeSession(SessionState sessionState,
-                                       int sessionVersion,
-                                       SymmetricAxolotlParameters parameters)
+  public static void initializeSession(SessionState sessionState, SymmetricAxolotlParameters parameters)
       throws InvalidKeyException
   {
     if (isAlice(parameters.getOurBaseKey().getPublicKey(), parameters.getTheirBaseKey())) {
@@ -47,7 +47,7 @@ public class RatchetingSession {
                      .setTheirSignedPreKey(parameters.getTheirBaseKey())
                      .setTheirOneTimePreKey(Optional.<ECPublicKey>absent());
 
-      RatchetingSession.initializeSession(sessionState, sessionVersion, aliceParameters.create());
+      RatchetingSession.initializeSession(sessionState, aliceParameters.create());
     } else {
       BobAxolotlParameters.Builder bobParameters = BobAxolotlParameters.newBuilder();
 
@@ -58,26 +58,22 @@ public class RatchetingSession {
                    .setTheirBaseKey(parameters.getTheirBaseKey())
                    .setTheirIdentityKey(parameters.getTheirIdentityKey());
 
-      RatchetingSession.initializeSession(sessionState, sessionVersion, bobParameters.create());
+      RatchetingSession.initializeSession(sessionState, bobParameters.create());
     }
   }
 
-  public static void initializeSession(SessionState sessionState,
-                                       int sessionVersion,
-                                       AliceAxolotlParameters parameters)
+  public static void initializeSession(SessionState sessionState, AliceAxolotlParameters parameters)
       throws InvalidKeyException
   {
     try {
-      sessionState.setSessionVersion(sessionVersion);
+      sessionState.setSessionVersion(CiphertextMessage.CURRENT_VERSION);
       sessionState.setRemoteIdentityKey(parameters.getTheirIdentityKey());
       sessionState.setLocalIdentityKey(parameters.getOurIdentityKey().getPublicKey());
 
       ECKeyPair             sendingRatchetKey = Curve.generateKeyPair();
       ByteArrayOutputStream secrets           = new ByteArrayOutputStream();
 
-      if (sessionVersion >= 3) {
-        secrets.write(getDiscontinuityBytes());
-      }
+      secrets.write(getDiscontinuityBytes());
 
       secrets.write(Curve.calculateAgreement(parameters.getTheirSignedPreKey(),
                                              parameters.getOurIdentityKey().getPrivateKey()));
@@ -86,12 +82,12 @@ public class RatchetingSession {
       secrets.write(Curve.calculateAgreement(parameters.getTheirSignedPreKey(),
                                              parameters.getOurBaseKey().getPrivateKey()));
 
-      if (sessionVersion >= 3 && parameters.getTheirOneTimePreKey().isPresent()) {
+      if (parameters.getTheirOneTimePreKey().isPresent()) {
         secrets.write(Curve.calculateAgreement(parameters.getTheirOneTimePreKey().get(),
                                                parameters.getOurBaseKey().getPrivateKey()));
       }
 
-      DerivedKeys             derivedKeys  = calculateDerivedKeys(sessionVersion, secrets.toByteArray());
+      DerivedKeys             derivedKeys  = calculateDerivedKeys(secrets.toByteArray());
       Pair<RootKey, ChainKey> sendingChain = derivedKeys.getRootKey().createChain(parameters.getTheirRatchetKey(), sendingRatchetKey);
 
       sessionState.addReceiverChain(parameters.getTheirRatchetKey(), derivedKeys.getChainKey());
@@ -102,22 +98,18 @@ public class RatchetingSession {
     }
   }
 
-  public static void initializeSession(SessionState sessionState,
-                                       int sessionVersion,
-                                       BobAxolotlParameters parameters)
+  public static void initializeSession(SessionState sessionState, BobAxolotlParameters parameters)
       throws InvalidKeyException
   {
 
     try {
-      sessionState.setSessionVersion(sessionVersion);
+      sessionState.setSessionVersion(CiphertextMessage.CURRENT_VERSION);
       sessionState.setRemoteIdentityKey(parameters.getTheirIdentityKey());
       sessionState.setLocalIdentityKey(parameters.getOurIdentityKey().getPublicKey());
 
       ByteArrayOutputStream secrets = new ByteArrayOutputStream();
 
-      if (sessionVersion >= 3) {
-        secrets.write(getDiscontinuityBytes());
-      }
+      secrets.write(getDiscontinuityBytes());
 
       secrets.write(Curve.calculateAgreement(parameters.getTheirIdentityKey().getPublicKey(),
                                              parameters.getOurSignedPreKey().getPrivateKey()));
@@ -126,12 +118,12 @@ public class RatchetingSession {
       secrets.write(Curve.calculateAgreement(parameters.getTheirBaseKey(),
                                              parameters.getOurSignedPreKey().getPrivateKey()));
 
-      if (sessionVersion >= 3 && parameters.getOurOneTimePreKey().isPresent()) {
+      if (parameters.getOurOneTimePreKey().isPresent()) {
         secrets.write(Curve.calculateAgreement(parameters.getTheirBaseKey(),
                                                parameters.getOurOneTimePreKey().get().getPrivateKey()));
       }
 
-      DerivedKeys derivedKeys = calculateDerivedKeys(sessionVersion, secrets.toByteArray());
+      DerivedKeys derivedKeys = calculateDerivedKeys(secrets.toByteArray());
 
       sessionState.setSenderChain(parameters.getOurRatchetKey(), derivedKeys.getChainKey());
       sessionState.setRootKey(derivedKeys.getRootKey());
@@ -146,8 +138,8 @@ public class RatchetingSession {
     return discontinuity;
   }
 
-  private static DerivedKeys calculateDerivedKeys(int sessionVersion, byte[] masterSecret) {
-    HKDF     kdf                = HKDF.createFor(sessionVersion);
+  private static DerivedKeys calculateDerivedKeys(byte[] masterSecret) {
+    HKDF     kdf                = new HKDFv3();
     byte[]   derivedSecretBytes = kdf.deriveSecrets(masterSecret, "WhisperText".getBytes(), 64);
     byte[][] derivedSecrets     = ByteUtil.split(derivedSecretBytes, 32, 32);
 

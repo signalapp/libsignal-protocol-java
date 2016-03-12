@@ -70,7 +70,7 @@ public class KeyExchangeMessage {
       this.version          = ByteUtil.highBitsToInt(parts[0][0]);
       this.supportedVersion = ByteUtil.lowBitsToInt(parts[0][0]);
 
-      if (this.version <= CiphertextMessage.UNSUPPORTED_VERSION) {
+      if (this.version < CiphertextMessage.CURRENT_VERSION) {
         throw new LegacyMessageException("Unsupported legacy version: " + this.version);
       }
 
@@ -82,7 +82,7 @@ public class KeyExchangeMessage {
 
       if (!message.hasId()           || !message.hasBaseKey()     ||
           !message.hasRatchetKey()   || !message.hasIdentityKey() ||
-          (this.version >=3 && !message.hasBaseKeySignature()))
+          !message.hasBaseKeySignature())
       {
         throw new InvalidMessageException("Some required fields missing!");
       }
