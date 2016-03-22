@@ -38,7 +38,7 @@ public class SenderKeyMessage implements CiphertextMessage {
         throw new InvalidMessageException("Unknown version: " + ByteUtil.highBitsToInt(version));
       }
 
-      WhisperProtos.SenderKeyMessage senderKeyMessage = WhisperProtos.SenderKeyMessage.parseFrom(message);
+      SignalProtos.SenderKeyMessage senderKeyMessage = SignalProtos.SenderKeyMessage.parseFrom(message);
 
       if (!senderKeyMessage.hasId() ||
           !senderKeyMessage.hasIteration() ||
@@ -59,11 +59,11 @@ public class SenderKeyMessage implements CiphertextMessage {
 
   public SenderKeyMessage(int keyId, int iteration, byte[] ciphertext, ECPrivateKey signatureKey) {
     byte[] version = {ByteUtil.intsToByteHighAndLow(CURRENT_VERSION, CURRENT_VERSION)};
-    byte[] message = WhisperProtos.SenderKeyMessage.newBuilder()
-                                                   .setId(keyId)
-                                                   .setIteration(iteration)
-                                                   .setCiphertext(ByteString.copyFrom(ciphertext))
-                                                   .build().toByteArray();
+    byte[] message = SignalProtos.SenderKeyMessage.newBuilder()
+                                                  .setId(keyId)
+                                                  .setIteration(iteration)
+                                                  .setCiphertext(ByteString.copyFrom(ciphertext))
+                                                  .build().toByteArray();
 
     byte[] signature = getSignature(signatureKey, ByteUtil.combine(version, message));
 

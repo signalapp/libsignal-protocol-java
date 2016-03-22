@@ -14,7 +14,7 @@ import org.whispersystems.libsignal.util.ByteUtil;
 
 import java.io.IOException;
 
-import static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.Builder;
+import static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.Builder;
 
 public class KeyExchangeMessage {
 
@@ -48,7 +48,7 @@ public class KeyExchangeMessage {
     this.identityKey      = identityKey;
 
     byte[]  version = {ByteUtil.intsToByteHighAndLow(this.version, this.supportedVersion)};
-    Builder builder = WhisperProtos.KeyExchangeMessage
+    Builder builder = SignalProtos.KeyExchangeMessage
                                    .newBuilder()
                                    .setId((sequence << 5) | flags)
                                    .setBaseKey(ByteString.copyFrom(baseKey.serialize()))
@@ -78,7 +78,7 @@ public class KeyExchangeMessage {
         throw new InvalidVersionException("Unknown version: " + this.version);
       }
 
-      WhisperProtos.KeyExchangeMessage message = WhisperProtos.KeyExchangeMessage.parseFrom(parts[1]);
+      SignalProtos.KeyExchangeMessage message = SignalProtos.KeyExchangeMessage.parseFrom(parts[1]);
 
       if (!message.hasId()           || !message.hasBaseKey()     ||
           !message.hasRatchetKey()   || !message.hasIdentityKey() ||

@@ -11667,9 +11667,9 @@ public final class StorageProtos {
       "\n\004seed\030\002 \001(\014\0323\n\020SenderSigningKey\022\016\n\006publ" +
       "ic\030\001 \001(\014\022\017\n\007private\030\002 \001(\014\"X\n\030SenderKeyRe",
       "cordStructure\022<\n\017senderKeyStates\030\001 \003(\0132#" +
-      ".textsecure.SenderKeyStateStructureB4\n#o" +
-      "rg.whispersystems.libsignal.stateB\rStor" +
-      "ageProtos"
+      ".textsecure.SenderKeyStateStructureB3\n\"o" +
+      "rg.whispersystems.libsignal.stateB\rStora" +
+      "geProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -60,7 +60,7 @@ public class SignalMessage implements CiphertextMessage {
         throw new InvalidMessageException("Unknown version: " + ByteUtil.highBitsToInt(version));
       }
 
-      WhisperProtos.WhisperMessage whisperMessage = WhisperProtos.WhisperMessage.parseFrom(message);
+      SignalProtos.SignalMessage whisperMessage = SignalProtos.SignalMessage.parseFrom(message);
 
       if (!whisperMessage.hasCiphertext() ||
           !whisperMessage.hasCounter() ||
@@ -86,12 +86,12 @@ public class SignalMessage implements CiphertextMessage {
                        IdentityKey receiverIdentityKey)
   {
     byte[] version = {ByteUtil.intsToByteHighAndLow(messageVersion, CURRENT_VERSION)};
-    byte[] message = WhisperProtos.WhisperMessage.newBuilder()
-                                   .setRatchetKey(ByteString.copyFrom(senderRatchetKey.serialize()))
-                                   .setCounter(counter)
-                                   .setPreviousCounter(previousCounter)
-                                   .setCiphertext(ByteString.copyFrom(ciphertext))
-                                   .build().toByteArray();
+    byte[] message = SignalProtos.SignalMessage.newBuilder()
+                                               .setRatchetKey(ByteString.copyFrom(senderRatchetKey.serialize()))
+                                               .setCounter(counter)
+                                               .setPreviousCounter(previousCounter)
+                                               .setCiphertext(ByteString.copyFrom(ciphertext))
+                                               .build().toByteArray();
 
     byte[] mac     = getMac(messageVersion, senderIdentityKey, receiverIdentityKey, macKey,
                             ByteUtil.combine(version, message));

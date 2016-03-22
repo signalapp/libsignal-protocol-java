@@ -1,6 +1,6 @@
 package textsecure;
 
-option java_package = "org.whispersystems.libaxolotl.fingerprint";
+option java_package = "org.whispersystems.libsignal.fingerprint";
 option java_outer_classname = "FingerprintProtos";
 
 message FingerprintData {

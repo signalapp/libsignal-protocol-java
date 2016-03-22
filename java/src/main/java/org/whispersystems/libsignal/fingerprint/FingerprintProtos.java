@@ -1296,8 +1296,8 @@ public final class FingerprintProtos {
       "t\022\017\n\007version\030\001 \001(\r\0225\n\020localFingerprint\030\002" +
       " \001(\0132\033.textsecure.FingerprintData\0226\n\021rem" +
       "oteFingerprint\030\003 \001(\0132\033.textsecure.Finger" +
-      "printDataB>\n)org.whispersystems.libaxolo" +
-      "tl.fingerprintB\021FingerprintProtos"
+      "printDataB=\n(org.whispersystems.libsigna" +
+      "l.fingerprintB\021FingerprintProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

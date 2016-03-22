@@ -20,12 +20,12 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
 
   public SenderKeyDistributionMessage(int id, int iteration, byte[] chainKey, ECPublicKey signatureKey) {
     byte[] version = {ByteUtil.intsToByteHighAndLow(CURRENT_VERSION, CURRENT_VERSION)};
-    byte[] protobuf = WhisperProtos.SenderKeyDistributionMessage.newBuilder()
-                                                                .setId(id)
-                                                                .setIteration(iteration)
-                                                                .setChainKey(ByteString.copyFrom(chainKey))
-                                                                .setSigningKey(ByteString.copyFrom(signatureKey.serialize()))
-                                                                .build().toByteArray();
+    byte[] protobuf = SignalProtos.SenderKeyDistributionMessage.newBuilder()
+                                                               .setId(id)
+                                                               .setIteration(iteration)
+                                                               .setChainKey(ByteString.copyFrom(chainKey))
+                                                               .setSigningKey(ByteString.copyFrom(signatureKey.serialize()))
+                                                               .build().toByteArray();
 
     this.id           = id;
     this.iteration    = iteration;
@@ -48,7 +48,7 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
         throw new InvalidMessageException("Unknown version: " + ByteUtil.highBitsToInt(version));
       }
 
-      WhisperProtos.SenderKeyDistributionMessage distributionMessage = WhisperProtos.SenderKeyDistributionMessage.parseFrom(message);
+      SignalProtos.SenderKeyDistributionMessage distributionMessage = SignalProtos.SenderKeyDistributionMessage.parseFrom(message);
 
       if (!distributionMessage.hasId()        ||
           !distributionMessage.hasIteration() ||

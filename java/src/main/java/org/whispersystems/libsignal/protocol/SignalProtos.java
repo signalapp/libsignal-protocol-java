@@ -3,12 +3,12 @@
 
 package org.whispersystems.libsignal.protocol;
 
-public final class WhisperProtos {
-  private WhisperProtos() {}
+public final class SignalProtos {
+  private SignalProtos() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface WhisperMessageOrBuilder
+  public interface SignalMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // optional bytes ratchetKey = 1;
@@ -52,24 +52,24 @@ public final class WhisperProtos {
     com.google.protobuf.ByteString getCiphertext();
   }
   /**
-   * Protobuf type {@code textsecure.WhisperMessage}
+   * Protobuf type {@code textsecure.SignalMessage}
    */
-  public static final class WhisperMessage extends
+  public static final class SignalMessage extends
       com.google.protobuf.GeneratedMessage
-      implements WhisperMessageOrBuilder {
-    // Use WhisperMessage.newBuilder() to construct.
-    private WhisperMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements SignalMessageOrBuilder {
+    // Use SignalMessage.newBuilder() to construct.
+    private SignalMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private WhisperMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private SignalMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final WhisperMessage defaultInstance;
-    public static WhisperMessage getDefaultInstance() {
+    private static final SignalMessage defaultInstance;
+    public static SignalMessage getDefaultInstance() {
       return defaultInstance;
     }
 
-    public WhisperMessage getDefaultInstanceForType() {
+    public SignalMessage getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -79,7 +79,7 @@ public final class WhisperProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private WhisperMessage(
+    private SignalMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -136,28 +136,28 @@ public final class WhisperProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_descriptor;
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SignalMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_fieldAccessorTable
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SignalMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.Builder.class);
+              org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<WhisperMessage> PARSER =
-        new com.google.protobuf.AbstractParser<WhisperMessage>() {
-      public WhisperMessage parsePartialFrom(
+    public static com.google.protobuf.Parser<SignalMessage> PARSER =
+        new com.google.protobuf.AbstractParser<SignalMessage>() {
+      public SignalMessage parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new WhisperMessage(input, extensionRegistry);
+        return new SignalMessage(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<WhisperMessage> getParserForType() {
+    public com.google.protobuf.Parser<SignalMessage> getParserForType() {
       return PARSER;
     }
 
@@ -293,53 +293,53 @@ public final class WhisperProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseDelimitedFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -348,7 +348,7 @@ public final class WhisperProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -360,24 +360,24 @@ public final class WhisperProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.WhisperMessage}
+     * Protobuf type {@code textsecure.SignalMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessageOrBuilder {
+       implements org.whispersystems.libsignal.protocol.SignalProtos.SignalMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SignalMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_fieldAccessorTable
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SignalMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.Builder.class);
+                org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.newBuilder()
+      // Construct using org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -414,23 +414,23 @@ public final class WhisperProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_WhisperMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SignalMessage_descriptor;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.getDefaultInstance();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage build() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage result = buildPartial();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage build() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage buildPartial() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage result = new org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage(this);
+      public org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage buildPartial() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage result = new org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -455,16 +455,16 @@ public final class WhisperProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage) {
-          return mergeFrom((org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage)other);
+        if (other instanceof org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage) {
+          return mergeFrom((org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage other) {
-        if (other == org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage other) {
+        if (other == org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage.getDefaultInstance()) return this;
         if (other.hasRatchetKey()) {
           setRatchetKey(other.getRatchetKey());
         }
@@ -489,11 +489,11 @@ public final class WhisperProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage parsedMessage = null;
+        org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.protocol.WhisperProtos.WhisperMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.protocol.SignalProtos.SignalMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -642,18 +642,18 @@ public final class WhisperProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.WhisperMessage)
+      // @@protoc_insertion_point(builder_scope:textsecure.SignalMessage)
     }
 
     static {
-      defaultInstance = new WhisperMessage(true);
+      defaultInstance = new SignalMessage(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.WhisperMessage)
+    // @@protoc_insertion_point(class_scope:textsecure.SignalMessage)
   }
 
-  public interface PreKeyWhisperMessageOrBuilder
+  public interface PreKeySignalMessageOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // optional uint32 registrationId = 5;
@@ -725,24 +725,24 @@ public final class WhisperProtos {
     com.google.protobuf.ByteString getMessage();
   }
   /**
-   * Protobuf type {@code textsecure.PreKeyWhisperMessage}
+   * Protobuf type {@code textsecure.PreKeySignalMessage}
    */
-  public static final class PreKeyWhisperMessage extends
+  public static final class PreKeySignalMessage extends
       com.google.protobuf.GeneratedMessage
-      implements PreKeyWhisperMessageOrBuilder {
-    // Use PreKeyWhisperMessage.newBuilder() to construct.
-    private PreKeyWhisperMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements PreKeySignalMessageOrBuilder {
+    // Use PreKeySignalMessage.newBuilder() to construct.
+    private PreKeySignalMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private PreKeyWhisperMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private PreKeySignalMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final PreKeyWhisperMessage defaultInstance;
-    public static PreKeyWhisperMessage getDefaultInstance() {
+    private static final PreKeySignalMessage defaultInstance;
+    public static PreKeySignalMessage getDefaultInstance() {
       return defaultInstance;
     }
 
-    public PreKeyWhisperMessage getDefaultInstanceForType() {
+    public PreKeySignalMessage getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -752,7 +752,7 @@ public final class WhisperProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private PreKeyWhisperMessage(
+    private PreKeySignalMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -819,28 +819,28 @@ public final class WhisperProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_descriptor;
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_PreKeySignalMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_PreKeySignalMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.Builder.class);
+              org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<PreKeyWhisperMessage> PARSER =
-        new com.google.protobuf.AbstractParser<PreKeyWhisperMessage>() {
-      public PreKeyWhisperMessage parsePartialFrom(
+    public static com.google.protobuf.Parser<PreKeySignalMessage> PARSER =
+        new com.google.protobuf.AbstractParser<PreKeySignalMessage>() {
+      public PreKeySignalMessage parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PreKeyWhisperMessage(input, extensionRegistry);
+        return new PreKeySignalMessage(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<PreKeyWhisperMessage> getParserForType() {
+    public com.google.protobuf.Parser<PreKeySignalMessage> getParserForType() {
       return PARSER;
     }
 
@@ -1032,53 +1032,53 @@ public final class WhisperProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseDelimitedFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1087,7 +1087,7 @@ public final class WhisperProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1099,24 +1099,24 @@ public final class WhisperProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.PreKeyWhisperMessage}
+     * Protobuf type {@code textsecure.PreKeySignalMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessageOrBuilder {
+       implements org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_PreKeySignalMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_PreKeySignalMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.Builder.class);
+                org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.newBuilder()
+      // Construct using org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1157,23 +1157,23 @@ public final class WhisperProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_PreKeyWhisperMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_PreKeySignalMessage_descriptor;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.getDefaultInstance();
+      public org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage build() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage result = buildPartial();
+      public org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage build() {
+        org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage buildPartial() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage result = new org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage(this);
+      public org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage buildPartial() {
+        org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage result = new org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1206,16 +1206,16 @@ public final class WhisperProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage) {
-          return mergeFrom((org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage)other);
+        if (other instanceof org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage) {
+          return mergeFrom((org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage other) {
-        if (other == org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage other) {
+        if (other == org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage.getDefaultInstance()) return this;
         if (other.hasRegistrationId()) {
           setRegistrationId(other.getRegistrationId());
         }
@@ -1246,11 +1246,11 @@ public final class WhisperProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage parsedMessage = null;
+        org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.protocol.WhisperProtos.PreKeyWhisperMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.protocol.SignalProtos.PreKeySignalMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1484,15 +1484,15 @@ public final class WhisperProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.PreKeyWhisperMessage)
+      // @@protoc_insertion_point(builder_scope:textsecure.PreKeySignalMessage)
     }
 
     static {
-      defaultInstance = new PreKeyWhisperMessage(true);
+      defaultInstance = new PreKeySignalMessage(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.PreKeyWhisperMessage)
+    // @@protoc_insertion_point(class_scope:textsecure.PreKeySignalMessage)
   }
 
   public interface KeyExchangeMessageOrBuilder
@@ -1638,14 +1638,14 @@ public final class WhisperProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.Builder.class);
+              org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<KeyExchangeMessage> PARSER =
@@ -1819,53 +1819,53 @@ public final class WhisperProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseDelimitedFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1874,7 +1874,7 @@ public final class WhisperProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1890,20 +1890,20 @@ public final class WhisperProtos {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessageOrBuilder {
+       implements org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_KeyExchangeMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.Builder.class);
+                org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.newBuilder()
+      // Construct using org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1942,23 +1942,23 @@ public final class WhisperProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_KeyExchangeMessage_descriptor;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.getDefaultInstance();
+      public org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage build() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage result = buildPartial();
+      public org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage build() {
+        org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage buildPartial() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage result = new org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage(this);
+      public org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage buildPartial() {
+        org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage result = new org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1987,16 +1987,16 @@ public final class WhisperProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage) {
-          return mergeFrom((org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage)other);
+        if (other instanceof org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage) {
+          return mergeFrom((org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage other) {
-        if (other == org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage other) {
+        if (other == org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -2024,11 +2024,11 @@ public final class WhisperProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage parsedMessage = null;
+        org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.protocol.WhisperProtos.KeyExchangeMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.protocol.SignalProtos.KeyExchangeMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2340,14 +2340,14 @@ public final class WhisperProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_fieldAccessorTable
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.Builder.class);
+              org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<SenderKeyMessage> PARSER =
@@ -2473,53 +2473,53 @@ public final class WhisperProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseDelimitedFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2528,7 +2528,7 @@ public final class WhisperProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2544,20 +2544,20 @@ public final class WhisperProtos {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessageOrBuilder {
+       implements org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_fieldAccessorTable
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.Builder.class);
+                org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.newBuilder()
+      // Construct using org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2592,23 +2592,23 @@ public final class WhisperProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyMessage_descriptor;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.getDefaultInstance();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage build() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage result = buildPartial();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage build() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage buildPartial() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage result = new org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage(this);
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage buildPartial() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage result = new org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -2629,16 +2629,16 @@ public final class WhisperProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage) {
-          return mergeFrom((org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage)other);
+        if (other instanceof org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage) {
+          return mergeFrom((org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage other) {
-        if (other == org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage other) {
+        if (other == org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -2660,11 +2660,11 @@ public final class WhisperProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage parsedMessage = null;
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2916,14 +2916,14 @@ public final class WhisperProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable
+      return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.Builder.class);
+              org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<SenderKeyDistributionMessage> PARSER =
@@ -3073,53 +3073,53 @@ public final class WhisperProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseDelimitedFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parseFrom(
+    public static org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3128,7 +3128,7 @@ public final class WhisperProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -3144,20 +3144,20 @@ public final class WhisperProtos {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessageOrBuilder {
+       implements org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyDistributionMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.class, org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.Builder.class);
+                org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.class, org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.newBuilder()
+      // Construct using org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3194,23 +3194,23 @@ public final class WhisperProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
+        return org.whispersystems.libsignal.protocol.SignalProtos.internal_static_textsecure_SenderKeyDistributionMessage_descriptor;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.getDefaultInstance();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage build() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage result = buildPartial();
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage build() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage buildPartial() {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage result = new org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage(this);
+      public org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage buildPartial() {
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage result = new org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -3235,16 +3235,16 @@ public final class WhisperProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage) {
-          return mergeFrom((org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage)other);
+        if (other instanceof org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage) {
+          return mergeFrom((org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage other) {
-        if (other == org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage other) {
+        if (other == org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -3269,11 +3269,11 @@ public final class WhisperProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage parsedMessage = null;
+        org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.protocol.WhisperProtos.SenderKeyDistributionMessage) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.protocol.SignalProtos.SenderKeyDistributionMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -3434,15 +3434,15 @@ public final class WhisperProtos {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_WhisperMessage_descriptor;
+    internal_static_textsecure_SignalMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_WhisperMessage_fieldAccessorTable;
+      internal_static_textsecure_SignalMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_PreKeyWhisperMessage_descriptor;
+    internal_static_textsecure_PreKeySignalMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable;
+      internal_static_textsecure_PreKeySignalMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_textsecure_KeyExchangeMessage_descriptor;
   private static
@@ -3468,38 +3468,38 @@ public final class WhisperProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\031WhisperTextProtocol.proto\022\ntextsecure\"" +
-      "b\n\016WhisperMessage\022\022\n\nratchetKey\030\001 \001(\014\022\017\n" +
-      "\007counter\030\002 \001(\r\022\027\n\017previousCounter\030\003 \001(\r\022" +
-      "\022\n\nciphertext\030\004 \001(\014\"\217\001\n\024PreKeyWhisperMes" +
-      "sage\022\026\n\016registrationId\030\005 \001(\r\022\020\n\010preKeyId" +
-      "\030\001 \001(\r\022\026\n\016signedPreKeyId\030\006 \001(\r\022\017\n\007baseKe" +
-      "y\030\002 \001(\014\022\023\n\013identityKey\030\003 \001(\014\022\017\n\007message\030" +
-      "\004 \001(\014\"t\n\022KeyExchangeMessage\022\n\n\002id\030\001 \001(\r\022" +
-      "\017\n\007baseKey\030\002 \001(\014\022\022\n\nratchetKey\030\003 \001(\014\022\023\n\013" +
-      "identityKey\030\004 \001(\014\022\030\n\020baseKeySignature\030\005 ",
-      "\001(\014\"E\n\020SenderKeyMessage\022\n\n\002id\030\001 \001(\r\022\021\n\ti" +
-      "teration\030\002 \001(\r\022\022\n\nciphertext\030\003 \001(\014\"c\n\034Se" +
-      "nderKeyDistributionMessage\022\n\n\002id\030\001 \001(\r\022\021" +
-      "\n\titeration\030\002 \001(\r\022\020\n\010chainKey\030\003 \001(\014\022\022\n\ns" +
-      "igningKey\030\004 \001(\014B7\n&org.whispersystems.li" +
-      "baxolotl.protocolB\rWhisperProtos"
+      "a\n\rSignalMessage\022\022\n\nratchetKey\030\001 \001(\014\022\017\n\007" +
+      "counter\030\002 \001(\r\022\027\n\017previousCounter\030\003 \001(\r\022\022" +
+      "\n\nciphertext\030\004 \001(\014\"\216\001\n\023PreKeySignalMessa" +
+      "ge\022\026\n\016registrationId\030\005 \001(\r\022\020\n\010preKeyId\030\001" +
+      " \001(\r\022\026\n\016signedPreKeyId\030\006 \001(\r\022\017\n\007baseKey\030" +
+      "\002 \001(\014\022\023\n\013identityKey\030\003 \001(\014\022\017\n\007message\030\004 " +
+      "\001(\014\"t\n\022KeyExchangeMessage\022\n\n\002id\030\001 \001(\r\022\017\n" +
+      "\007baseKey\030\002 \001(\014\022\022\n\nratchetKey\030\003 \001(\014\022\023\n\013id" +
+      "entityKey\030\004 \001(\014\022\030\n\020baseKeySignature\030\005 \001(",
+      "\014\"E\n\020SenderKeyMessage\022\n\n\002id\030\001 \001(\r\022\021\n\tite" +
+      "ration\030\002 \001(\r\022\022\n\nciphertext\030\003 \001(\014\"c\n\034Send" +
+      "erKeyDistributionMessage\022\n\n\002id\030\001 \001(\r\022\021\n\t" +
+      "iteration\030\002 \001(\r\022\020\n\010chainKey\030\003 \001(\014\022\022\n\nsig" +
+      "ningKey\030\004 \001(\014B5\n%org.whispersystems.libs" +
+      "ignal.protocolB\014SignalProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_textsecure_WhisperMessage_descriptor =
+          internal_static_textsecure_SignalMessage_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_WhisperMessage_fieldAccessorTable = new
+          internal_static_textsecure_SignalMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_WhisperMessage_descriptor,
+              internal_static_textsecure_SignalMessage_descriptor,
               new java.lang.String[] { "RatchetKey", "Counter", "PreviousCounter", "Ciphertext", });
-          internal_static_textsecure_PreKeyWhisperMessage_descriptor =
+          internal_static_textsecure_PreKeySignalMessage_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_PreKeyWhisperMessage_fieldAccessorTable = new
+          internal_static_textsecure_PreKeySignalMessage_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_PreKeyWhisperMessage_descriptor,
+              internal_static_textsecure_PreKeySignalMessage_descriptor,
               new java.lang.String[] { "RegistrationId", "PreKeyId", "SignedPreKeyId", "BaseKey", "IdentityKey", "Message", });
           internal_static_textsecure_KeyExchangeMessage_descriptor =
             getDescriptor().getMessageTypes().get(2);

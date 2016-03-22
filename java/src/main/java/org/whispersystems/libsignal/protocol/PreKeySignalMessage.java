@@ -38,7 +38,7 @@ public class PreKeySignalMessage implements CiphertextMessage {
   private final int               signedPreKeyId;
   private final ECPublicKey       baseKey;
   private final IdentityKey       identityKey;
-  private final SignalMessage message;
+  private final SignalMessage     message;
   private final byte[]            serialized;
 
   public PreKeySignalMessage(byte[] serialized)
@@ -55,9 +55,9 @@ public class PreKeySignalMessage implements CiphertextMessage {
         throw new LegacyMessageException("Legacy version: " + this.version);
       }
 
-      WhisperProtos.PreKeyWhisperMessage preKeyWhisperMessage
-          = WhisperProtos.PreKeyWhisperMessage.parseFrom(ByteString.copyFrom(serialized, 1,
-                                                                             serialized.length-1));
+      SignalProtos.PreKeySignalMessage preKeyWhisperMessage
+          = SignalProtos.PreKeySignalMessage.parseFrom(ByteString.copyFrom(serialized, 1,
+                                                                           serialized.length-1));
 
       if (!preKeyWhisperMessage.hasSignedPreKeyId()  ||
           !preKeyWhisperMessage.hasBaseKey()         ||
@@ -91,13 +91,13 @@ public class PreKeySignalMessage implements CiphertextMessage {
     this.identityKey    = identityKey;
     this.message        = message;
 
-    WhisperProtos.PreKeyWhisperMessage.Builder builder =
-        WhisperProtos.PreKeyWhisperMessage.newBuilder()
-                                          .setSignedPreKeyId(signedPreKeyId)
-                                          .setBaseKey(ByteString.copyFrom(baseKey.serialize()))
-                                          .setIdentityKey(ByteString.copyFrom(identityKey.serialize()))
-                                          .setMessage(ByteString.copyFrom(message.serialize()))
-                                          .setRegistrationId(registrationId);
+    SignalProtos.PreKeySignalMessage.Builder builder =
+        SignalProtos.PreKeySignalMessage.newBuilder()
+                                        .setSignedPreKeyId(signedPreKeyId)
+                                        .setBaseKey(ByteString.copyFrom(baseKey.serialize()))
+                                        .setIdentityKey(ByteString.copyFrom(identityKey.serialize()))
+                                        .setMessage(ByteString.copyFrom(message.serialize()))
+                                        .setRegistrationId(registrationId);
 
     if (preKeyId.isPresent()) {
       builder.setPreKeyId(preKeyId.get());
