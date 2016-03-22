@@ -52,7 +52,7 @@ import javax.crypto.spec.SecretKeySpec;
 import static org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreKeyMessageItems;
 
 /**
- * The main entry point for Axolotl encrypt/decrypt operations.
+ * The main entry point for Signal Protocol encrypt/decrypt operations.
  *
  * Once a session has been established with {@link SessionBuilder},
  * this class can be used for all encrypt/decrypt operations within

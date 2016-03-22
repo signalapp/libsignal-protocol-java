@@ -12,7 +12,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = "axolotl-android"
+archivesBaseName = "signal-android"
 version          = version_number
 group            = group_info
 
@@ -64,9 +64,9 @@ uploadArchives {
         }
 
         pom.project {
-            name 'axolotl-android'
+            name 'signal-android'
             packaging 'aar'
-            description 'Axolotl library for Android'
+            description 'Signal Protocol cryptography library for Android'
             url 'https://github.com/WhisperSystems/libsignal-android'
 
             scm {

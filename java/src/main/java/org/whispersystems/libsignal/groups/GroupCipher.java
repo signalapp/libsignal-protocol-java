@@ -40,7 +40,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * The main entry point for axolotl group encrypt/decrypt operations.
+ * The main entry point for Signal Protocol group encrypt/decrypt operations.
  *
  * Once a session has been established with {@link org.whispersystems.libsignal.groups.GroupSessionBuilder}
  * and a {@link org.whispersystems.libsignal.protocol.SenderKeyDistributionMessage} has been

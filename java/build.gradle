@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 sourceCompatibility = 1.7
-archivesBaseName = "axolotl-java"
+archivesBaseName = "signal-java"
 version          = version_number
 group            = group_info
 
@@ -52,9 +52,9 @@ uploadArchives {
         }
 
         pom.project {
-            name 'axolotl-java'
+            name 'signal-java'
             packaging 'jar'
-            description 'Axolotl library for Java'
+            description 'Signal Protocol cryptography library for Java'
             url 'https://github.com/WhisperSystems/libsignal-android'
 
             scm {
