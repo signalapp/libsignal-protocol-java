@@ -67,12 +67,12 @@ uploadArchives {
             name 'axolotl-android'
             packaging 'aar'
             description 'Axolotl library for Android'
-            url 'https://github.com/WhisperSystems/libaxolotl-android'
+            url 'https://github.com/WhisperSystems/libsignal-android'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
-                connection 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
+                url 'scm:git@github.com:WhisperSystems/libsignal-android.git'
+                connection 'scm:git@github.com:WhisperSystems/libsignal-android.git'
+                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-android.git'
             }
 
             licenses {
