@@ -6,7 +6,7 @@ import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECKeyPair;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
-import org.whispersystems.libsignal.protocol.WhisperMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.ratchet.AliceSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.BobSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.RatchetingSession;
@@ -25,17 +25,6 @@ import java.util.Random;
 
 
 public class SessionCipherTest extends TestCase {
-
-  public void testBasicSessionV2()
-      throws InvalidKeyException, DuplicateMessageException,
-      LegacyMessageException, InvalidMessageException, NoSuchAlgorithmException, NoSessionException
-  {
-    SessionRecord aliceSessionRecord = new SessionRecord();
-    SessionRecord bobSessionRecord   = new SessionRecord();
-
-    initializeSessionsV2(aliceSessionRecord.getSessionState(), bobSessionRecord.getSessionState());
-    runInteraction(aliceSessionRecord, bobSessionRecord);
-  }
 
   public void testBasicSessionV3()
       throws InvalidKeyException, DuplicateMessageException,
@@ -69,11 +58,11 @@ public class SessionCipherTest extends TestCase {
       inflight.add(aliceCipher.encrypt("you've never been so hungry, you've never been so cold".getBytes()));
     }
 
-    bobCipher.decrypt(new WhisperMessage(inflight.get(1000).serialize()));
-    bobCipher.decrypt(new WhisperMessage(inflight.get(inflight.size()-1).serialize()));
+    bobCipher.decrypt(new SignalMessage(inflight.get(1000).serialize()));
+    bobCipher.decrypt(new SignalMessage(inflight.get(inflight.size()-1).serialize()));
 
     try {
-      bobCipher.decrypt(new WhisperMessage(inflight.get(0).serialize()));
+      bobCipher.decrypt(new SignalMessage(inflight.get(0).serialize()));
       throw new AssertionError("Should have failed!");
     } catch (DuplicateMessageException dme) {
       // good
@@ -93,13 +82,13 @@ public class SessionCipherTest extends TestCase {
 
     byte[]            alicePlaintext = "This is a plaintext message.".getBytes();
     CiphertextMessage message        = aliceCipher.encrypt(alicePlaintext);
-    byte[]            bobPlaintext   = bobCipher.decrypt(new WhisperMessage(message.serialize()));
+    byte[]            bobPlaintext   = bobCipher.decrypt(new SignalMessage(message.serialize()));
 
     assertTrue(Arrays.equals(alicePlaintext, bobPlaintext));
 
     byte[]            bobReply      = "This is a message from Bob.".getBytes();
     CiphertextMessage reply         = bobCipher.encrypt(bobReply);
-    byte[]            receivedReply = aliceCipher.decrypt(new WhisperMessage(reply.serialize()));
+    byte[]            receivedReply = aliceCipher.decrypt(new SignalMessage(reply.serialize()));
 
     assertTrue(Arrays.equals(bobReply, receivedReply));
 
@@ -117,7 +106,7 @@ public class SessionCipherTest extends TestCase {
     Collections.shuffle(alicePlaintextMessages, new Random(seed));
 
     for (int i=0;i<aliceCiphertextMessages.size() / 2;i++) {
-      byte[] receivedPlaintext = bobCipher.decrypt(new WhisperMessage(aliceCiphertextMessages.get(i).serialize()));
+      byte[] receivedPlaintext = bobCipher.decrypt(new SignalMessage(aliceCiphertextMessages.get(i).serialize()));
       assertTrue(Arrays.equals(receivedPlaintext, alicePlaintextMessages.get(i)));
     }
 
@@ -135,57 +124,19 @@ public class SessionCipherTest extends TestCase {
     Collections.shuffle(bobPlaintextMessages, new Random(seed));
 
     for (int i=0;i<bobCiphertextMessages.size() / 2;i++) {
-      byte[] receivedPlaintext = aliceCipher.decrypt(new WhisperMessage(bobCiphertextMessages.get(i).serialize()));
+      byte[] receivedPlaintext = aliceCipher.decrypt(new SignalMessage(bobCiphertextMessages.get(i).serialize()));
       assertTrue(Arrays.equals(receivedPlaintext, bobPlaintextMessages.get(i)));
     }
 
     for (int i=aliceCiphertextMessages.size()/2;i<aliceCiphertextMessages.size();i++) {
-      byte[] receivedPlaintext = bobCipher.decrypt(new WhisperMessage(aliceCiphertextMessages.get(i).serialize()));
+      byte[] receivedPlaintext = bobCipher.decrypt(new SignalMessage(aliceCiphertextMessages.get(i).serialize()));
       assertTrue(Arrays.equals(receivedPlaintext, alicePlaintextMessages.get(i)));
     }
 
     for (int i=bobCiphertextMessages.size() / 2;i<bobCiphertextMessages.size(); i++) {
-      byte[] receivedPlaintext = aliceCipher.decrypt(new WhisperMessage(bobCiphertextMessages.get(i).serialize()));
+      byte[] receivedPlaintext = aliceCipher.decrypt(new SignalMessage(bobCiphertextMessages.get(i).serialize()));
       assertTrue(Arrays.equals(receivedPlaintext, bobPlaintextMessages.get(i)));
     }
-  }
-
-
-  private void initializeSessionsV2(SessionState aliceSessionState, SessionState bobSessionState)
-      throws InvalidKeyException
-  {
-    ECKeyPair       aliceIdentityKeyPair = Curve.generateKeyPair();
-    IdentityKeyPair aliceIdentityKey     = new IdentityKeyPair(new IdentityKey(aliceIdentityKeyPair.getPublicKey()),
-                                                               aliceIdentityKeyPair.getPrivateKey());
-    ECKeyPair       aliceBaseKey         = Curve.generateKeyPair();
-    ECKeyPair       aliceEphemeralKey    = Curve.generateKeyPair();
-
-    ECKeyPair       bobIdentityKeyPair   = Curve.generateKeyPair();
-    IdentityKeyPair bobIdentityKey       = new IdentityKeyPair(new IdentityKey(bobIdentityKeyPair.getPublicKey()),
-                                                               bobIdentityKeyPair.getPrivateKey());
-    ECKeyPair       bobBaseKey           = Curve.generateKeyPair();
-    ECKeyPair       bobEphemeralKey      = bobBaseKey;
-
-    AliceSignalProtocolParameters aliceParameters = AliceSignalProtocolParameters.newBuilder()
-                                                                                 .setOurIdentityKey(aliceIdentityKey)
-                                                                                 .setOurBaseKey(aliceBaseKey)
-                                                                                 .setTheirIdentityKey(bobIdentityKey.getPublicKey())
-                                                                                 .setTheirSignedPreKey(bobEphemeralKey.getPublicKey())
-                                                                                 .setTheirRatchetKey(bobEphemeralKey.getPublicKey())
-                                                                                 .setTheirOneTimePreKey(Optional.<ECPublicKey>absent())
-                                                                                 .create();
-
-    BobSignalProtocolParameters bobParameters = BobSignalProtocolParameters.newBuilder()
-                                                                           .setOurIdentityKey(bobIdentityKey)
-                                                                           .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
-                                                                           .setOurRatchetKey(bobEphemeralKey)
-                                                                           .setOurSignedPreKey(bobBaseKey)
-                                                                           .setTheirBaseKey(aliceBaseKey.getPublicKey())
-                                                                           .setTheirIdentityKey(aliceIdentityKey.getPublicKey())
-                                                                           .create();
-
-    RatchetingSession.initializeSession(aliceSessionState, 2, aliceParameters);
-    RatchetingSession.initializeSession(bobSessionState, 2, bobParameters);
   }
 
   private void initializeSessionsV3(SessionState aliceSessionState, SessionState bobSessionState)
@@ -225,8 +176,8 @@ public class SessionCipherTest extends TestCase {
                                                                            .setTheirBaseKey(aliceBaseKey.getPublicKey())
                                                                            .create();
 
-    RatchetingSession.initializeSession(aliceSessionState, 3, aliceParameters);
-    RatchetingSession.initializeSession(bobSessionState, 3, bobParameters);
+    RatchetingSession.initializeSession(aliceSessionState, aliceParameters);
+    RatchetingSession.initializeSession(bobSessionState, bobParameters);
   }
 
 }

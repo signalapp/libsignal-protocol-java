@@ -34,7 +34,7 @@ import java.text.ParseException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-public class WhisperMessage implements CiphertextMessage {
+public class SignalMessage implements CiphertextMessage {
 
   private static final int MAC_LENGTH = 8;
 
@@ -45,7 +45,7 @@ public class WhisperMessage implements CiphertextMessage {
   private final byte[]      ciphertext;
   private final byte[]      serialized;
 
-  public WhisperMessage(byte[] serialized) throws InvalidMessageException, LegacyMessageException {
+  public SignalMessage(byte[] serialized) throws InvalidMessageException, LegacyMessageException {
     try {
       byte[][] messageParts = ByteUtil.split(serialized, 1, serialized.length - 1 - MAC_LENGTH, MAC_LENGTH);
       byte     version      = messageParts[0][0];
@@ -80,10 +80,10 @@ public class WhisperMessage implements CiphertextMessage {
     }
   }
 
-  public WhisperMessage(int messageVersion, SecretKeySpec macKey, ECPublicKey senderRatchetKey,
-                        int counter, int previousCounter, byte[] ciphertext,
-                        IdentityKey senderIdentityKey,
-                        IdentityKey receiverIdentityKey)
+  public SignalMessage(int messageVersion, SecretKeySpec macKey, ECPublicKey senderRatchetKey,
+                       int counter, int previousCounter, byte[] ciphertext,
+                       IdentityKey senderIdentityKey,
+                       IdentityKey receiverIdentityKey)
   {
     byte[] version = {ByteUtil.intsToByteHighAndLow(messageVersion, CURRENT_VERSION)};
     byte[] message = WhisperProtos.WhisperMessage.newBuilder()

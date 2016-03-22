@@ -7,7 +7,8 @@ import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.KeyExchangeMessage;
-import org.whispersystems.libsignal.protocol.PreKeyWhisperMessage;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.ratchet.AliceSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.BobSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.RatchetingSession;
@@ -32,7 +33,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
  * Sessions are built from one of three different possible vectors:
  * <ol>
  *   <li>A {@link org.whispersystems.libsignal.state.PreKeyBundle} retrieved from a server.</li>
- *   <li>A {@link org.whispersystems.libsignal.protocol.PreKeyWhisperMessage} received from a client.</li>
+ *   <li>A {@link PreKeySignalMessage} received from a client.</li>
  *   <li>A {@link org.whispersystems.libsignal.protocol.KeyExchangeMessage} sent to or received from a client.</li>
  * </ol>
  *
@@ -82,12 +83,12 @@ public class SessionBuilder {
   }
 
   /**
-   * Build a new session from a received {@link org.whispersystems.libsignal.protocol.PreKeyWhisperMessage}.
+   * Build a new session from a received {@link PreKeySignalMessage}.
    *
-   * After a session is constructed in this way, the embedded {@link org.whispersystems.libsignal.protocol.WhisperMessage}
+   * After a session is constructed in this way, the embedded {@link SignalMessage}
    * can be decrypted.
    *
-   * @param message The received {@link org.whispersystems.libsignal.protocol.PreKeyWhisperMessage}.
+   * @param message The received {@link PreKeySignalMessage}.
    * @throws org.whispersystems.libsignal.InvalidKeyIdException when there is no local
    *                                                             {@link org.whispersystems.libsignal.state.PreKeyRecord}
    *                                                             that corresponds to the PreKey ID in
@@ -95,7 +96,7 @@ public class SessionBuilder {
    * @throws org.whispersystems.libsignal.InvalidKeyException when the message is formatted incorrectly.
    * @throws org.whispersystems.libsignal.UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
    */
-  /*package*/ Optional<Integer> process(SessionRecord sessionRecord, PreKeyWhisperMessage message)
+  /*package*/ Optional<Integer> process(SessionRecord sessionRecord, PreKeySignalMessage message)
       throws InvalidKeyIdException, InvalidKeyException, UntrustedIdentityException
   {
     IdentityKey theirIdentityKey = message.getIdentityKey();
@@ -110,7 +111,7 @@ public class SessionBuilder {
     return unsignedPreKeyId;
   }
 
-  private Optional<Integer> processV3(SessionRecord sessionRecord, PreKeyWhisperMessage message)
+  private Optional<Integer> processV3(SessionRecord sessionRecord, PreKeySignalMessage message)
       throws UntrustedIdentityException, InvalidKeyIdException, InvalidKeyException
   {
 

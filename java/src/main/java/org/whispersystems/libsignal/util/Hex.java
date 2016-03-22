@@ -35,7 +35,7 @@ public class Hex {
     StringBuffer buf = new StringBuffer();
     for (int i = 0; i < length; i++) {
       appendHexChar(buf, bytes[offset + i]);
-      buf.append(" ");
+      buf.append(", ");
     }
     return buf.toString();
   }
@@ -70,6 +70,7 @@ public class Hex {
   }
 
   private static void appendHexChar(StringBuffer buf, int b) {
+    buf.append("(byte)0x");
     buf.append(HEX_DIGITS[(b >> 4) & 0xf]);
     buf.append(HEX_DIGITS[b & 0xf]);
   }

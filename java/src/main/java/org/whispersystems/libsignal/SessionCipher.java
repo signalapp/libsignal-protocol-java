@@ -20,8 +20,8 @@ import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECKeyPair;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
-import org.whispersystems.libsignal.protocol.PreKeyWhisperMessage;
-import org.whispersystems.libsignal.protocol.WhisperMessage;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.ratchet.ChainKey;
 import org.whispersystems.libsignal.ratchet.MessageKeys;
 import org.whispersystems.libsignal.ratchet.RootKey;
@@ -109,20 +109,20 @@ public class SessionCipher {
       int           sessionVersion  = sessionState.getSessionVersion();
 
       byte[]            ciphertextBody    = getCiphertext(sessionVersion, messageKeys, paddedMessage);
-      CiphertextMessage ciphertextMessage = new WhisperMessage(sessionVersion, messageKeys.getMacKey(),
-                                                               senderEphemeral, chainKey.getIndex(),
-                                                               previousCounter, ciphertextBody,
-                                                               sessionState.getLocalIdentityKey(),
-                                                               sessionState.getRemoteIdentityKey());
+      CiphertextMessage ciphertextMessage = new SignalMessage(sessionVersion, messageKeys.getMacKey(),
+                                                              senderEphemeral, chainKey.getIndex(),
+                                                              previousCounter, ciphertextBody,
+                                                              sessionState.getLocalIdentityKey(),
+                                                              sessionState.getRemoteIdentityKey());
 
       if (sessionState.hasUnacknowledgedPreKeyMessage()) {
         UnacknowledgedPreKeyMessageItems items = sessionState.getUnacknowledgedPreKeyMessageItems();
         int localRegistrationId = sessionState.getLocalRegistrationId();
 
-        ciphertextMessage = new PreKeyWhisperMessage(sessionVersion, localRegistrationId, items.getPreKeyId(),
-                                                     items.getSignedPreKeyId(), items.getBaseKey(),
-                                                     sessionState.getLocalIdentityKey(),
-                                                     (WhisperMessage) ciphertextMessage);
+        ciphertextMessage = new PreKeySignalMessage(sessionVersion, localRegistrationId, items.getPreKeyId(),
+                                                    items.getSignedPreKeyId(), items.getBaseKey(),
+                                                    sessionState.getLocalIdentityKey(),
+                                                    (SignalMessage) ciphertextMessage);
       }
 
       sessionState.setSenderChainKey(chainKey.getNextChainKey());
@@ -134,7 +134,7 @@ public class SessionCipher {
   /**
    * Decrypt a message.
    *
-   * @param  ciphertext The {@link PreKeyWhisperMessage} to decrypt.
+   * @param  ciphertext The {@link PreKeySignalMessage} to decrypt.
    *
    * @return The plaintext.
    * @throws InvalidMessageException if the input is not valid ciphertext.
@@ -146,7 +146,7 @@ public class SessionCipher {
    * @throws InvalidKeyException when the message is formatted incorrectly.
    * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
    */
-  public byte[] decrypt(PreKeyWhisperMessage ciphertext)
+  public byte[] decrypt(PreKeySignalMessage ciphertext)
       throws DuplicateMessageException, LegacyMessageException, InvalidMessageException,
              InvalidKeyIdException, InvalidKeyException, UntrustedIdentityException
   {
@@ -156,7 +156,7 @@ public class SessionCipher {
   /**
    * Decrypt a message.
    *
-   * @param  ciphertext The {@link PreKeyWhisperMessage} to decrypt.
+   * @param  ciphertext The {@link PreKeySignalMessage} to decrypt.
    * @param  callback   A callback that is triggered after decryption is complete,
    *                    but before the updated session state has been committed to the session
    *                    DB.  This allows some implementations to store the committed plaintext
@@ -174,7 +174,7 @@ public class SessionCipher {
    * @throws InvalidKeyException when the message is formatted incorrectly.
    * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
    */
-  public byte[] decrypt(PreKeyWhisperMessage ciphertext, DecryptionCallback callback)
+  public byte[] decrypt(PreKeySignalMessage ciphertext, DecryptionCallback callback)
       throws DuplicateMessageException, LegacyMessageException, InvalidMessageException,
              InvalidKeyIdException, InvalidKeyException, UntrustedIdentityException
   {
@@ -198,7 +198,7 @@ public class SessionCipher {
   /**
    * Decrypt a message.
    *
-   * @param  ciphertext The {@link WhisperMessage} to decrypt.
+   * @param  ciphertext The {@link SignalMessage} to decrypt.
    *
    * @return The plaintext.
    * @throws InvalidMessageException if the input is not valid ciphertext.
@@ -207,7 +207,7 @@ public class SessionCipher {
    *                                is no longer supported.
    * @throws NoSessionException if there is no established session for this contact.
    */
-  public byte[] decrypt(WhisperMessage ciphertext)
+  public byte[] decrypt(SignalMessage ciphertext)
       throws InvalidMessageException, DuplicateMessageException, LegacyMessageException,
       NoSessionException
   {
@@ -217,7 +217,7 @@ public class SessionCipher {
   /**
    * Decrypt a message.
    *
-   * @param  ciphertext The {@link WhisperMessage} to decrypt.
+   * @param  ciphertext The {@link SignalMessage} to decrypt.
    * @param  callback   A callback that is triggered after decryption is complete,
    *                    but before the updated session state has been committed to the session
    *                    DB.  This allows some implementations to store the committed plaintext
@@ -232,7 +232,7 @@ public class SessionCipher {
    *                                is no longer supported.
    * @throws NoSessionException if there is no established session for this contact.
    */
-  public byte[] decrypt(WhisperMessage ciphertext, DecryptionCallback callback)
+  public byte[] decrypt(SignalMessage ciphertext, DecryptionCallback callback)
       throws InvalidMessageException, DuplicateMessageException, LegacyMessageException,
              NoSessionException
   {
@@ -253,7 +253,7 @@ public class SessionCipher {
     }
   }
 
-  private byte[] decrypt(SessionRecord sessionRecord, WhisperMessage ciphertext)
+  private byte[] decrypt(SessionRecord sessionRecord, SignalMessage ciphertext)
       throws DuplicateMessageException, LegacyMessageException, InvalidMessageException
   {
     synchronized (SESSION_LOCK) {
@@ -288,7 +288,7 @@ public class SessionCipher {
     }
   }
 
-  private byte[] decrypt(SessionState sessionState, WhisperMessage ciphertextMessage)
+  private byte[] decrypt(SessionState sessionState, SignalMessage ciphertextMessage)
       throws InvalidMessageException, DuplicateMessageException, LegacyMessageException
   {
     if (!sessionState.hasSenderChain()) {

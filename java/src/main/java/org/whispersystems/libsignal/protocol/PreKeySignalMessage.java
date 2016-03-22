@@ -30,7 +30,7 @@ import org.whispersystems.libsignal.util.ByteUtil;
 import org.whispersystems.libsignal.util.guava.Optional;
 
 
-public class PreKeyWhisperMessage implements CiphertextMessage {
+public class PreKeySignalMessage implements CiphertextMessage {
 
   private final int               version;
   private final int               registrationId;
@@ -38,10 +38,10 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
   private final int               signedPreKeyId;
   private final ECPublicKey       baseKey;
   private final IdentityKey       identityKey;
-  private final WhisperMessage    message;
+  private final SignalMessage message;
   private final byte[]            serialized;
 
-  public PreKeyWhisperMessage(byte[] serialized)
+  public PreKeySignalMessage(byte[] serialized)
       throws InvalidMessageException, InvalidVersionException
   {
     try {
@@ -73,15 +73,15 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
       this.signedPreKeyId = preKeyWhisperMessage.hasSignedPreKeyId() ? preKeyWhisperMessage.getSignedPreKeyId() : -1;
       this.baseKey        = Curve.decodePoint(preKeyWhisperMessage.getBaseKey().toByteArray(), 0);
       this.identityKey    = new IdentityKey(Curve.decodePoint(preKeyWhisperMessage.getIdentityKey().toByteArray(), 0));
-      this.message        = new WhisperMessage(preKeyWhisperMessage.getMessage().toByteArray());
+      this.message        = new SignalMessage(preKeyWhisperMessage.getMessage().toByteArray());
     } catch (InvalidProtocolBufferException | InvalidKeyException | LegacyMessageException e) {
       throw new InvalidMessageException(e);
     }
   }
 
-  public PreKeyWhisperMessage(int messageVersion, int registrationId, Optional<Integer> preKeyId,
-                              int signedPreKeyId, ECPublicKey baseKey, IdentityKey identityKey,
-                              WhisperMessage message)
+  public PreKeySignalMessage(int messageVersion, int registrationId, Optional<Integer> preKeyId,
+                             int signedPreKeyId, ECPublicKey baseKey, IdentityKey identityKey,
+                             SignalMessage message)
   {
     this.version        = messageVersion;
     this.registrationId = registrationId;
@@ -133,7 +133,7 @@ public class PreKeyWhisperMessage implements CiphertextMessage {
     return baseKey;
   }
 
-  public WhisperMessage getWhisperMessage() {
+  public SignalMessage getWhisperMessage() {
     return message;
   }
 
