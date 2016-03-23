@@ -12,7 +12,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = "signal-android"
+archivesBaseName = "signal-protocol-android"
 version          = version_number
 group            = group_info
 
@@ -64,7 +64,7 @@ uploadArchives {
         }
 
         pom.project {
-            name 'signal-android'
+            name 'signal-protocol-android'
             packaging 'aar'
             description 'Signal Protocol cryptography library for Android'
             url 'https://github.com/WhisperSystems/libsignal-android'

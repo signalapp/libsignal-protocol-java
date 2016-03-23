@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 sourceCompatibility = 1.7
-archivesBaseName = "signal-java"
+archivesBaseName = "signal-protocol-java"
 version          = version_number
 group            = group_info
 
@@ -52,7 +52,7 @@ uploadArchives {
         }
 
         pom.project {
-            name 'signal-java'
+            name 'signal-protocol-java'
             packaging 'jar'
             description 'Signal Protocol cryptography library for Java'
             url 'https://github.com/WhisperSystems/libsignal-android'
