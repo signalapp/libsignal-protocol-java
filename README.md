@@ -38,7 +38,7 @@ State is kept in the following places:
 1. Signed PreKey States. Clients will need to maintain the state of their signed PreKeys.
 1. Session State.  Clients will need to maintain the state of the sessions they have established.
 
-# Using libsignal
+# Using libsignal-protocol
 
 ## Configuration
 
@@ -46,7 +46,7 @@ On Android:
 
 ```
 dependencies {
-  compile 'org.whispersystems:signal--protocol-android:(latest version number)'
+  compile 'org.whispersystems:signal-protocol-android:(latest version number)'
 }
 ```
 
