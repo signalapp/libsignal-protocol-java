@@ -46,7 +46,7 @@ On Android:
 
 ```
 dependencies {
-  compile 'org.whispersystems:signal-android:(latest version number)'
+  compile 'org.whispersystems:signal--protocol-android:(latest version number)'
 }
 ```
 
@@ -55,7 +55,7 @@ For pure Java apps:
 ```
 <dependency>
   <groupId>org.whispersystems</groupId>
-  <artifactId>signal-java</artifactId>
+  <artifactId>signal-protocol-java</artifactId>
   <version>(latest version number)</version>
 </dependency>
 ```
