@@ -10,23 +10,18 @@ import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECKeyPair;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.libsignal.protocol.CiphertextMessage;
-import org.whispersystems.libsignal.protocol.KeyExchangeMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
 import org.whispersystems.libsignal.ratchet.AliceSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.BobSignalProtocolParameters;
 import org.whispersystems.libsignal.ratchet.RatchetingSession;
-import org.whispersystems.libsignal.ratchet.SymmetricSignalProtocolParameters;
 import org.whispersystems.libsignal.state.IdentityKeyStore;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.state.PreKeyStore;
 import org.whispersystems.libsignal.state.SessionRecord;
-import org.whispersystems.libsignal.state.SessionState;
 import org.whispersystems.libsignal.state.SessionStore;
 import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.state.SignedPreKeyStore;
-import org.whispersystems.libsignal.util.KeyHelper;
 import org.whispersystems.libsignal.util.Medium;
 import org.whispersystems.libsignal.util.guava.Optional;
 
@@ -214,144 +209,5 @@ public class SessionBuilder {
       identityKeyStore.saveIdentity(remoteAddress, preKey.getIdentityKey());
     }
   }
-
-  /**
-   * Build a new session from a {@link org.whispersystems.libsignal.protocol.KeyExchangeMessage}
-   * received from a remote client.
-   *
-   * @param message The received KeyExchangeMessage.
-   * @return The KeyExchangeMessage to respond with, or null if no response is necessary.
-   * @throws InvalidKeyException if the received KeyExchangeMessage is badly formatted.
-   */
-  public KeyExchangeMessage process(KeyExchangeMessage message)
-      throws InvalidKeyException, UntrustedIdentityException, StaleKeyExchangeException
-  {
-    synchronized (SessionCipher.SESSION_LOCK) {
-      if (!identityKeyStore.isTrustedIdentity(remoteAddress, message.getIdentityKey())) {
-        throw new UntrustedIdentityException(remoteAddress.getName(), message.getIdentityKey());
-      }
-
-      KeyExchangeMessage responseMessage = null;
-
-      if (message.isInitiate()) responseMessage = processInitiate(message);
-      else                      processResponse(message);
-
-      return responseMessage;
-    }
-  }
-
-  private KeyExchangeMessage processInitiate(KeyExchangeMessage message) throws InvalidKeyException {
-    int           flags         = KeyExchangeMessage.RESPONSE_FLAG;
-    SessionRecord sessionRecord = sessionStore.loadSession(remoteAddress);
-
-    if (!Curve.verifySignature(message.getIdentityKey().getPublicKey(),
-                               message.getBaseKey().serialize(),
-                               message.getBaseKeySignature()))
-    {
-      throw new InvalidKeyException("Bad signature!");
-    }
-
-    SymmetricSignalProtocolParameters.Builder builder = SymmetricSignalProtocolParameters.newBuilder();
-
-    if (!sessionRecord.getSessionState().hasPendingKeyExchange()) {
-      builder.setOurIdentityKey(identityKeyStore.getIdentityKeyPair())
-             .setOurBaseKey(Curve.generateKeyPair())
-             .setOurRatchetKey(Curve.generateKeyPair());
-    } else {
-      builder.setOurIdentityKey(sessionRecord.getSessionState().getPendingKeyExchangeIdentityKey())
-             .setOurBaseKey(sessionRecord.getSessionState().getPendingKeyExchangeBaseKey())
-             .setOurRatchetKey(sessionRecord.getSessionState().getPendingKeyExchangeRatchetKey());
-      flags |= KeyExchangeMessage.SIMULTAENOUS_INITIATE_FLAG;
-    }
-
-    builder.setTheirBaseKey(message.getBaseKey())
-           .setTheirRatchetKey(message.getRatchetKey())
-           .setTheirIdentityKey(message.getIdentityKey());
-
-    SymmetricSignalProtocolParameters parameters = builder.create();
-
-    if (!sessionRecord.isFresh()) sessionRecord.archiveCurrentState();
-
-    RatchetingSession.initializeSession(sessionRecord.getSessionState(), parameters);
-
-    sessionStore.storeSession(remoteAddress, sessionRecord);
-    identityKeyStore.saveIdentity(remoteAddress, message.getIdentityKey());
-
-    byte[] baseKeySignature = Curve.calculateSignature(parameters.getOurIdentityKey().getPrivateKey(),
-                                                       parameters.getOurBaseKey().getPublicKey().serialize());
-
-    return new KeyExchangeMessage(sessionRecord.getSessionState().getSessionVersion(),
-                                  message.getSequence(), flags,
-                                  parameters.getOurBaseKey().getPublicKey(),
-                                  baseKeySignature, parameters.getOurRatchetKey().getPublicKey(),
-                                  parameters.getOurIdentityKey().getPublicKey());
-  }
-
-  private void processResponse(KeyExchangeMessage message)
-      throws StaleKeyExchangeException, InvalidKeyException
-  {
-    SessionRecord sessionRecord                  = sessionStore.loadSession(remoteAddress);
-    SessionState  sessionState                   = sessionRecord.getSessionState();
-    boolean       hasPendingKeyExchange          = sessionState.hasPendingKeyExchange();
-    boolean       isSimultaneousInitiateResponse = message.isResponseForSimultaneousInitiate();
-
-    if (!hasPendingKeyExchange || sessionState.getPendingKeyExchangeSequence() != message.getSequence()) {
-      Log.w(TAG, "No matching sequence for response. Is simultaneous initiate response: " + isSimultaneousInitiateResponse);
-      if (!isSimultaneousInitiateResponse) throw new StaleKeyExchangeException();
-      else                                 return;
-    }
-
-    SymmetricSignalProtocolParameters.Builder parameters = SymmetricSignalProtocolParameters.newBuilder();
-
-    parameters.setOurBaseKey(sessionRecord.getSessionState().getPendingKeyExchangeBaseKey())
-              .setOurRatchetKey(sessionRecord.getSessionState().getPendingKeyExchangeRatchetKey())
-              .setOurIdentityKey(sessionRecord.getSessionState().getPendingKeyExchangeIdentityKey())
-              .setTheirBaseKey(message.getBaseKey())
-              .setTheirRatchetKey(message.getRatchetKey())
-              .setTheirIdentityKey(message.getIdentityKey());
-
-    if (!sessionRecord.isFresh()) sessionRecord.archiveCurrentState();
-
-    RatchetingSession.initializeSession(sessionRecord.getSessionState(), parameters.create());
-
-    if (!Curve.verifySignature(message.getIdentityKey().getPublicKey(),
-                               message.getBaseKey().serialize(),
-                               message.getBaseKeySignature()))
-    {
-      throw new InvalidKeyException("Base key signature doesn't match!");
-    }
-
-    sessionStore.storeSession(remoteAddress, sessionRecord);
-    identityKeyStore.saveIdentity(remoteAddress, message.getIdentityKey());
-  }
-
-  /**
-   * Initiate a new session by sending an initial KeyExchangeMessage to the recipient.
-   *
-   * @return the KeyExchangeMessage to deliver.
-   */
-  public KeyExchangeMessage process() {
-    synchronized (SessionCipher.SESSION_LOCK) {
-      try {
-        int             sequence         = KeyHelper.getRandomSequence(65534) + 1;
-        int             flags            = KeyExchangeMessage.INITIATE_FLAG;
-        ECKeyPair       baseKey          = Curve.generateKeyPair();
-        ECKeyPair       ratchetKey       = Curve.generateKeyPair();
-        IdentityKeyPair identityKey      = identityKeyStore.getIdentityKeyPair();
-        byte[]          baseKeySignature = Curve.calculateSignature(identityKey.getPrivateKey(), baseKey.getPublicKey().serialize());
-        SessionRecord   sessionRecord    = sessionStore.loadSession(remoteAddress);
-
-        sessionRecord.getSessionState().setPendingKeyExchange(sequence, baseKey, ratchetKey, identityKey);
-        sessionStore.storeSession(remoteAddress, sessionRecord);
-
-        return new KeyExchangeMessage(CiphertextMessage.CURRENT_VERSION,
-                                      sequence, flags, baseKey.getPublicKey(), baseKeySignature,
-                                      ratchetKey.getPublicKey(), identityKey.getPublicKey());
-      } catch (InvalidKeyException e) {
-        throw new AssertionError(e);
-      }
-    }
-  }
-
 
 }

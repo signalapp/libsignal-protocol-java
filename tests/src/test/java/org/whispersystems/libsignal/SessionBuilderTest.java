@@ -5,13 +5,12 @@ import junit.framework.TestCase;
 import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECKeyPair;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
-import org.whispersystems.libsignal.protocol.KeyExchangeMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
-import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.state.IdentityKeyStore;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.state.PreKeyRecord;
+import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 
@@ -311,76 +310,6 @@ public class SessionBuilderTest extends TestCase {
 
     assertTrue(originalMessage.equals(new String(plaintext)));
     assertTrue(!bobStore.containsPreKey(31337));
-  }
-
-  public void testBasicKeyExchange() throws InvalidKeyException, LegacyMessageException, InvalidMessageException, DuplicateMessageException, UntrustedIdentityException, StaleKeyExchangeException, InvalidVersionException, NoSessionException {
-    SignalProtocolStore aliceStore          = new TestInMemorySignalProtocolStore();
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-
-    SignalProtocolStore bobStore          = new TestInMemorySignalProtocolStore();
-    SessionBuilder bobSessionBuilder = new SessionBuilder(bobStore, ALICE_ADDRESS);
-
-    KeyExchangeMessage aliceKeyExchangeMessage      = aliceSessionBuilder.process();
-    assertTrue(aliceKeyExchangeMessage != null);
-
-    byte[]             aliceKeyExchangeMessageBytes = aliceKeyExchangeMessage.serialize();
-    KeyExchangeMessage bobKeyExchangeMessage        = bobSessionBuilder.process(new KeyExchangeMessage(aliceKeyExchangeMessageBytes));
-
-    assertTrue(bobKeyExchangeMessage != null);
-
-    byte[]             bobKeyExchangeMessageBytes = bobKeyExchangeMessage.serialize();
-    KeyExchangeMessage response                   = aliceSessionBuilder.process(new KeyExchangeMessage(bobKeyExchangeMessageBytes));
-
-    assertTrue(response == null);
-    assertTrue(aliceStore.containsSession(BOB_ADDRESS));
-    assertTrue(bobStore.containsSession(ALICE_ADDRESS));
-
-    runInteraction(aliceStore, bobStore);
-
-    aliceStore              = new TestInMemorySignalProtocolStore();
-    aliceSessionBuilder     = new SessionBuilder(aliceStore, BOB_ADDRESS);
-    aliceKeyExchangeMessage = aliceSessionBuilder.process();
-
-    try {
-      bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
-      throw new AssertionError("This identity shouldn't be trusted!");
-    } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS, aliceKeyExchangeMessage.getIdentityKey());
-      bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
-    }
-
-    assertTrue(aliceSessionBuilder.process(bobKeyExchangeMessage) == null);
-
-    runInteraction(aliceStore, bobStore);
-  }
-
-  public void testSimultaneousKeyExchange()
-      throws InvalidKeyException, DuplicateMessageException, LegacyMessageException, InvalidMessageException, UntrustedIdentityException, StaleKeyExchangeException, NoSessionException {
-    SignalProtocolStore aliceStore          = new TestInMemorySignalProtocolStore();
-    SessionBuilder aliceSessionBuilder = new SessionBuilder(aliceStore, BOB_ADDRESS);
-
-    SignalProtocolStore bobStore          = new TestInMemorySignalProtocolStore();
-    SessionBuilder bobSessionBuilder = new SessionBuilder(bobStore, ALICE_ADDRESS);
-
-    KeyExchangeMessage aliceKeyExchange = aliceSessionBuilder.process();
-    KeyExchangeMessage bobKeyExchange   = bobSessionBuilder.process();
-
-    assertTrue(aliceKeyExchange != null);
-    assertTrue(bobKeyExchange != null);
-
-    KeyExchangeMessage aliceResponse = aliceSessionBuilder.process(bobKeyExchange);
-    KeyExchangeMessage bobResponse   = bobSessionBuilder.process(aliceKeyExchange);
-
-    assertTrue(aliceResponse != null);
-    assertTrue(bobResponse != null);
-
-    KeyExchangeMessage aliceAck = aliceSessionBuilder.process(bobResponse);
-    KeyExchangeMessage bobAck   = bobSessionBuilder.process(aliceResponse);
-
-    assertTrue(aliceAck == null);
-    assertTrue(bobAck == null);
-
-    runInteraction(aliceStore, bobStore);
   }
 
   public void testOptionalOneTimePreKey() throws Exception {
