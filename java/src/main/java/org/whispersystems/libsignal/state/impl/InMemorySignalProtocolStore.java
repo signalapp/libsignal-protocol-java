@@ -39,13 +39,13 @@ public class InMemorySignalProtocolStore implements SignalProtocolStore {
   }
 
   @Override
-  public void saveIdentity(String name, IdentityKey identityKey) {
-    identityKeyStore.saveIdentity(name, identityKey);
+  public void saveIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
+    identityKeyStore.saveIdentity(address, identityKey);
   }
 
   @Override
-  public boolean isTrustedIdentity(String name, IdentityKey identityKey) {
-    return identityKeyStore.isTrustedIdentity(name, identityKey);
+  public boolean isTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
+    return identityKeyStore.isTrustedIdentity(address, identityKey);
   }
 
   @Override

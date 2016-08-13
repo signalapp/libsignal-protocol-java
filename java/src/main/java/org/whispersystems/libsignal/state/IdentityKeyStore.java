@@ -7,6 +7,7 @@ package org.whispersystems.libsignal.state;
 
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
+import org.whispersystems.libsignal.SignalProtocolAddress;
 
 /**
  * Provides an interface to identity information.
@@ -37,10 +38,10 @@ public interface IdentityKeyStore {
    * <p>
    * Store a remote client's identity key as trusted.
    *
-   * @param name        The name of the remote client.
+   * @param address     The address of the remote client.
    * @param identityKey The remote client's identity key.
    */
-  public void            saveIdentity(String name, IdentityKey identityKey);
+  public void            saveIdentity(SignalProtocolAddress address, IdentityKey identityKey);
 
 
   /**
@@ -53,10 +54,10 @@ public interface IdentityKeyStore {
    * store.  Only if it mismatches an entry in the local store is it considered
    * 'untrusted.'
    *
-   * @param name        The name of the remote client.
+   * @param address     The address of the remote client.
    * @param identityKey The identity key to verify.
    * @return true if trusted, false if untrusted.
    */
-  public boolean         isTrustedIdentity(String name, IdentityKey identityKey);
+  public boolean         isTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey);
 
 }

@@ -7,18 +7,15 @@ package org.whispersystems.libsignal.state.impl;
 
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
-import org.whispersystems.libsignal.ecc.Curve;
-import org.whispersystems.libsignal.ecc.ECKeyPair;
+import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.state.IdentityKeyStore;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryIdentityKeyStore implements IdentityKeyStore {
 
-  private final Map<String, IdentityKey> trustedKeys = new HashMap<>();
+  private final Map<SignalProtocolAddress, IdentityKey> trustedKeys = new HashMap<>();
 
   private final IdentityKeyPair identityKeyPair;
   private final int             localRegistrationId;
@@ -39,13 +36,13 @@ public class InMemoryIdentityKeyStore implements IdentityKeyStore {
   }
 
   @Override
-  public void saveIdentity(String name, IdentityKey identityKey) {
-    trustedKeys.put(name, identityKey);
+  public void saveIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
+    trustedKeys.put(address, identityKey);
   }
 
   @Override
-  public boolean isTrustedIdentity(String name, IdentityKey identityKey) {
-    IdentityKey trusted = trustedKeys.get(name);
+  public boolean isTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
+    IdentityKey trusted = trustedKeys.get(address);
     return (trusted == null || trusted.equals(identityKey));
   }
 }

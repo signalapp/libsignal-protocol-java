@@ -120,7 +120,7 @@ public class SessionBuilderTest extends TestCase {
       plaintext = bobSessionCipher.decrypt(new PreKeySignalMessage(outgoingMessage.serialize()));
       throw new AssertionError("shouldn't be trusted!");
     } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS.getName(), new PreKeySignalMessage(outgoingMessage.serialize()).getIdentityKey());
+      bobStore.saveIdentity(ALICE_ADDRESS, new PreKeySignalMessage(outgoingMessage.serialize()).getIdentityKey());
     }
 
     plaintext = bobSessionCipher.decrypt(new PreKeySignalMessage(outgoingMessage.serialize()));
@@ -345,7 +345,7 @@ public class SessionBuilderTest extends TestCase {
       bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
       throw new AssertionError("This identity shouldn't be trusted!");
     } catch (UntrustedIdentityException uie) {
-      bobStore.saveIdentity(ALICE_ADDRESS.getName(), aliceKeyExchangeMessage.getIdentityKey());
+      bobStore.saveIdentity(ALICE_ADDRESS, aliceKeyExchangeMessage.getIdentityKey());
       bobKeyExchangeMessage = bobSessionBuilder.process(aliceKeyExchangeMessage);
     }
 
