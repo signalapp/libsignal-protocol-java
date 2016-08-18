@@ -21,7 +21,7 @@ public class DeviceConsistencyCommitment {
       ArrayList<IdentityKey> sortedIdentityKeys = new ArrayList<>(identityKeys);
       Collections.sort(sortedIdentityKeys, new IdentityKeyComparator());
 
-      MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+      MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
       messageDigest.update(ByteUtil.intToByteArray(generation));
 
       for (IdentityKey commitment : sortedIdentityKeys) {
