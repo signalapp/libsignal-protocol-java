@@ -7,7 +7,7 @@ package org.whispersystems.libsignal.ecc;
 
 import org.whispersystems.curve25519.Curve25519;
 import org.whispersystems.curve25519.Curve25519KeyPair;
-import org.whispersystems.curve25519.NoSuchProviderException;
+import org.whispersystems.curve25519.VrfSignatureVerificationFailedException;
 import org.whispersystems.libsignal.InvalidKeyException;
 
 import static org.whispersystems.curve25519.Curve25519.BEST;
@@ -84,23 +84,23 @@ public class Curve {
     }
   }
 
-  public static byte[] calculateUniqueSignature(ECPrivateKey signingKey, byte[] message)
+  public static byte[] calculateVrfSignature(ECPrivateKey signingKey, byte[] message)
       throws InvalidKeyException
   {
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-          .calculateUniqueSignature(((DjbECPrivateKey)signingKey).getPrivateKey(), message);
+                       .calculateVrfSignature(((DjbECPrivateKey)signingKey).getPrivateKey(), message);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }
   }
 
-  public static boolean verifyUniqueSignature(ECPublicKey signingKey, byte[] message, byte[] signature)
-      throws InvalidKeyException
+  public static byte[] verifyVrfSignature(ECPublicKey signingKey, byte[] message, byte[] signature)
+      throws InvalidKeyException, VrfSignatureVerificationFailedException
   {
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .verifyUniqueSignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
+                       .verifyVrfSignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }

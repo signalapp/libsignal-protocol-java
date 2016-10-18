@@ -2,19 +2,20 @@ package org.whispersystems.libsignal.devices;
 
 public class DeviceConsistencySignature {
 
-  private byte[] serialized;
+  private final byte[] signature;
+  private final byte[] vrfOutput;
 
-  public DeviceConsistencySignature(byte[] serialized) {
-    this.serialized = serialized;
+  public DeviceConsistencySignature(byte[] signature, byte[] vrfOutput) {
+    this.signature = signature;
+    this.vrfOutput = vrfOutput;
   }
 
-  public byte[] getRevealBytes() {
-    byte[] reveal = new byte[32];
-    System.arraycopy(serialized, 0, reveal, 0, reveal.length);
-    return reveal;
+  public byte[] getVrfOutput() {
+    return vrfOutput;
   }
 
-  public byte[] toByteArray() {
-    return serialized;
+  public byte[] getSignature() {
+    return signature;
   }
+
 }

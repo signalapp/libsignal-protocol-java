@@ -26,7 +26,7 @@ public class DeviceConsistencyCodeGenerator {
       messageDigest.update(commitment.toByteArray());
 
       for (DeviceConsistencySignature signature : sortedSignatures) {
-        messageDigest.update(signature.getRevealBytes());
+        messageDigest.update(signature.getVrfOutput());
       }
 
       byte[] hash = messageDigest.digest();
@@ -48,7 +48,7 @@ public class DeviceConsistencyCodeGenerator {
   private static class SignatureComparator extends ByteArrayComparator implements Comparator<DeviceConsistencySignature> {
     @Override
     public int compare(DeviceConsistencySignature first, DeviceConsistencySignature second) {
-      return compare(first.toByteArray(), second.toByteArray());
+      return compare(first.getSignature(), second.getSignature());
     }
   }
 }
