@@ -46,9 +46,9 @@ public class DeviceConsistencyTest extends TestCase {
     DeviceConsistencyMessage receivedDeviceTwoMessage = new DeviceConsistencyMessage(deviceOneCommitment, deviceTwoMessage.getSerialized(), deviceTwo.getPublicKey());
     DeviceConsistencyMessage receivedDeviceThreeMessage = new DeviceConsistencyMessage(deviceOneCommitment, deviceThreeMessage.getSerialized(), deviceThree.getPublicKey());
 
-    assertTrue(Arrays.equals(deviceOneMessage.getSignature().getRevealBytes(), receivedDeviceOneMessage.getSignature().getRevealBytes()));
-    assertTrue(Arrays.equals(deviceTwoMessage.getSignature().getRevealBytes(), receivedDeviceTwoMessage.getSignature().getRevealBytes()));
-    assertTrue(Arrays.equals(deviceThreeMessage.getSignature().getRevealBytes(), receivedDeviceThreeMessage.getSignature().getRevealBytes()));
+    assertTrue(Arrays.equals(deviceOneMessage.getSignature().getVrfOutput(), receivedDeviceOneMessage.getSignature().getVrfOutput()));
+    assertTrue(Arrays.equals(deviceTwoMessage.getSignature().getVrfOutput(), receivedDeviceTwoMessage.getSignature().getVrfOutput()));
+    assertTrue(Arrays.equals(deviceThreeMessage.getSignature().getVrfOutput(), receivedDeviceThreeMessage.getSignature().getVrfOutput()));
 
     String codeOne = generateCode(deviceOneCommitment, deviceOneMessage, receivedDeviceTwoMessage, receivedDeviceThreeMessage);
     String codeTwo = generateCode(deviceTwoCommitment, deviceTwoMessage, receivedDeviceThreeMessage, receivedDeviceOneMessage);

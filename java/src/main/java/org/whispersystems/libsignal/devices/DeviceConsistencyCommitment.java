@@ -1,6 +1,7 @@
 package org.whispersystems.libsignal.devices;
 
 import org.whispersystems.libsignal.IdentityKey;
+import org.whispersystems.libsignal.protocol.DeviceConsistencyMessage;
 import org.whispersystems.libsignal.util.ByteArrayComparator;
 import org.whispersystems.libsignal.util.ByteUtil;
 
@@ -13,6 +14,8 @@ import java.util.List;
 
 public class DeviceConsistencyCommitment {
 
+  private static final String VERSION = "DeviceConsistencyCommitment_V0";
+
   private final int generation;
   private final byte[] serialized;
 
@@ -22,6 +25,7 @@ public class DeviceConsistencyCommitment {
       Collections.sort(sortedIdentityKeys, new IdentityKeyComparator());
 
       MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+      messageDigest.update(VERSION.getBytes());
       messageDigest.update(ByteUtil.intToByteArray(generation));
 
       for (IdentityKey commitment : sortedIdentityKeys) {

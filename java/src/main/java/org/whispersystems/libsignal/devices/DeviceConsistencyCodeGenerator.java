@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DeviceConsistencyCodeGenerator {
 
-  private static final int VERSION = 0;
+  private static final int CODE_VERSION = 0;
 
   public static String generateFor(DeviceConsistencyCommitment commitment,
                                    List<DeviceConsistencySignature> signatures)
@@ -22,7 +22,7 @@ public class DeviceConsistencyCodeGenerator {
       Collections.sort(sortedSignatures, new SignatureComparator());
 
       MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-      messageDigest.update(ByteUtil.shortToByteArray(VERSION));
+      messageDigest.update(ByteUtil.shortToByteArray(CODE_VERSION));
       messageDigest.update(commitment.toByteArray());
 
       for (DeviceConsistencySignature signature : sortedSignatures) {
