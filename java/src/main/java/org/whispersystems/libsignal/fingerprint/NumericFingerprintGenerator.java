@@ -6,16 +6,22 @@
 package org.whispersystems.libsignal.fingerprint;
 
 import org.whispersystems.libsignal.IdentityKey;
+import org.whispersystems.libsignal.devices.DeviceConsistencySignature;
+import org.whispersystems.libsignal.util.ByteArrayComparator;
 import org.whispersystems.libsignal.util.ByteUtil;
+import org.whispersystems.libsignal.util.IdentityKeyComparator;
 
+import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class NumericFingerprintGenerator implements FingerprintGenerator {
 
-  private static final int VERSION = 0;
-
-  private final long iterations;
+  private final int iterations;
 
   /**
    * Construct a fingerprint generator for 60 digit numerics.
@@ -30,7 +36,7 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
    *                   - 1400 > 110 bits
    *                   - 5200 > 112 bits
    */
-  public NumericFingerprintGenerator(long iterations) {
+  public NumericFingerprintGenerator(int iterations) {
     this.iterations = iterations;
   }
 
@@ -47,42 +53,45 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
   public Fingerprint createFor(String localStableIdentifier, IdentityKey localIdentityKey,
                                String remoteStableIdentifier, IdentityKey remoteIdentityKey)
   {
-    DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(getDisplayStringFor(localStableIdentifier, localIdentityKey),
-                                                                               getDisplayStringFor(remoteStableIdentifier, remoteIdentityKey));
+    DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(iterations,
+                                                                               localStableIdentifier,
+                                                                               localIdentityKey,
+                                                                               remoteStableIdentifier,
+                                                                               remoteIdentityKey);
 
-    ScannableFingerprint scannableFingerprint = new ScannableFingerprint(VERSION,
-                                                                         localStableIdentifier, localIdentityKey,
+    ScannableFingerprint scannableFingerprint = new ScannableFingerprint(localStableIdentifier, localIdentityKey,
                                                                          remoteStableIdentifier, remoteIdentityKey);
 
     return new Fingerprint(displayableFingerprint, scannableFingerprint);
   }
 
-  private String getDisplayStringFor(String stableIdentifier, IdentityKey identityKey) {
-    try {
-      MessageDigest digest    = MessageDigest.getInstance("SHA-512");
-      byte[]        publicKey = identityKey.getPublicKey().serialize();
-      byte[]        hash      = ByteUtil.combine(ByteUtil.shortToByteArray(VERSION),
-                                                 publicKey, stableIdentifier.getBytes());
+  /**
+   * Generate a scannable and displayble fingerprint for logical identities that have multiple
+   * physical keys.
+   *
+   * Do not trust the output of this unless you've been through the device consistency process
+   * for the provided localIdentityKeys.
+   *
+   * @param localStableIdentifier The client's "stable" identifier.
+   * @param localIdentityKeys The client's collection of physical identity keys.
+   * @param remoteStableIdentifier The remote party's "stable" identifier.
+   * @param remoteIdentityKeys The remote party's collection of physical identity key.
+   * @return A unique fingerprint for this conversation.
+   */
+  public Fingerprint createFor(String localStableIdentifier, List<IdentityKey> localIdentityKeys,
+                               String remoteStableIdentifier, List<IdentityKey> remoteIdentityKeys)
+  {
+    DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(iterations,
+                                                                               localStableIdentifier,
+                                                                               localIdentityKeys,
+                                                                               remoteStableIdentifier,
+                                                                               remoteIdentityKeys);
 
-      for (int i=0;i<iterations;i++) {
-        digest.update(hash);
-        hash = digest.digest(publicKey);
-      }
+    ScannableFingerprint scannableFingerprint = new ScannableFingerprint(localStableIdentifier, localIdentityKeys,
+                                                                         remoteStableIdentifier, remoteIdentityKeys);
 
-      return getEncodedChunk(hash, 0) +
-          getEncodedChunk(hash, 5) +
-          getEncodedChunk(hash, 10) +
-          getEncodedChunk(hash, 15) +
-          getEncodedChunk(hash, 20) +
-          getEncodedChunk(hash, 25);
-    } catch (NoSuchAlgorithmException e) {
-      throw new AssertionError(e);
-    }
+    return new Fingerprint(displayableFingerprint, scannableFingerprint);
   }
 
-  private String getEncodedChunk(byte[] hash, int offset) {
-    long chunk = ByteUtil.byteArray5ToLong(hash, offset) % 100000;
-    return String.format("%05d", chunk);
-  }
 
 }

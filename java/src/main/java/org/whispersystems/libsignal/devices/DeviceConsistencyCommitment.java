@@ -1,15 +1,13 @@
 package org.whispersystems.libsignal.devices;
 
 import org.whispersystems.libsignal.IdentityKey;
-import org.whispersystems.libsignal.protocol.DeviceConsistencyMessage;
-import org.whispersystems.libsignal.util.ByteArrayComparator;
 import org.whispersystems.libsignal.util.ByteUtil;
+import org.whispersystems.libsignal.util.IdentityKeyComparator;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class DeviceConsistencyCommitment {
@@ -45,14 +43,6 @@ public class DeviceConsistencyCommitment {
 
   public int getGeneration() {
     return generation;
-  }
-
-  private static class IdentityKeyComparator extends ByteArrayComparator implements Comparator<IdentityKey> {
-
-    @Override
-    public int compare(IdentityKey first, IdentityKey second) {
-      return compare(first.getPublicKey().serialize(), second.getPublicKey().serialize());
-    }
   }
 
 
