@@ -7,11 +7,20 @@ package org.whispersystems.libsignal.fingerprint;
 
 public class FingerprintVersionMismatchException extends Exception {
 
-  public FingerprintVersionMismatchException() {
+  private final int theirVersion;
+  private final int ourVersion;
+
+  public FingerprintVersionMismatchException(int theirVersion, int ourVersion) {
     super();
+    this.theirVersion = theirVersion;
+    this.ourVersion   = ourVersion;
   }
 
-  public FingerprintVersionMismatchException(Exception e) {
-    super(e);
+  public int getTheirVersion() {
+    return theirVersion;
+  }
+
+  public int getOurVersion() {
+    return ourVersion;
   }
 }
