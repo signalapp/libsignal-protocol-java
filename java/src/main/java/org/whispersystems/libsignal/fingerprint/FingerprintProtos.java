@@ -8,48 +8,46 @@ public final class FingerprintProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface FingerprintDataOrBuilder
+  public interface LogicalFingerprintOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional bytes publicKey = 1;
+    // optional bytes data = 1;
     /**
-     * <code>optional bytes publicKey = 1;</code>
+     * <code>optional bytes data = 1;</code>
+     *
+     * <pre>
+     *  optional bytes identifier = 2;
+     * </pre>
      */
-    boolean hasPublicKey();
+    boolean hasData();
     /**
-     * <code>optional bytes publicKey = 1;</code>
+     * <code>optional bytes data = 1;</code>
+     *
+     * <pre>
+     *  optional bytes identifier = 2;
+     * </pre>
      */
-    com.google.protobuf.ByteString getPublicKey();
-
-    // optional bytes identifier = 2;
-    /**
-     * <code>optional bytes identifier = 2;</code>
-     */
-    boolean hasIdentifier();
-    /**
-     * <code>optional bytes identifier = 2;</code>
-     */
-    com.google.protobuf.ByteString getIdentifier();
+    com.google.protobuf.ByteString getData();
   }
   /**
-   * Protobuf type {@code textsecure.FingerprintData}
+   * Protobuf type {@code textsecure.LogicalFingerprint}
    */
-  public static final class FingerprintData extends
+  public static final class LogicalFingerprint extends
       com.google.protobuf.GeneratedMessage
-      implements FingerprintDataOrBuilder {
-    // Use FingerprintData.newBuilder() to construct.
-    private FingerprintData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements LogicalFingerprintOrBuilder {
+    // Use LogicalFingerprint.newBuilder() to construct.
+    private LogicalFingerprint(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private FingerprintData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private LogicalFingerprint(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final FingerprintData defaultInstance;
-    public static FingerprintData getDefaultInstance() {
+    private static final LogicalFingerprint defaultInstance;
+    public static LogicalFingerprint getDefaultInstance() {
       return defaultInstance;
     }
 
-    public FingerprintData getDefaultInstanceForType() {
+    public LogicalFingerprint getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -59,7 +57,7 @@ public final class FingerprintProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private FingerprintData(
+    private LogicalFingerprint(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -84,12 +82,7 @@ public final class FingerprintProtos {
             }
             case 10: {
               bitField0_ |= 0x00000001;
-              publicKey_ = input.readBytes();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              identifier_ = input.readBytes();
+              data_ = input.readBytes();
               break;
             }
           }
@@ -106,67 +99,58 @@ public final class FingerprintProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_FingerprintData_descriptor;
+      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprint_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_FingerprintData_fieldAccessorTable
+      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprint_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder.class);
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<FingerprintData> PARSER =
-        new com.google.protobuf.AbstractParser<FingerprintData>() {
-      public FingerprintData parsePartialFrom(
+    public static com.google.protobuf.Parser<LogicalFingerprint> PARSER =
+        new com.google.protobuf.AbstractParser<LogicalFingerprint>() {
+      public LogicalFingerprint parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FingerprintData(input, extensionRegistry);
+        return new LogicalFingerprint(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<FingerprintData> getParserForType() {
+    public com.google.protobuf.Parser<LogicalFingerprint> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // optional bytes publicKey = 1;
-    public static final int PUBLICKEY_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString publicKey_;
+    // optional bytes data = 1;
+    public static final int DATA_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString data_;
     /**
-     * <code>optional bytes publicKey = 1;</code>
+     * <code>optional bytes data = 1;</code>
+     *
+     * <pre>
+     *  optional bytes identifier = 2;
+     * </pre>
      */
-    public boolean hasPublicKey() {
+    public boolean hasData() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional bytes publicKey = 1;</code>
+     * <code>optional bytes data = 1;</code>
+     *
+     * <pre>
+     *  optional bytes identifier = 2;
+     * </pre>
      */
-    public com.google.protobuf.ByteString getPublicKey() {
-      return publicKey_;
-    }
-
-    // optional bytes identifier = 2;
-    public static final int IDENTIFIER_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString identifier_;
-    /**
-     * <code>optional bytes identifier = 2;</code>
-     */
-    public boolean hasIdentifier() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bytes identifier = 2;</code>
-     */
-    public com.google.protobuf.ByteString getIdentifier() {
-      return identifier_;
+    public com.google.protobuf.ByteString getData() {
+      return data_;
     }
 
     private void initFields() {
-      publicKey_ = com.google.protobuf.ByteString.EMPTY;
-      identifier_ = com.google.protobuf.ByteString.EMPTY;
+      data_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -181,10 +165,7 @@ public final class FingerprintProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, publicKey_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, identifier_);
+        output.writeBytes(1, data_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -197,11 +178,7 @@ public final class FingerprintProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, publicKey_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, identifier_);
+          .computeBytesSize(1, data_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -215,53 +192,53 @@ public final class FingerprintProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseDelimitedFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -270,7 +247,7 @@ public final class FingerprintProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -282,24 +259,24 @@ public final class FingerprintProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.FingerprintData}
+     * Protobuf type {@code textsecure.LogicalFingerprint}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder {
+       implements org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_FingerprintData_descriptor;
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprint_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_FingerprintData_fieldAccessorTable
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprint_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder.class);
+                org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.newBuilder()
+      // Construct using org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -319,10 +296,8 @@ public final class FingerprintProtos {
 
       public Builder clear() {
         super.clear();
-        publicKey_ = com.google.protobuf.ByteString.EMPTY;
+        data_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
-        identifier_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -332,54 +307,47 @@ public final class FingerprintProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_FingerprintData_descriptor;
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprint_descriptor;
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData build() {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData result = buildPartial();
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint build() {
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData buildPartial() {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData result = new org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData(this);
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint buildPartial() {
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint result = new org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.publicKey_ = publicKey_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.identifier_ = identifier_;
+        result.data_ = data_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData) {
-          return mergeFrom((org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData)other);
+        if (other instanceof org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint) {
+          return mergeFrom((org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData other) {
-        if (other == org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance()) return this;
-        if (other.hasPublicKey()) {
-          setPublicKey(other.getPublicKey());
-        }
-        if (other.hasIdentifier()) {
-          setIdentifier(other.getIdentifier());
+      public Builder mergeFrom(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint other) {
+        if (other == org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance()) return this;
+        if (other.hasData()) {
+          setData(other.getData());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -393,11 +361,11 @@ public final class FingerprintProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData parsedMessage = null;
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -408,90 +376,70 @@ public final class FingerprintProtos {
       }
       private int bitField0_;
 
-      // optional bytes publicKey = 1;
-      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      // optional bytes data = 1;
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes publicKey = 1;</code>
+       * <code>optional bytes data = 1;</code>
+       *
+       * <pre>
+       *  optional bytes identifier = 2;
+       * </pre>
        */
-      public boolean hasPublicKey() {
+      public boolean hasData() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bytes publicKey = 1;</code>
+       * <code>optional bytes data = 1;</code>
+       *
+       * <pre>
+       *  optional bytes identifier = 2;
+       * </pre>
        */
-      public com.google.protobuf.ByteString getPublicKey() {
-        return publicKey_;
+      public com.google.protobuf.ByteString getData() {
+        return data_;
       }
       /**
-       * <code>optional bytes publicKey = 1;</code>
+       * <code>optional bytes data = 1;</code>
+       *
+       * <pre>
+       *  optional bytes identifier = 2;
+       * </pre>
        */
-      public Builder setPublicKey(com.google.protobuf.ByteString value) {
+      public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        publicKey_ = value;
+        data_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bytes publicKey = 1;</code>
+       * <code>optional bytes data = 1;</code>
+       *
+       * <pre>
+       *  optional bytes identifier = 2;
+       * </pre>
        */
-      public Builder clearPublicKey() {
+      public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        publicKey_ = getDefaultInstance().getPublicKey();
+        data_ = getDefaultInstance().getData();
         onChanged();
         return this;
       }
 
-      // optional bytes identifier = 2;
-      private com.google.protobuf.ByteString identifier_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes identifier = 2;</code>
-       */
-      public boolean hasIdentifier() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional bytes identifier = 2;</code>
-       */
-      public com.google.protobuf.ByteString getIdentifier() {
-        return identifier_;
-      }
-      /**
-       * <code>optional bytes identifier = 2;</code>
-       */
-      public Builder setIdentifier(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        identifier_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes identifier = 2;</code>
-       */
-      public Builder clearIdentifier() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        identifier_ = getDefaultInstance().getIdentifier();
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:textsecure.FingerprintData)
+      // @@protoc_insertion_point(builder_scope:textsecure.LogicalFingerprint)
     }
 
     static {
-      defaultInstance = new FingerprintData(true);
+      defaultInstance = new LogicalFingerprint(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.FingerprintData)
+    // @@protoc_insertion_point(class_scope:textsecure.LogicalFingerprint)
   }
 
-  public interface CombinedFingerprintOrBuilder
+  public interface LogicalFingerprintsOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // optional uint32 version = 1;
@@ -504,53 +452,53 @@ public final class FingerprintProtos {
      */
     int getVersion();
 
-    // optional .textsecure.FingerprintData localFingerprint = 2;
+    // optional .textsecure.LogicalFingerprint localFingerprint = 2;
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
     boolean hasLocalFingerprint();
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
-    org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getLocalFingerprint();
+    org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getLocalFingerprint();
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
-    org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getLocalFingerprintOrBuilder();
+    org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getLocalFingerprintOrBuilder();
 
-    // optional .textsecure.FingerprintData remoteFingerprint = 3;
+    // optional .textsecure.LogicalFingerprint remoteFingerprint = 3;
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
     boolean hasRemoteFingerprint();
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
-    org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getRemoteFingerprint();
+    org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getRemoteFingerprint();
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
-    org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getRemoteFingerprintOrBuilder();
+    org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getRemoteFingerprintOrBuilder();
   }
   /**
-   * Protobuf type {@code textsecure.CombinedFingerprint}
+   * Protobuf type {@code textsecure.LogicalFingerprints}
    */
-  public static final class CombinedFingerprint extends
+  public static final class LogicalFingerprints extends
       com.google.protobuf.GeneratedMessage
-      implements CombinedFingerprintOrBuilder {
-    // Use CombinedFingerprint.newBuilder() to construct.
-    private CombinedFingerprint(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements LogicalFingerprintsOrBuilder {
+    // Use LogicalFingerprints.newBuilder() to construct.
+    private LogicalFingerprints(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private CombinedFingerprint(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private LogicalFingerprints(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final CombinedFingerprint defaultInstance;
-    public static CombinedFingerprint getDefaultInstance() {
+    private static final LogicalFingerprints defaultInstance;
+    public static LogicalFingerprints getDefaultInstance() {
       return defaultInstance;
     }
 
-    public CombinedFingerprint getDefaultInstanceForType() {
+    public LogicalFingerprints getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -560,7 +508,7 @@ public final class FingerprintProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private CombinedFingerprint(
+    private LogicalFingerprints(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -589,11 +537,11 @@ public final class FingerprintProtos {
               break;
             }
             case 18: {
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder subBuilder = null;
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) == 0x00000002)) {
                 subBuilder = localFingerprint_.toBuilder();
               }
-              localFingerprint_ = input.readMessage(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.PARSER, extensionRegistry);
+              localFingerprint_ = input.readMessage(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(localFingerprint_);
                 localFingerprint_ = subBuilder.buildPartial();
@@ -602,11 +550,11 @@ public final class FingerprintProtos {
               break;
             }
             case 26: {
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder subBuilder = null;
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = remoteFingerprint_.toBuilder();
               }
-              remoteFingerprint_ = input.readMessage(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.PARSER, extensionRegistry);
+              remoteFingerprint_ = input.readMessage(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(remoteFingerprint_);
                 remoteFingerprint_ = subBuilder.buildPartial();
@@ -628,28 +576,28 @@ public final class FingerprintProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_CombinedFingerprint_descriptor;
+      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprints_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_CombinedFingerprint_fieldAccessorTable
+      return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprints_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.Builder.class);
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<CombinedFingerprint> PARSER =
-        new com.google.protobuf.AbstractParser<CombinedFingerprint>() {
-      public CombinedFingerprint parsePartialFrom(
+    public static com.google.protobuf.Parser<LogicalFingerprints> PARSER =
+        new com.google.protobuf.AbstractParser<LogicalFingerprints>() {
+      public LogicalFingerprints parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CombinedFingerprint(input, extensionRegistry);
+        return new LogicalFingerprints(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CombinedFingerprint> getParserForType() {
+    public com.google.protobuf.Parser<LogicalFingerprints> getParserForType() {
       return PARSER;
     }
 
@@ -670,54 +618,54 @@ public final class FingerprintProtos {
       return version_;
     }
 
-    // optional .textsecure.FingerprintData localFingerprint = 2;
+    // optional .textsecure.LogicalFingerprint localFingerprint = 2;
     public static final int LOCALFINGERPRINT_FIELD_NUMBER = 2;
-    private org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData localFingerprint_;
+    private org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint localFingerprint_;
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
     public boolean hasLocalFingerprint() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
-    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getLocalFingerprint() {
+    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getLocalFingerprint() {
       return localFingerprint_;
     }
     /**
-     * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+     * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
      */
-    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getLocalFingerprintOrBuilder() {
+    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getLocalFingerprintOrBuilder() {
       return localFingerprint_;
     }
 
-    // optional .textsecure.FingerprintData remoteFingerprint = 3;
+    // optional .textsecure.LogicalFingerprint remoteFingerprint = 3;
     public static final int REMOTEFINGERPRINT_FIELD_NUMBER = 3;
-    private org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData remoteFingerprint_;
+    private org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint remoteFingerprint_;
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
     public boolean hasRemoteFingerprint() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
-    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getRemoteFingerprint() {
+    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getRemoteFingerprint() {
       return remoteFingerprint_;
     }
     /**
-     * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+     * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
      */
-    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getRemoteFingerprintOrBuilder() {
+    public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getRemoteFingerprintOrBuilder() {
       return remoteFingerprint_;
     }
 
     private void initFields() {
       version_ = 0;
-      localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
-      remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+      localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
+      remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -773,53 +721,53 @@ public final class FingerprintProtos {
       return super.writeReplace();
     }
 
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(byte[] data)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseDelimitedFrom(java.io.InputStream input)
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseDelimitedFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parseFrom(
+    public static org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -828,7 +776,7 @@ public final class FingerprintProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint prototype) {
+    public static Builder newBuilder(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -840,24 +788,24 @@ public final class FingerprintProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code textsecure.CombinedFingerprint}
+     * Protobuf type {@code textsecure.LogicalFingerprints}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprintOrBuilder {
+       implements org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_CombinedFingerprint_descriptor;
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprints_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_CombinedFingerprint_fieldAccessorTable
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprints_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.Builder.class);
+                org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.class, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.Builder.class);
       }
 
-      // Construct using org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.newBuilder()
+      // Construct using org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -882,13 +830,13 @@ public final class FingerprintProtos {
         version_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         if (localFingerprintBuilder_ == null) {
-          localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+          localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
         } else {
           localFingerprintBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
         if (remoteFingerprintBuilder_ == null) {
-          remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+          remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
         } else {
           remoteFingerprintBuilder_.clear();
         }
@@ -902,23 +850,23 @@ public final class FingerprintProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_CombinedFingerprint_descriptor;
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.internal_static_textsecure_LogicalFingerprints_descriptor;
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint getDefaultInstanceForType() {
-        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.getDefaultInstance();
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints getDefaultInstanceForType() {
+        return org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.getDefaultInstance();
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint build() {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint result = buildPartial();
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints build() {
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint buildPartial() {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint result = new org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint(this);
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints buildPartial() {
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints result = new org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -947,16 +895,16 @@ public final class FingerprintProtos {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint) {
-          return mergeFrom((org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint)other);
+        if (other instanceof org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints) {
+          return mergeFrom((org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint other) {
-        if (other == org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint.getDefaultInstance()) return this;
+      public Builder mergeFrom(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints other) {
+        if (other == org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints.getDefaultInstance()) return this;
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
@@ -978,11 +926,11 @@ public final class FingerprintProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint parsedMessage = null;
+        org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint) e.getUnfinishedMessage();
+          parsedMessage = (org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1026,20 +974,20 @@ public final class FingerprintProtos {
         return this;
       }
 
-      // optional .textsecure.FingerprintData localFingerprint = 2;
-      private org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+      // optional .textsecure.LogicalFingerprint localFingerprint = 2;
+      private org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder> localFingerprintBuilder_;
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder> localFingerprintBuilder_;
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
       public boolean hasLocalFingerprint() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getLocalFingerprint() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getLocalFingerprint() {
         if (localFingerprintBuilder_ == null) {
           return localFingerprint_;
         } else {
@@ -1047,9 +995,9 @@ public final class FingerprintProtos {
         }
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
-      public Builder setLocalFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData value) {
+      public Builder setLocalFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint value) {
         if (localFingerprintBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1063,10 +1011,10 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
       public Builder setLocalFingerprint(
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder builderForValue) {
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder builderForValue) {
         if (localFingerprintBuilder_ == null) {
           localFingerprint_ = builderForValue.build();
           onChanged();
@@ -1077,14 +1025,14 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
-      public Builder mergeLocalFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData value) {
+      public Builder mergeLocalFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint value) {
         if (localFingerprintBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              localFingerprint_ != org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance()) {
+              localFingerprint_ != org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance()) {
             localFingerprint_ =
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.newBuilder(localFingerprint_).mergeFrom(value).buildPartial();
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.newBuilder(localFingerprint_).mergeFrom(value).buildPartial();
           } else {
             localFingerprint_ = value;
           }
@@ -1096,11 +1044,11 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
       public Builder clearLocalFingerprint() {
         if (localFingerprintBuilder_ == null) {
-          localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+          localFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
           onChanged();
         } else {
           localFingerprintBuilder_.clear();
@@ -1109,17 +1057,17 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder getLocalFingerprintBuilder() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder getLocalFingerprintBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
         return getLocalFingerprintFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getLocalFingerprintOrBuilder() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getLocalFingerprintOrBuilder() {
         if (localFingerprintBuilder_ != null) {
           return localFingerprintBuilder_.getMessageOrBuilder();
         } else {
@@ -1127,14 +1075,14 @@ public final class FingerprintProtos {
         }
       }
       /**
-       * <code>optional .textsecure.FingerprintData localFingerprint = 2;</code>
+       * <code>optional .textsecure.LogicalFingerprint localFingerprint = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder> 
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder> 
           getLocalFingerprintFieldBuilder() {
         if (localFingerprintBuilder_ == null) {
           localFingerprintBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder>(
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder>(
                   localFingerprint_,
                   getParentForChildren(),
                   isClean());
@@ -1143,20 +1091,20 @@ public final class FingerprintProtos {
         return localFingerprintBuilder_;
       }
 
-      // optional .textsecure.FingerprintData remoteFingerprint = 3;
-      private org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+      // optional .textsecure.LogicalFingerprint remoteFingerprint = 3;
+      private org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder> remoteFingerprintBuilder_;
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder> remoteFingerprintBuilder_;
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
       public boolean hasRemoteFingerprint() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData getRemoteFingerprint() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint getRemoteFingerprint() {
         if (remoteFingerprintBuilder_ == null) {
           return remoteFingerprint_;
         } else {
@@ -1164,9 +1112,9 @@ public final class FingerprintProtos {
         }
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
-      public Builder setRemoteFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData value) {
+      public Builder setRemoteFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint value) {
         if (remoteFingerprintBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1180,10 +1128,10 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
       public Builder setRemoteFingerprint(
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder builderForValue) {
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder builderForValue) {
         if (remoteFingerprintBuilder_ == null) {
           remoteFingerprint_ = builderForValue.build();
           onChanged();
@@ -1194,14 +1142,14 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
-      public Builder mergeRemoteFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData value) {
+      public Builder mergeRemoteFingerprint(org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint value) {
         if (remoteFingerprintBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004) &&
-              remoteFingerprint_ != org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance()) {
+              remoteFingerprint_ != org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance()) {
             remoteFingerprint_ =
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.newBuilder(remoteFingerprint_).mergeFrom(value).buildPartial();
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.newBuilder(remoteFingerprint_).mergeFrom(value).buildPartial();
           } else {
             remoteFingerprint_ = value;
           }
@@ -1213,11 +1161,11 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
       public Builder clearRemoteFingerprint() {
         if (remoteFingerprintBuilder_ == null) {
-          remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.getDefaultInstance();
+          remoteFingerprint_ = org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.getDefaultInstance();
           onChanged();
         } else {
           remoteFingerprintBuilder_.clear();
@@ -1226,17 +1174,17 @@ public final class FingerprintProtos {
         return this;
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder getRemoteFingerprintBuilder() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder getRemoteFingerprintBuilder() {
         bitField0_ |= 0x00000004;
         onChanged();
         return getRemoteFingerprintFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
-      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder getRemoteFingerprintOrBuilder() {
+      public org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder getRemoteFingerprintOrBuilder() {
         if (remoteFingerprintBuilder_ != null) {
           return remoteFingerprintBuilder_.getMessageOrBuilder();
         } else {
@@ -1244,14 +1192,14 @@ public final class FingerprintProtos {
         }
       }
       /**
-       * <code>optional .textsecure.FingerprintData remoteFingerprint = 3;</code>
+       * <code>optional .textsecure.LogicalFingerprint remoteFingerprint = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder> 
+          org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder> 
           getRemoteFingerprintFieldBuilder() {
         if (remoteFingerprintBuilder_ == null) {
           remoteFingerprintBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintDataOrBuilder>(
+              org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint.Builder, org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprintOrBuilder>(
                   remoteFingerprint_,
                   getParentForChildren(),
                   isClean());
@@ -1260,27 +1208,27 @@ public final class FingerprintProtos {
         return remoteFingerprintBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:textsecure.CombinedFingerprint)
+      // @@protoc_insertion_point(builder_scope:textsecure.LogicalFingerprints)
     }
 
     static {
-      defaultInstance = new CombinedFingerprint(true);
+      defaultInstance = new LogicalFingerprints(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:textsecure.CombinedFingerprint)
+    // @@protoc_insertion_point(class_scope:textsecure.LogicalFingerprints)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_FingerprintData_descriptor;
+    internal_static_textsecure_LogicalFingerprint_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_FingerprintData_fieldAccessorTable;
+      internal_static_textsecure_LogicalFingerprint_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_textsecure_CombinedFingerprint_descriptor;
+    internal_static_textsecure_LogicalFingerprints_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_textsecure_CombinedFingerprint_fieldAccessorTable;
+      internal_static_textsecure_LogicalFingerprints_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1291,30 +1239,30 @@ public final class FingerprintProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\031FingerprintProtocol.proto\022\ntextsecure\"" +
-      "8\n\017FingerprintData\022\021\n\tpublicKey\030\001 \001(\014\022\022\n" +
-      "\nidentifier\030\002 \001(\014\"\225\001\n\023CombinedFingerprin" +
-      "t\022\017\n\007version\030\001 \001(\r\0225\n\020localFingerprint\030\002" +
-      " \001(\0132\033.textsecure.FingerprintData\0226\n\021rem" +
-      "oteFingerprint\030\003 \001(\0132\033.textsecure.Finger" +
-      "printDataB=\n(org.whispersystems.libsigna" +
-      "l.fingerprintB\021FingerprintProtos"
+      "\"\n\022LogicalFingerprint\022\014\n\004data\030\001 \001(\014\"\233\001\n\023" +
+      "LogicalFingerprints\022\017\n\007version\030\001 \001(\r\0228\n\020" +
+      "localFingerprint\030\002 \001(\0132\036.textsecure.Logi" +
+      "calFingerprint\0229\n\021remoteFingerprint\030\003 \001(" +
+      "\0132\036.textsecure.LogicalFingerprintB=\n(org" +
+      ".whispersystems.libsignal.fingerprintB\021F" +
+      "ingerprintProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_textsecure_FingerprintData_descriptor =
+          internal_static_textsecure_LogicalFingerprint_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_textsecure_FingerprintData_fieldAccessorTable = new
+          internal_static_textsecure_LogicalFingerprint_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_FingerprintData_descriptor,
-              new java.lang.String[] { "PublicKey", "Identifier", });
-          internal_static_textsecure_CombinedFingerprint_descriptor =
+              internal_static_textsecure_LogicalFingerprint_descriptor,
+              new java.lang.String[] { "Data", });
+          internal_static_textsecure_LogicalFingerprints_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_textsecure_CombinedFingerprint_fieldAccessorTable = new
+          internal_static_textsecure_LogicalFingerprints_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_textsecure_CombinedFingerprint_descriptor,
+              internal_static_textsecure_LogicalFingerprints_descriptor,
               new java.lang.String[] { "Version", "LocalFingerprint", "RemoteFingerprint", });
           return null;
         }

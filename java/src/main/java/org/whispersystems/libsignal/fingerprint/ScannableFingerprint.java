@@ -8,49 +8,40 @@ package org.whispersystems.libsignal.fingerprint;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import org.whispersystems.libsignal.IdentityKey;
-import org.whispersystems.libsignal.fingerprint.FingerprintProtos.CombinedFingerprint;
-import org.whispersystems.libsignal.fingerprint.FingerprintProtos.FingerprintData;
+import org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprint;
+import org.whispersystems.libsignal.fingerprint.FingerprintProtos.LogicalFingerprints;
+import org.whispersystems.libsignal.util.ByteUtil;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
-public class ScannableFingerprint extends BaseFingerprintType {
+public class ScannableFingerprint {
 
-  private static final int VERSION = 0;
+  private static final int VERSION = 1;
 
-  private final CombinedFingerprint combinedFingerprint;
+  private final LogicalFingerprints fingerprints;
 
-  ScannableFingerprint(String localStableIdentifier, IdentityKey localIdentityKey,
-                       String remoteStableIdentifier, IdentityKey remoteIdentityKey)
+  ScannableFingerprint(byte[] localFingerprintData, byte[] remoteFingerprintData)
   {
-    this.combinedFingerprint = initializeCombinedFingerprint(localStableIdentifier, localIdentityKey.serialize(),
-                                                             remoteStableIdentifier, remoteIdentityKey.serialize());
-  }
+    LogicalFingerprint localFingerprint = LogicalFingerprint.newBuilder()
+                                                            .setData(ByteString.copyFrom(ByteUtil.trim(localFingerprintData, 32)))
+                                                            .build();
 
-  ScannableFingerprint(String localStableIdentifier, List<IdentityKey> localIdentityKeys,
-                       String remoteStableIdentifier, List<IdentityKey> remoteIdentityKeys)
-  {
-    try {
-      MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+    LogicalFingerprint remoteFingerprint = LogicalFingerprint.newBuilder()
+                                                             .setData(ByteString.copyFrom(ByteUtil.trim(remoteFingerprintData, 32)))
+                                                             .build();
 
-      byte[] localIdentityLogicalKey  = messageDigest.digest(getLogicalKeyBytes(localIdentityKeys));
-      byte[] remoteIdentityLogicalKey = messageDigest.digest(getLogicalKeyBytes(remoteIdentityKeys));
-
-
-      this.combinedFingerprint = initializeCombinedFingerprint(localStableIdentifier, localIdentityLogicalKey,
-                                                               remoteStableIdentifier, remoteIdentityLogicalKey);
-    } catch (NoSuchAlgorithmException e) {
-      throw new AssertionError(e);
-    }
+    this.fingerprints = LogicalFingerprints.newBuilder()
+                                           .setVersion(VERSION)
+                                           .setLocalFingerprint(localFingerprint)
+                                           .setRemoteFingerprint(remoteFingerprint)
+                                           .build();
   }
 
   /**
    * @return A byte string to be displayed in a QR code.
    */
   public byte[] getSerialized() {
-    return combinedFingerprint.toByteArray();
+    return fingerprints.toByteArray();
   }
 
   /**
@@ -59,49 +50,24 @@ public class ScannableFingerprint extends BaseFingerprintType {
    * @param scannedFingerprintData The scanned data
    * @return True if matching, otehrwise false.
    * @throws FingerprintVersionMismatchException if the scanned fingerprint is the wrong version.
-   * @throws FingerprintIdentifierMismatchException if the scanned fingerprint is for the wrong stable identifier.
    */
   public boolean compareTo(byte[] scannedFingerprintData)
       throws FingerprintVersionMismatchException,
-             FingerprintIdentifierMismatchException,
              FingerprintParsingException
   {
     try {
-      CombinedFingerprint scannedFingerprint = CombinedFingerprint.parseFrom(scannedFingerprintData);
+      LogicalFingerprints scanned = LogicalFingerprints.parseFrom(scannedFingerprintData);
 
-      if (!scannedFingerprint.hasRemoteFingerprint() || !scannedFingerprint.hasLocalFingerprint() ||
-          !scannedFingerprint.hasVersion() || scannedFingerprint.getVersion() != combinedFingerprint.getVersion())
+      if (!scanned.hasRemoteFingerprint() || !scanned.hasLocalFingerprint() ||
+          !scanned.hasVersion() || scanned.getVersion() != VERSION)
       {
-        throw new FingerprintVersionMismatchException();
+        throw new FingerprintVersionMismatchException(scanned.getVersion(), VERSION);
       }
 
-      if (!combinedFingerprint.getLocalFingerprint().getIdentifier().equals(scannedFingerprint.getRemoteFingerprint().getIdentifier()) ||
-          !combinedFingerprint.getRemoteFingerprint().getIdentifier().equals(scannedFingerprint.getLocalFingerprint().getIdentifier()))
-      {
-        throw new FingerprintIdentifierMismatchException(new String(combinedFingerprint.getLocalFingerprint().getIdentifier().toByteArray()),
-                                                         new String(combinedFingerprint.getRemoteFingerprint().getIdentifier().toByteArray()),
-                                                         new String(scannedFingerprint.getLocalFingerprint().getIdentifier().toByteArray()),
-                                                         new String(scannedFingerprint.getRemoteFingerprint().getIdentifier().toByteArray()));
-      }
-
-      return MessageDigest.isEqual(combinedFingerprint.getLocalFingerprint().toByteArray(), scannedFingerprint.getRemoteFingerprint().toByteArray()) &&
-             MessageDigest.isEqual(combinedFingerprint.getRemoteFingerprint().toByteArray(), scannedFingerprint.getLocalFingerprint().toByteArray());
+      return MessageDigest.isEqual(fingerprints.getLocalFingerprint().getData().toByteArray(), scanned.getRemoteFingerprint().getData().toByteArray()) &&
+             MessageDigest.isEqual(fingerprints.getRemoteFingerprint().getData().toByteArray(), scanned.getLocalFingerprint().getData().toByteArray());
     } catch (InvalidProtocolBufferException e) {
       throw new FingerprintParsingException(e);
     }
-  }
-
-  private CombinedFingerprint initializeCombinedFingerprint(String localStableIdentifier, byte[] localIdentityKeyBytes,
-                                                            String remoteStableIdentifier, byte[] remoteIdentityKeyBytes)
-  {
-    return CombinedFingerprint.newBuilder()
-                              .setVersion(VERSION)
-                              .setLocalFingerprint(FingerprintData.newBuilder()
-                                                                  .setIdentifier(ByteString.copyFrom(localStableIdentifier.getBytes()))
-                                                                  .setPublicKey(ByteString.copyFrom(localIdentityKeyBytes)))
-                              .setRemoteFingerprint(FingerprintData.newBuilder()
-                                                                   .setIdentifier(ByteString.copyFrom(remoteStableIdentifier.getBytes()))
-                                                                   .setPublicKey(ByteString.copyFrom(remoteIdentityKeyBytes)))
-                              .build();
   }
 }

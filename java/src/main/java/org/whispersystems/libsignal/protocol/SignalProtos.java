@@ -711,7 +711,7 @@ public final class SignalProtos {
      * <code>optional bytes message = 4;</code>
      *
      * <pre>
-     * WhisperMessage
+     * SignalMessage
      * </pre>
      */
     boolean hasMessage();
@@ -719,7 +719,7 @@ public final class SignalProtos {
      * <code>optional bytes message = 4;</code>
      *
      * <pre>
-     * WhisperMessage
+     * SignalMessage
      * </pre>
      */
     com.google.protobuf.ByteString getMessage();
@@ -932,7 +932,7 @@ public final class SignalProtos {
      * <code>optional bytes message = 4;</code>
      *
      * <pre>
-     * WhisperMessage
+     * SignalMessage
      * </pre>
      */
     public boolean hasMessage() {
@@ -942,7 +942,7 @@ public final class SignalProtos {
      * <code>optional bytes message = 4;</code>
      *
      * <pre>
-     * WhisperMessage
+     * SignalMessage
      * </pre>
      */
     public com.google.protobuf.ByteString getMessage() {
@@ -1438,7 +1438,7 @@ public final class SignalProtos {
        * <code>optional bytes message = 4;</code>
        *
        * <pre>
-       * WhisperMessage
+       * SignalMessage
        * </pre>
        */
       public boolean hasMessage() {
@@ -1448,7 +1448,7 @@ public final class SignalProtos {
        * <code>optional bytes message = 4;</code>
        *
        * <pre>
-       * WhisperMessage
+       * SignalMessage
        * </pre>
        */
       public com.google.protobuf.ByteString getMessage() {
@@ -1458,7 +1458,7 @@ public final class SignalProtos {
        * <code>optional bytes message = 4;</code>
        *
        * <pre>
-       * WhisperMessage
+       * SignalMessage
        * </pre>
        */
       public Builder setMessage(com.google.protobuf.ByteString value) {
@@ -1474,7 +1474,7 @@ public final class SignalProtos {
        * <code>optional bytes message = 4;</code>
        *
        * <pre>
-       * WhisperMessage
+       * SignalMessage
        * </pre>
        */
       public Builder clearMessage() {
