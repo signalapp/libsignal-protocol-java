@@ -48,7 +48,7 @@ public class ScannableFingerprint {
    * Compare a scanned QR code with what we expect.
    *
    * @param scannedFingerprintData The scanned data
-   * @return True if matching, otehrwise false.
+   * @return True if matching, otherwise false.
    * @throws FingerprintVersionMismatchException if the scanned fingerprint is the wrong version.
    */
   public boolean compareTo(byte[] scannedFingerprintData)

@@ -41,7 +41,7 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
   }
 
   /**
-   * Generate a scannable and displayble fingerprint.
+   * Generate a scannable and displayable fingerprint.
    *
    * @param localStableIdentifier The client's "stable" identifier.
    * @param localIdentityKey The client's identity key.
@@ -64,7 +64,7 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
   }
 
   /**
-   * Generate a scannable and displayble fingerprint for logical identities that have multiple
+   * Generate a scannable and displayable fingerprint for logical identities that have multiple
    * physical keys.
    *
    * Do not trust the output of this unless you've been through the device consistency process
