@@ -7,10 +7,12 @@ package org.whispersystems.libsignal.groups;
 
 import org.whispersystems.libsignal.DecryptionCallback;
 import org.whispersystems.libsignal.DuplicateMessageException;
+import org.whispersystems.libsignal.InvalidKeyException;
 import org.whispersystems.libsignal.InvalidKeyIdException;
 import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.libsignal.LegacyMessageException;
 import org.whispersystems.libsignal.NoSessionException;
+import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.groups.ratchet.SenderChainKey;
 import org.whispersystems.libsignal.groups.ratchet.SenderMessageKey;
 import org.whispersystems.libsignal.groups.state.SenderKeyRecord;
@@ -56,19 +58,25 @@ public class GroupCipher {
    * @param paddedPlaintext The plaintext message bytes, optionally padded.
    * @return Ciphertext.
    * @throws NoSessionException
+   * @throws InvalidKeyException
    */
-  public byte[] encrypt(byte[] paddedPlaintext) throws NoSessionException {
+  public byte[] encrypt(byte[] paddedPlaintext) throws NoSessionException, InvalidKeyException {
     synchronized (LOCK) {
       try {
         SenderKeyRecord  record         = senderKeyStore.loadSenderKey(senderKeyId);
         SenderKeyState   senderKeyState = record.getSenderKeyState();
         SenderMessageKey senderKey      = senderKeyState.getSenderChainKey().getSenderMessageKey();
+        ECPrivateKey     signatureKey   = senderKeyState.getSigningKeyPrivate();
         byte[]           ciphertext     = getCipherText(senderKey.getIv(), senderKey.getCipherKey(), paddedPlaintext);
+
+        if (signatureKey == null) {
+          throw new InvalidKeyException("Session missing signature key!");
+        }
 
         SenderKeyMessage senderKeyMessage = new SenderKeyMessage(senderKeyState.getKeyId(),
                                                                  senderKey.getIteration(),
                                                                  ciphertext,
-                                                                 senderKeyState.getSigningKeyPrivate());
+                                                                 signatureKey);
 
         senderKeyState.setSenderChainKey(senderKeyState.getSenderChainKey().getNext());
 

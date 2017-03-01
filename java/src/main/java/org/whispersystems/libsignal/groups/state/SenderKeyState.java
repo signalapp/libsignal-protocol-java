@@ -98,8 +98,13 @@ public class SenderKeyState {
   }
 
   public ECPrivateKey getSigningKeyPrivate() {
-    return Curve.decodePrivatePoint(senderKeyStateStructure.getSenderSigningKey()
-                                                           .getPrivate().toByteArray());
+    if (senderKeyStateStructure.hasSenderSigningKey() &&
+        senderKeyStateStructure.getSenderSigningKey().hasPrivate()) {
+      return Curve.decodePrivatePoint(senderKeyStateStructure.getSenderSigningKey()
+                                                             .getPrivate().toByteArray());
+    } else {
+      return null;
+    }
   }
 
   public boolean hasSenderMessageKey(int iteration) {
