@@ -18,7 +18,7 @@ group            = group_info
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "25.0.2"
 
     sourceSets {
         androidTest {
@@ -101,4 +101,3 @@ task installArchives(type: Upload) {
         }
     }
 }
-
