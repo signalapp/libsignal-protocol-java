@@ -74,6 +74,9 @@ public class SessionRecord {
     return previousStates;
   }
 
+  public void removePreviousSessionStates() {
+    previousStates.clear();
+  }
 
   public boolean isFresh() {
     return fresh;
