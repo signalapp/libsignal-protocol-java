@@ -93,17 +93,6 @@ public class KeyHelper {
   }
 
   /**
-   * Generate the last resort PreKey.  Clients should do this only once, at install
-   * time, and durably store it for the length of the install.
-   *
-   * @return the generated last resort PreKeyRecord.
-   */
-  public static PreKeyRecord generateLastResortPreKey() {
-    ECKeyPair keyPair = Curve.generateKeyPair();
-    return new PreKeyRecord(Medium.MAX_VALUE, keyPair);
-  }
-
-  /**
    * Generate a signed PreKey
    *
    * @param identityKeyPair The local client's identity key pair.

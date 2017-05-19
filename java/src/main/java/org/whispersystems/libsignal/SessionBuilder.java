@@ -146,7 +146,7 @@ public class SessionBuilder {
     sessionRecord.getSessionState().setRemoteRegistrationId(message.getRegistrationId());
     sessionRecord.getSessionState().setAliceBaseKey(message.getBaseKey().serialize());
 
-    if (message.getPreKeyId().isPresent() && message.getPreKeyId().get() != Medium.MAX_VALUE) {
+    if (message.getPreKeyId().isPresent()) {
       return message.getPreKeyId();
     } else {
       return Optional.absent();
