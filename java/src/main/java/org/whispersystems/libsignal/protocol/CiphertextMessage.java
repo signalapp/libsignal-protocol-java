@@ -7,7 +7,6 @@ package org.whispersystems.libsignal.protocol;
 
 public interface CiphertextMessage {
 
-  public static final int UNSUPPORTED_VERSION = 1;
   public static final int CURRENT_VERSION     = 3;
 
   public static final int WHISPER_TYPE                = 2;

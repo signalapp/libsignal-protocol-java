@@ -99,7 +99,7 @@ public class SessionCipher {
       int           previousCounter = sessionState.getPreviousCounter();
       int           sessionVersion  = sessionState.getSessionVersion();
 
-      byte[]            ciphertextBody    = getCiphertext(sessionVersion, messageKeys, paddedMessage);
+      byte[]            ciphertextBody    = getCiphertext(messageKeys, paddedMessage);
       CiphertextMessage ciphertextMessage = new SignalMessage(sessionVersion, messageKeys.getMacKey(),
                                                               senderEphemeral, chainKey.getIndex(),
                                                               previousCounter, ciphertextBody,
@@ -309,19 +309,17 @@ public class SessionCipher {
                                                       sessionState.getSessionVersion()));
     }
 
-    int            messageVersion    = ciphertextMessage.getMessageVersion();
     ECPublicKey    theirEphemeral    = ciphertextMessage.getSenderRatchetKey();
     int            counter           = ciphertextMessage.getCounter();
     ChainKey       chainKey          = getOrCreateChainKey(sessionState, theirEphemeral);
     MessageKeys    messageKeys       = getOrCreateMessageKeys(sessionState, theirEphemeral,
                                                               chainKey, counter);
 
-    ciphertextMessage.verifyMac(messageVersion,
-                                sessionState.getRemoteIdentityKey(),
+    ciphertextMessage.verifyMac(sessionState.getRemoteIdentityKey(),
                                 sessionState.getLocalIdentityKey(),
                                 messageKeys.getMacKey());
 
-    byte[] plaintext = getPlaintext(messageVersion, messageKeys, ciphertextMessage.getBody());
+    byte[] plaintext = getPlaintext(messageKeys, ciphertextMessage.getBody());
 
     sessionState.clearUnacknowledgedPreKeyMessage();
 
@@ -399,55 +397,23 @@ public class SessionCipher {
     return chainKey.getMessageKeys();
   }
 
-  private byte[] getCiphertext(int version, MessageKeys messageKeys, byte[] plaintext) {
+  private byte[] getCiphertext(MessageKeys messageKeys, byte[] plaintext) {
     try {
-      Cipher cipher;
-
-      if (version >= 3) {
-        cipher = getCipher(Cipher.ENCRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
-      } else {
-        cipher = getCipher(Cipher.ENCRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getCounter());
-      }
-
+      Cipher cipher = getCipher(Cipher.ENCRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
       return cipher.doFinal(plaintext);
     } catch (IllegalBlockSizeException | BadPaddingException e) {
       throw new AssertionError(e);
     }
   }
 
-  private byte[] getPlaintext(int version, MessageKeys messageKeys, byte[] cipherText)
+  private byte[] getPlaintext(MessageKeys messageKeys, byte[] cipherText)
       throws InvalidMessageException
   {
     try {
-      Cipher cipher;
-
-      if (version >= 3) {
-        cipher = getCipher(Cipher.DECRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
-      } else {
-        cipher = getCipher(Cipher.DECRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getCounter());
-      }
-
+      Cipher cipher = getCipher(Cipher.DECRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
       return cipher.doFinal(cipherText);
     } catch (IllegalBlockSizeException | BadPaddingException e) {
       throw new InvalidMessageException(e);
-    }
-  }
-
-  private Cipher getCipher(int mode, SecretKeySpec key, int counter)  {
-    try {
-      Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
-
-      byte[] ivBytes = new byte[16];
-      ByteUtil.intToByteArray(ivBytes, 0, counter);
-
-      IvParameterSpec iv = new IvParameterSpec(ivBytes);
-      cipher.init(mode, key, iv);
-
-      return cipher;
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | java.security.InvalidKeyException |
-             InvalidAlgorithmParameterException e)
-    {
-      throw new AssertionError(e);
     }
   }
 
