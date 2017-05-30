@@ -106,9 +106,7 @@ public class SessionBuilder {
 
     Optional<Integer> unsignedPreKeyId = processV3(sessionRecord, message);
 
-    if (identityKeyStore.saveIdentity(remoteAddress, theirIdentityKey)) {
-      sessionRecord.removePreviousSessionStates();
-    }
+    identityKeyStore.saveIdentity(remoteAddress, theirIdentityKey);
 
     return unsignedPreKeyId;
   }
@@ -207,10 +205,7 @@ public class SessionBuilder {
       sessionRecord.getSessionState().setRemoteRegistrationId(preKey.getRegistrationId());
       sessionRecord.getSessionState().setAliceBaseKey(ourBaseKey.getPublicKey().serialize());
 
-      if (identityKeyStore.saveIdentity(remoteAddress, preKey.getIdentityKey())) {
-        sessionRecord.removePreviousSessionStates();
-      }
-
+      identityKeyStore.saveIdentity(remoteAddress, preKey.getIdentityKey());
       sessionStore.storeSession(remoteAddress, sessionRecord);
     }
   }

@@ -45,9 +45,8 @@ public interface IdentityKeyStore {
    * @param address     The address of the remote client.
    * @param identityKey The remote client's identity key.
    *
-   * @return True if the identity key replaces a previous identity, false if not
    */
-  public boolean         saveIdentity(SignalProtocolAddress address, IdentityKey identityKey);
+  public void         saveIdentity(SignalProtocolAddress address, IdentityKey identityKey);
 
 
   /**

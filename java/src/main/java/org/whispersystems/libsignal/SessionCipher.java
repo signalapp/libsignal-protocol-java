@@ -122,10 +122,7 @@ public class SessionCipher {
         throw new UntrustedIdentityException(remoteAddress.getName(), sessionState.getRemoteIdentityKey());
       }
 
-      if (identityKeyStore.saveIdentity(remoteAddress, sessionState.getRemoteIdentityKey())) {
-        sessionRecord.removePreviousSessionStates();
-      }
-
+      identityKeyStore.saveIdentity(remoteAddress, sessionState.getRemoteIdentityKey());
       sessionStore.storeSession(remoteAddress, sessionRecord);
       return ciphertextMessage;
     }
@@ -249,9 +246,7 @@ public class SessionCipher {
         throw new UntrustedIdentityException(remoteAddress.getName(), sessionRecord.getSessionState().getRemoteIdentityKey());
       }
 
-      if (identityKeyStore.saveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey())) {
-        sessionRecord.removePreviousSessionStates();
-      }
+      identityKeyStore.saveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey());
 
       callback.handlePlaintext(plaintext);
 
