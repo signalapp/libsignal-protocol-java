@@ -36,11 +36,14 @@ public class InMemoryIdentityKeyStore implements IdentityKeyStore {
   }
 
   @Override
-  public void saveIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
+  public boolean saveIdentity(SignalProtocolAddress address, IdentityKey identityKey) {
     IdentityKey existing = trustedKeys.get(address);
 
     if (!identityKey.equals(existing)) {
       trustedKeys.put(address, identityKey);
+      return true;
+    } else {
+      return false;
     }
   }
 
