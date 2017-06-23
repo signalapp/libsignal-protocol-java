@@ -48,7 +48,7 @@ public class DeviceConsistencyCodeGenerator {
   private static class SignatureComparator extends ByteArrayComparator implements Comparator<DeviceConsistencySignature> {
     @Override
     public int compare(DeviceConsistencySignature first, DeviceConsistencySignature second) {
-      return compare(first.getSignature(), second.getSignature());
+      return compare(first.getVrfOutput(), second.getVrfOutput());
     }
   }
 }
