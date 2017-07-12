@@ -133,4 +133,48 @@ public class Curve25519Test extends TestCase {
       }
     }
   }
+
+  public void testDecodeSize() throws InvalidKeyException {
+    ECKeyPair keyPair          = Curve.generateKeyPair();
+    byte[]    serializedPublic = keyPair.getPublicKey().serialize();
+
+    ECPublicKey justRight = Curve.decodePoint(serializedPublic, 0);
+
+    try {
+      ECPublicKey tooSmall = Curve.decodePoint(serializedPublic, 1);
+      throw new AssertionError("Shouldn't decode");
+    } catch (InvalidKeyException e) {
+      // good
+    }
+
+    try {
+      ECPublicKey empty = Curve.decodePoint(new byte[0], 0);
+      throw new AssertionError("Shouldn't parse");
+    } catch (InvalidKeyException e) {
+      // good
+    }
+
+    try {
+      byte[] badKeyType = new byte[33];
+      System.arraycopy(serializedPublic, 0, badKeyType, 0, serializedPublic.length);
+      badKeyType[0] = 0x01;
+      Curve.decodePoint(badKeyType, 0);
+      throw new AssertionError("Should be bad key type");
+    } catch (InvalidKeyException e) {
+      // good
+    }
+
+    byte[] extraSpace = new byte[serializedPublic.length + 1];
+    System.arraycopy(serializedPublic, 0, extraSpace, 0, serializedPublic.length);
+    ECPublicKey extra = Curve.decodePoint(extraSpace, 0);
+
+    byte[] offsetSpace = new byte[serializedPublic.length + 1];
+    System.arraycopy(serializedPublic, 0, offsetSpace, 1, serializedPublic.length);
+    ECPublicKey offset = Curve.decodePoint(offsetSpace, 1);
+
+    assertTrue(Arrays.equals(serializedPublic, justRight.serialize()));
+    assertTrue(Arrays.equals(extra.serialize(), serializedPublic));
+    assertTrue(Arrays.equals(offset.serialize(), serializedPublic));
+
+  }
 }
