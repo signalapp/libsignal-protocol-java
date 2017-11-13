@@ -42,6 +42,7 @@ signing {
     sign configurations.archives
 }
 
+if(project.hasProperty('sonatypeRepo')) {
 uploadArchives {
     configuration = configurations.archives
     repositories.mavenDeployer {
@@ -78,6 +79,7 @@ uploadArchives {
             }
         }
     }
+}
 }
 
 task installArchives(type: Upload) {
