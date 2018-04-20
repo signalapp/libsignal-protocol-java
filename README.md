@@ -64,6 +64,7 @@ For pure Java apps:
 At install time, a libsignal client needs to generate its identity keys, registration id, and
 prekeys.
 
+    ```java
     IdentityKeyPair    identityKeyPair = KeyHelper.generateIdentityKeyPair();
     int                registrationId  = KeyHelper.generateRegistrationId();
     List<PreKeyRecord> preKeys         = KeyHelper.generatePreKeys(startId, 100);
@@ -74,7 +75,8 @@ prekeys.
 
     // Store preKeys in PreKeyStore.
     // Store signed prekey in SignedPreKeyStore.
-
+    ```
+    
 ## Building a session
 
 A libsignal client needs to implement four interfaces: IdentityKeyStore, PreKeyStore,
@@ -83,6 +85,7 @@ prekeys, signed prekeys, and session state.
 
 Once those are implemented, building a session is fairly straightforward:
 
+    ```java
     SessionStore      sessionStore      = new MySessionStore();
     PreKeyStore       preKeyStore       = new MyPreKeyStore();
     SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
@@ -99,7 +102,8 @@ Once those are implemented, building a session is fairly straightforward:
     CiphertextMessage message      = sessionCipher.encrypt("Hello world!".getBytes("UTF-8"));
 
     deliver(message.serialize());
-
+    ```
+    
 # Legal things
 ## Cryptography Notice
 
