@@ -70,4 +70,13 @@ public interface IdentityKeyStore {
    */
   public boolean         isTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction);
 
+
+  /**
+   * Return the saved public identity key for a remote client
+   *
+   * @param address The address of the remote client
+   * @return The public identity key, or null if absent
+   */
+  public IdentityKey getIdentity(SignalProtocolAddress address);
+
 }

@@ -30,7 +30,7 @@ public class Curve {
   public static ECPublicKey decodePoint(byte[] bytes, int offset)
       throws InvalidKeyException
   {
-    if (bytes.length - offset < 1) {
+    if (bytes == null || bytes.length - offset < 1) {
       throw new InvalidKeyException("No key type identifier");
     }
 
@@ -57,6 +57,14 @@ public class Curve {
   public static byte[] calculateAgreement(ECPublicKey publicKey, ECPrivateKey privateKey)
       throws InvalidKeyException
   {
+    if (publicKey == null) {
+      throw new InvalidKeyException("public value is null");
+    }
+
+    if (privateKey == null) {
+      throw new InvalidKeyException("private value is null");
+    }
+
     if (publicKey.getType() != privateKey.getType()) {
       throw new InvalidKeyException("Public and private keys must be of the same type!");
     }
@@ -73,6 +81,10 @@ public class Curve {
   public static boolean verifySignature(ECPublicKey signingKey, byte[] message, byte[] signature)
       throws InvalidKeyException
   {
+    if (signingKey == null || message == null || signature == null) {
+      throw new InvalidKeyException("Values must not be null");
+    }
+
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
                        .verifySignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
@@ -84,6 +96,10 @@ public class Curve {
   public static byte[] calculateSignature(ECPrivateKey signingKey, byte[] message)
       throws InvalidKeyException
   {
+    if (signingKey == null || message == null) {
+      throw new InvalidKeyException("Values must not be null");
+    }
+
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
                        .calculateSignature(((DjbECPrivateKey) signingKey).getPrivateKey(), message);
@@ -95,6 +111,10 @@ public class Curve {
   public static byte[] calculateVrfSignature(ECPrivateKey signingKey, byte[] message)
       throws InvalidKeyException
   {
+    if (signingKey == null || message == null) {
+      throw new InvalidKeyException("Values must not be null");
+    }
+
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
                        .calculateVrfSignature(((DjbECPrivateKey)signingKey).getPrivateKey(), message);
@@ -106,6 +126,10 @@ public class Curve {
   public static byte[] verifyVrfSignature(ECPublicKey signingKey, byte[] message, byte[] signature)
       throws InvalidKeyException, VrfSignatureVerificationFailedException
   {
+    if (signingKey == null || message == null || signature == null) {
+      throw new InvalidKeyException("Values must not be null");
+    }
+
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
                        .verifyVrfSignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
