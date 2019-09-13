@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
     }
 }
 
@@ -12,7 +12,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = "axolotl-android"
+archivesBaseName = "signal-protocol-android"
 version          = version_number
 group            = group_info
 
@@ -64,15 +64,15 @@ uploadArchives {
         }
 
         pom.project {
-            name 'axolotl-android'
+            name 'signal-protocol-android'
             packaging 'aar'
-            description 'Axolotl library for Android'
-            url 'https://github.com/WhisperSystems/libaxolotl-android'
+            description 'Signal Protocol cryptography library for Android'
+            url 'https://github.com/WhisperSystems/libsignal-android'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
-                connection 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/libaxolotl-android.git'
+                url 'scm:git@github.com:WhisperSystems/libsignal-android.git'
+                connection 'scm:git@github.com:WhisperSystems/libsignal-android.git'
+                developerConnection 'scm:git@github.com:WhisperSystems/libsignal-android.git'
             }
 
             licenses {
