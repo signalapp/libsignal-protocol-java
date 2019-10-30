@@ -1,6 +1,8 @@
+syntax = "proto2";
+
 package textsecure;
 
-option java_package = "org.whispersystems.libsignal.protocol";
+option java_package         = "org.whispersystems.libsignal.protocol";
 option java_outer_classname = "SignalProtos";
 
 message SignalMessage {
