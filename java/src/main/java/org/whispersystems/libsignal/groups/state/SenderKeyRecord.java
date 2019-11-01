@@ -20,7 +20,7 @@ import static org.whispersystems.libsignal.state.StorageProtos.SenderKeyRecordSt
  * A durable representation of a set of SenderKeyStates for a specific
  * SenderKeyName.
  *
- * @author Moxie Marlisnpike
+ * @author Moxie Marlinspike
  */
 public class SenderKeyRecord {
 
