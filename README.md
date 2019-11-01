@@ -43,7 +43,7 @@ State is kept in the following places:
 
 On Android:
 
-```
+```groovy
 dependencies {
   compile 'org.whispersystems:signal-protocol-android:(latest version number)'
 }
@@ -51,7 +51,7 @@ dependencies {
 
 For pure Java apps:
 
-```
+```xml
 <dependency>
   <groupId>org.whispersystems</groupId>
   <artifactId>signal-protocol-java</artifactId>
