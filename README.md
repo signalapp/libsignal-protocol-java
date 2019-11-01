@@ -64,17 +64,19 @@ For pure Java apps:
 At install time, a libsignal client needs to generate its identity keys, registration id, and
 prekeys.
 
-    IdentityKeyPair    identityKeyPair = KeyHelper.generateIdentityKeyPair();
-    int                registrationId  = KeyHelper.generateRegistrationId();
-    List<PreKeyRecord> preKeys         = KeyHelper.generatePreKeys(startId, 100);
-    SignedPreKeyRecord signedPreKey    = KeyHelper.generateSignedPreKey(identityKeyPair, 5);
+ ```java
+ IdentityKeyPair    identityKeyPair = KeyHelper.generateIdentityKeyPair();
+ int                registrationId  = KeyHelper.generateRegistrationId();
+ List<PreKeyRecord> preKeys         = KeyHelper.generatePreKeys(startId, 100);
+ SignedPreKeyRecord signedPreKey    = KeyHelper.generateSignedPreKey(identityKeyPair, 5);
 
-    // Store identityKeyPair somewhere durable and safe.
-    // Store registrationId somewhere durable and safe.
+ // Store identityKeyPair somewhere durable and safe.
+ // Store registrationId somewhere durable and safe.
 
-    // Store preKeys in PreKeyStore.
-    // Store signed prekey in SignedPreKeyStore.
-
+ // Store preKeys in PreKeyStore.
+ // Store signed prekey in SignedPreKeyStore.
+ ```
+    
 ## Building a session
 
 A libsignal client needs to implement four interfaces: IdentityKeyStore, PreKeyStore,
@@ -83,23 +85,25 @@ prekeys, signed prekeys, and session state.
 
 Once those are implemented, building a session is fairly straightforward:
 
-    SessionStore      sessionStore      = new MySessionStore();
-    PreKeyStore       preKeyStore       = new MyPreKeyStore();
-    SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
-    IdentityKeyStore  identityStore     = new MyIdentityKeyStore();
+ ```java
+ SessionStore      sessionStore      = new MySessionStore();
+ PreKeyStore       preKeyStore       = new MyPreKeyStore();
+ SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
+ IdentityKeyStore  identityStore     = new MyIdentityKeyStore();
 
-    // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
-    SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
-                                                       identityStore, recipientId, deviceId);
+ // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
+ SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
+                                                    identityStore, recipientId, deviceId);
 
-    // Build a session with a PreKey retrieved from the server.
-    sessionBuilder.process(retrievedPreKey);
+ // Build a session with a PreKey retrieved from the server.
+ sessionBuilder.process(retrievedPreKey);
 
-    SessionCipher     sessionCipher = new SessionCipher(sessionStore, recipientId, deviceId);
-    CiphertextMessage message      = sessionCipher.encrypt("Hello world!".getBytes("UTF-8"));
+ SessionCipher     sessionCipher = new SessionCipher(sessionStore, recipientId, deviceId);
+ CiphertextMessage message      = sessionCipher.encrypt("Hello world!".getBytes("UTF-8"));
 
-    deliver(message.serialize());
-
+ deliver(message.serialize());
+ ```
+    
 # Legal things
 ## Cryptography Notice
 
