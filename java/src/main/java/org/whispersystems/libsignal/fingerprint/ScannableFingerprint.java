@@ -16,11 +16,10 @@ import java.security.MessageDigest;
 
 public class ScannableFingerprint {
 
-  private static final int VERSION = 1;
-
+  private final int                  version;
   private final CombinedFingerprints fingerprints;
 
-  ScannableFingerprint(byte[] localFingerprintData, byte[] remoteFingerprintData)
+  ScannableFingerprint(int version, byte[] localFingerprintData, byte[] remoteFingerprintData)
   {
     LogicalFingerprint localFingerprint = LogicalFingerprint.newBuilder()
                                                             .setContent(ByteString.copyFrom(ByteUtil.trim(localFingerprintData, 32)))
@@ -30,8 +29,9 @@ public class ScannableFingerprint {
                                                              .setContent(ByteString.copyFrom(ByteUtil.trim(remoteFingerprintData, 32)))
                                                              .build();
 
+    this.version      = version;
     this.fingerprints = CombinedFingerprints.newBuilder()
-                                            .setVersion(VERSION)
+                                            .setVersion(version)
                                             .setLocalFingerprint(localFingerprint)
                                             .setRemoteFingerprint(remoteFingerprint)
                                             .build();
@@ -59,9 +59,9 @@ public class ScannableFingerprint {
       CombinedFingerprints scanned = CombinedFingerprints.parseFrom(scannedFingerprintData);
 
       if (!scanned.hasRemoteFingerprint() || !scanned.hasLocalFingerprint() ||
-          !scanned.hasVersion() || scanned.getVersion() != VERSION)
+          !scanned.hasVersion() || scanned.getVersion() != version)
       {
-        throw new FingerprintVersionMismatchException(scanned.getVersion(), VERSION);
+        throw new FingerprintVersionMismatchException(scanned.getVersion(), version);
       }
 
       return MessageDigest.isEqual(fingerprints.getLocalFingerprint().getContent().toByteArray(), scanned.getRemoteFingerprint().getContent().toByteArray()) &&

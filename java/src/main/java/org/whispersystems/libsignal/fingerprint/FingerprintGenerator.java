@@ -10,9 +10,15 @@ import org.whispersystems.libsignal.IdentityKey;
 import java.util.List;
 
 public interface FingerprintGenerator {
-  public Fingerprint createFor(String localStableIdentifier, IdentityKey localIdentityKey,
-                               String remoteStableIdentifier, IdentityKey remoteIdentityKey);
+  public Fingerprint createFor(int version,
+                               byte[] localStableIdentifier,
+                               IdentityKey localIdentityKey,
+                               byte[] remoteStableIdentifier,
+                               IdentityKey remoteIdentityKey);
 
-  public Fingerprint createFor(String localStableIdentifier, List<IdentityKey> localIdentityKey,
-                               String remoteStableIdentifier, List<IdentityKey> remoteIdentityKey);
+  public Fingerprint createFor(int version,
+                               byte[] localStableIdentifier,
+                               List<IdentityKey> localIdentityKey,
+                               byte[] remoteStableIdentifier,
+                               List<IdentityKey> remoteIdentityKey);
 }

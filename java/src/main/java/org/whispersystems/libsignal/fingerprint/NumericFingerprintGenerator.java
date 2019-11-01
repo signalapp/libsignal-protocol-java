@@ -43,6 +43,7 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
   /**
    * Generate a scannable and displayable fingerprint.
    *
+   * @param version The version of fingerprint you are generating.
    * @param localStableIdentifier The client's "stable" identifier.
    * @param localIdentityKey The client's identity key.
    * @param remoteStableIdentifier The remote party's "stable" identifier.
@@ -50,10 +51,14 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
    * @return A unique fingerprint for this conversation.
    */
   @Override
-  public Fingerprint createFor(String localStableIdentifier, final IdentityKey localIdentityKey,
-                               String remoteStableIdentifier, final IdentityKey remoteIdentityKey)
+  public Fingerprint createFor(int version,
+                               byte[] localStableIdentifier,
+                               final IdentityKey localIdentityKey,
+                               byte[] remoteStableIdentifier,
+                               final IdentityKey remoteIdentityKey)
   {
-    return createFor(localStableIdentifier,
+    return createFor(version,
+                     localStableIdentifier,
                      new LinkedList<IdentityKey>() {{
                        add(localIdentityKey);
                      }},
@@ -70,14 +75,18 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
    * Do not trust the output of this unless you've been through the device consistency process
    * for the provided localIdentityKeys.
    *
+   * @param version The version of fingerprint you are generating.
    * @param localStableIdentifier The client's "stable" identifier.
    * @param localIdentityKeys The client's collection of physical identity keys.
    * @param remoteStableIdentifier The remote party's "stable" identifier.
    * @param remoteIdentityKeys The remote party's collection of physical identity key.
    * @return A unique fingerprint for this conversation.
    */
-  public Fingerprint createFor(String localStableIdentifier, List<IdentityKey> localIdentityKeys,
-                               String remoteStableIdentifier, List<IdentityKey> remoteIdentityKeys)
+  public Fingerprint createFor(int version,
+                               byte[] localStableIdentifier,
+                               List<IdentityKey> localIdentityKeys,
+                               byte[] remoteStableIdentifier,
+                               List<IdentityKey> remoteIdentityKeys)
   {
     byte[] localFingerprint  = getFingerprint(iterations, localStableIdentifier, localIdentityKeys);
     byte[] remoteFingerprint = getFingerprint(iterations, remoteStableIdentifier, remoteIdentityKeys);
@@ -85,18 +94,19 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
     DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(localFingerprint,
                                                                                remoteFingerprint);
 
-    ScannableFingerprint   scannableFingerprint   = new ScannableFingerprint(localFingerprint,
+    ScannableFingerprint   scannableFingerprint   = new ScannableFingerprint(version,
+                                                                             localFingerprint,
                                                                              remoteFingerprint);
 
     return new Fingerprint(displayableFingerprint, scannableFingerprint);
   }
 
-  private byte[] getFingerprint(int iterations, String stableIdentifier, List<IdentityKey> unsortedIdentityKeys) {
+  private byte[] getFingerprint(int iterations, byte[] stableIdentifier, List<IdentityKey> unsortedIdentityKeys) {
     try {
       MessageDigest digest    = MessageDigest.getInstance("SHA-512");
       byte[]        publicKey = getLogicalKeyBytes(unsortedIdentityKeys);
       byte[]        hash      = ByteUtil.combine(ByteUtil.shortToByteArray(FINGERPRINT_VERSION),
-                                                 publicKey, stableIdentifier.getBytes());
+                                                 publicKey, stableIdentifier);
 
       for (int i=0;i<iterations;i++) {
         digest.update(hash);
