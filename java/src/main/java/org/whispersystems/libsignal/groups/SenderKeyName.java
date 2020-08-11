@@ -12,24 +12,38 @@ import org.whispersystems.libsignal.SignalProtocolAddress;
  */
 public class SenderKeyName {
 
-  private final String                groupId;
-  private final SignalProtocolAddress sender;
+  private static native long New(String groupid, String senderName, int senderDeviceId);
+  private static native void Destroy(long handle);
+  private static native String GetSenderName(long handle);
+  private static native int GetSenderDeviceId(long handle);
+  private static native String GetGroupId(long handle);
+
+  static {
+       System.loadLibrary("signal_jni");
+  }
+
+  private long handle;
 
   public SenderKeyName(String groupId, SignalProtocolAddress sender) {
-    this.groupId  = groupId;
-    this.sender   = sender;
+    this.handle = New(groupId, sender.getName(), sender.getDeviceId());
+  }
+
+  @Override
+  protected void finalize() {
+    Destroy(this.handle);
   }
 
   public String getGroupId() {
-    return groupId;
+    return GetGroupId(this.handle);
   }
 
   public SignalProtocolAddress getSender() {
-    return sender;
+    return new SignalProtocolAddress(GetSenderName(this.handle), GetSenderDeviceId(this.handle));
   }
 
   public String serialize() {
-    return groupId + "::" + sender.getName() + "::" + String.valueOf(sender.getDeviceId());
+    SignalProtocolAddress sender = this.getSender();
+    return this.getGroupId() + "::" + sender.getName() + "::" + String.valueOf(sender.getDeviceId());
   }
 
   @Override
@@ -40,13 +54,13 @@ public class SenderKeyName {
     SenderKeyName that = (SenderKeyName)other;
 
     return
-        this.groupId.equals(that.groupId) &&
-        this.sender.equals(that.sender);
+       this.getGroupId().equals(that.getGroupId()) &&
+       this.getSender().equals(that.getSender());
   }
 
   @Override
   public int hashCode() {
-    return this.groupId.hashCode() ^ this.sender.hashCode();
+    return this.serialize().hashCode();
   }
 
 }

@@ -7,25 +7,38 @@ package org.whispersystems.libsignal;
 
 public class SignalProtocolAddress {
 
-  private final String name;
-  private final int    deviceId;
+  private static native long New(String name, int device_id);
+  private static native long Destroy(long handle);
+
+  private static native String Name(long handle);
+  private static native int DeviceId(long handle);
+
+  static {
+       System.loadLibrary("signal_jni");
+  }
+
+  private final long handle;
 
   public SignalProtocolAddress(String name, int deviceId) {
-    this.name     = name;
-    this.deviceId = deviceId;
+    this.handle = New(name, deviceId);
+  }
+
+  @Override
+  protected void finalize() {
+    Destroy(this.handle);
   }
 
   public String getName() {
-    return name;
+    return Name(this.handle);
   }
 
   public int getDeviceId() {
-    return deviceId;
+    return DeviceId(this.handle);
   }
 
   @Override
   public String toString() {
-    return name + ":" + deviceId;
+    return getName() + ":" + getDeviceId();
   }
 
   @Override
@@ -34,11 +47,11 @@ public class SignalProtocolAddress {
     if (!(other instanceof SignalProtocolAddress)) return false;
 
     SignalProtocolAddress that = (SignalProtocolAddress)other;
-    return this.name.equals(that.name) && this.deviceId == that.deviceId;
+    return this.getName().equals(that.getName()) && this.getDeviceId() == that.getDeviceId();
   }
 
   @Override
   public int hashCode() {
-    return this.name.hashCode() ^ this.deviceId;
+    return toString().hashCode();
   }
 }

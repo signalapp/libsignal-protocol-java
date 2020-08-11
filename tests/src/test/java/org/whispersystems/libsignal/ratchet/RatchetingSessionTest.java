@@ -140,7 +140,18 @@ public class RatchetingSessionTest extends TestCase {
     assertTrue(Arrays.equals(session.getSenderChainKey().getKey(), senderChain));
   }
 
-  public void testRatchetingSessionAsAlice() throws InvalidKeyException {
+private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+public static String bytesToHex(byte[] bytes) {
+    char[] hexChars = new char[bytes.length * 2];
+    for (int j = 0; j < bytes.length; j++) {
+        int v = bytes[j] & 0xFF;
+        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+    }
+    return new String(hexChars);
+}
+
+   public void testRatchetingSessionAsAlice() throws InvalidKeyException {
     byte[] bobPublic             = {(byte) 0x05, (byte) 0x2c, (byte) 0xb4, (byte) 0x97, (byte) 0x76,
                                     (byte) 0xb8, (byte) 0x77, (byte) 0x02, (byte) 0x05, (byte) 0x74,
                                     (byte) 0x5a, (byte) 0x3a, (byte) 0x6e, (byte) 0x24, (byte) 0xf5,
@@ -213,6 +224,7 @@ public class RatchetingSessionTest extends TestCase {
                                     (byte) 0xeb, (byte) 0x0a, (byte) 0x6f, (byte) 0x4f, (byte) 0x5f,
                                     (byte) 0x8f, (byte) 0x58};
 
+    /*
     byte[] receiverChain = {(byte)0x97, (byte)0x97, (byte)0xca, (byte)0xca, (byte)0x53,
                             (byte)0xc9, (byte)0x89, (byte)0xbb, (byte)0xe2, (byte)0x29,
                             (byte)0xa4, (byte)0x0c, (byte)0xa7, (byte)0x72, (byte)0x70,
@@ -220,6 +232,14 @@ public class RatchetingSessionTest extends TestCase {
                             (byte)0x14, (byte)0x94, (byte)0x5d, (byte)0x77, (byte)0x95,
                             (byte)0x8a, (byte)0x0a, (byte)0xed, (byte)0xa0, (byte)0x88,
                             (byte)0xb4, (byte)0x4d};
+    */
+    byte[] receiverChain = {(byte)0xab, (byte)0x9b, (byte)0xe5, (byte)0x0e, (byte)0x5c,
+                            (byte)0xb2, (byte)0x2a, (byte)0x92, (byte)0x54, (byte)0x46,
+                            (byte)0xab, (byte)0x90, (byte)0xee, (byte)0x56, (byte)0x70,
+                            (byte)0x54, (byte)0x5f, (byte)0x4f, (byte)0xd3, (byte)0x29,
+                            (byte)0x02, (byte)0x45, (byte)0x9e, (byte)0xc2, (byte)0x74,
+                            (byte)0xb6, (byte)0xad, (byte)0x0a, (byte)0xe5, (byte)0xd6,
+                            (byte)0x03, (byte)0x1a};
 
     IdentityKey     bobIdentityKey           = new IdentityKey(bobIdentityPublic, 0);
     ECPublicKey     bobEphemeralPublicKey    = Curve.decodePoint(bobPublic, 0);

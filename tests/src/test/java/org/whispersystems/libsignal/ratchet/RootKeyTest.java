@@ -15,7 +15,18 @@ import java.util.Arrays;
 
 public class RootKeyTest extends TestCase {
 
-  public void testRootKeyDerivationV2() throws NoSuchAlgorithmException, InvalidKeyException {
+private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+public static String bytesToHex(byte[] bytes) {
+    char[] hexChars = new char[bytes.length * 2];
+    for (int j = 0; j < bytes.length; j++) {
+        int v = bytes[j] & 0xFF;
+        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+    }
+    return new String(hexChars);
+}
+
+   public void testRootKeyDerivationV2() throws NoSuchAlgorithmException, InvalidKeyException {
     byte[] rootKeySeed  = {(byte) 0x7b, (byte) 0xa6, (byte) 0xde, (byte) 0xbc, (byte) 0x2b,
                            (byte) 0xc1, (byte) 0xbb, (byte) 0xf9, (byte) 0x1a, (byte) 0xbb,
                            (byte) 0xc1, (byte) 0x36, (byte) 0x74, (byte) 0x04, (byte) 0x17,
@@ -32,7 +43,7 @@ public class RootKeyTest extends TestCase {
                            (byte) 0xe9, (byte) 0x63, (byte) 0xfc, (byte) 0xb1, (byte) 0x62,
                            (byte) 0x22, (byte) 0xe1, (byte) 0x3a};
 
-    byte[] alicePrivate = {(byte) 0x21, (byte) 0x68, (byte) 0x22, (byte) 0xec, (byte) 0x67,
+    byte[] alicePrivate = {(byte) 0x20, (byte) 0x68, (byte) 0x22, (byte) 0xec, (byte) 0x67,
                            (byte) 0xeb, (byte) 0x38, (byte) 0x04, (byte) 0x9e, (byte) 0xba,
                            (byte) 0xe7, (byte) 0xb9, (byte) 0x39, (byte) 0xba, (byte) 0xea,
                            (byte) 0xeb, (byte) 0xb1, (byte) 0x51, (byte) 0xbb, (byte) 0xb3,
@@ -48,21 +59,19 @@ public class RootKeyTest extends TestCase {
                            (byte) 0x95, (byte) 0x55, (byte) 0xe8, (byte) 0x47, (byte) 0x57,
                            (byte) 0x70, (byte) 0x8a, (byte) 0x30};
 
-    byte[] nextRoot     = {(byte) 0xb1, (byte) 0x14, (byte) 0xf5, (byte) 0xde, (byte) 0x28,
-                           (byte) 0x01, (byte) 0x19, (byte) 0x85, (byte) 0xe6, (byte) 0xeb,
-                           (byte) 0xa2, (byte) 0x5d, (byte) 0x50, (byte) 0xe7, (byte) 0xec,
-                           (byte) 0x41, (byte) 0xa9, (byte) 0xb0, (byte) 0x2f, (byte) 0x56,
-                           (byte) 0x93, (byte) 0xc5, (byte) 0xc7, (byte) 0x88, (byte) 0xa6,
-                           (byte) 0x3a, (byte) 0x06, (byte) 0xd2, (byte) 0x12, (byte) 0xa2,
-                           (byte) 0xf7, (byte) 0x31};
+    byte[] nextRoot = {
+       (byte) 0x67, (byte) 0x46, (byte) 0x77, (byte) 0x65, (byte) 0x21, (byte) 0x04, (byte) 0xe8, (byte) 0x64, (byte) 0xd0,
+       (byte) 0x7c, (byte) 0x54, (byte) 0x33, (byte) 0xef, (byte) 0xaa, (byte) 0x59, (byte) 0x25, (byte) 0xed, (byte) 0x43,
+       (byte) 0x67, (byte) 0xd6, (byte) 0xb2, (byte) 0x5a, (byte) 0xaf, (byte) 0xe6, (byte) 0x99, (byte) 0x1d, (byte) 0xef,
+       (byte) 0x5c, (byte) 0x7f, (byte) 0x0f, (byte) 0xb8, (byte) 0x6f,
+    };
 
-    byte[] nextChain    = {(byte) 0x9d, (byte) 0x7d, (byte) 0x24, (byte) 0x69, (byte) 0xbc,
-                           (byte) 0x9a, (byte) 0xe5, (byte) 0x3e, (byte) 0xe9, (byte) 0x80,
-                           (byte) 0x5a, (byte) 0xa3, (byte) 0x26, (byte) 0x4d, (byte) 0x24,
-                           (byte) 0x99, (byte) 0xa3, (byte) 0xac, (byte) 0xe8, (byte) 0x0f,
-                           (byte) 0x4c, (byte) 0xca, (byte) 0xe2, (byte) 0xda, (byte) 0x13,
-                           (byte) 0x43, (byte) 0x0c, (byte) 0x5c, (byte) 0x55, (byte) 0xb5,
-                           (byte) 0xca, (byte) 0x5f};
+    byte[] nextChain = {
+       (byte) 0xfa, (byte) 0xed, (byte) 0x7f, (byte) 0xb2, (byte) 0xc3, (byte) 0xe6, (byte) 0xf6, (byte) 0x06, (byte) 0xfc,
+       (byte) 0xbf, (byte) 0x26, (byte) 0x64, (byte) 0x6c, (byte) 0xf2, (byte) 0x68, (byte) 0xad, (byte) 0x49, (byte) 0x58,
+       (byte) 0x9f, (byte) 0xcb, (byte) 0xde, (byte) 0x01, (byte) 0xc1, (byte) 0x26, (byte) 0x75, (byte) 0xe5, (byte) 0xe8,
+       (byte) 0x22, (byte) 0xa7, (byte) 0xe3, (byte) 0x35, (byte) 0xd1,
+    };
 
     ECPublicKey  alicePublicKey  = Curve.decodePoint(alicePublic, 0);
     ECPrivateKey alicePrivateKey = Curve.decodePrivatePoint(alicePrivate);
@@ -76,7 +85,7 @@ public class RootKeyTest extends TestCase {
     ChainKey                nextChainKey        = rootKeyChainKeyPair.second();
 
     assertTrue(Arrays.equals(rootKey.getKeyBytes(), rootKeySeed));
-    assertTrue(Arrays.equals(nextRootKey.getKeyBytes(), nextRoot));
+    assertEquals(bytesToHex(nextRootKey.getKeyBytes()), bytesToHex(nextRoot));
     assertTrue(Arrays.equals(nextChainKey.getKey(), nextChain));
   }
 }
