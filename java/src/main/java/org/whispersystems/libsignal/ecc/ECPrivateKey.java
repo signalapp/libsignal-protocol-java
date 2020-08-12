@@ -11,13 +11,19 @@ public class ECPrivateKey {
        System.loadLibrary("signal_jni");
   }
 
+  private static native long Generate();
   private static native long Deserialize(byte[] data);
   private static native byte[] Serialize(long handle);
   private static native byte[] Sign(long handle, byte[] message);
   private static native byte[] Agree(long handle, long pubkey_handle);
+  private static native long GetPublicKey(long handle);
   private static native void Destroy(long handle);
 
   private long handle;
+
+  ECPrivateKey() {
+    this.handle = Generate();
+  }
 
   ECPrivateKey(byte[] privateKey) {
     this.handle = Deserialize(privateKey);
@@ -48,6 +54,10 @@ public class ECPrivateKey {
   }
 
   public long nativeHandle() {
-    return handle;
+    return this.handle;
+  }
+
+  public ECPublicKey publicKey() {
+    return new ECPublicKey(GetPublicKey(this.handle));
   }
 }

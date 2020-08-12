@@ -1,7 +1,6 @@
 subprojects {
     ext.version_number     = "2.8.1"
     ext.group_info         = "org.whispersystems"
-    ext.curve25519_version = "0.5.0"
 
     if (JavaVersion.current().isJava8Compatible()) {
         allprojects {

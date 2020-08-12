@@ -4,16 +4,13 @@
  * Licensed according to the LICENSE file in this repository.
  */
 package org.whispersystems.libsignal.ecc;
-
-import org.whispersystems.curve25519.Curve25519;
-import org.whispersystems.curve25519.Curve25519KeyPair;
 import org.whispersystems.libsignal.InvalidKeyException;
-
-import static org.whispersystems.curve25519.Curve25519.BEST;
-
 import org.whispersystems.libsignal.util.ByteUtil;
 
 public class Curve {
+  static {
+       System.loadLibrary("signal_jni");
+  }
 
   public  static final int DJB_TYPE   = 0x05;
 
@@ -22,13 +19,9 @@ public class Curve {
   }
 
   public static ECKeyPair generateKeyPair() {
-    Curve25519KeyPair keyPair = Curve25519.getInstance(BEST).generateKeyPair();
-
-    byte[] type = {Curve.DJB_TYPE};
-    byte[] pubkey = ByteUtil.combine(type, keyPair.getPublicKey());
-
-    return new ECKeyPair(new ECPublicKey(pubkey),
-                         new ECPrivateKey(keyPair.getPrivateKey()));
+    ECPrivateKey privateKey = new ECPrivateKey();
+    ECPublicKey publicKey = privateKey.publicKey();
+    return new ECKeyPair(publicKey, privateKey);
   }
 
   public static ECPublicKey decodePoint(byte[] bytes, int offset)

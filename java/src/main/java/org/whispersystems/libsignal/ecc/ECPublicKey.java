@@ -29,7 +29,7 @@ public class ECPublicKey implements Comparable<ECPublicKey> {
   }
 
   public ECPublicKey(long nativeHandle) {
-    if(nativeHandle == 0) {
+    if (nativeHandle == 0) {
       throw new NullPointerException();
     }
     this.handle = nativeHandle;
