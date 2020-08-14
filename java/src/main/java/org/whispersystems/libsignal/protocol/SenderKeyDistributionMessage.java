@@ -33,6 +33,10 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
      Destroy(this.handle);
   }
 
+  public SenderKeyDistributionMessage(long handle) {
+    this.handle = handle;
+  }
+
   public SenderKeyDistributionMessage(int id, int iteration, byte[] chainKey, ECPublicKey signatureKey) {
     handle = New(id, iteration, chainKey, signatureKey.nativeHandle());
   }
@@ -65,5 +69,9 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
 
   public int getId() {
     return GetId(this.handle);
+  }
+
+  public long nativeHandle() {
+    return this.handle;
   }
 }

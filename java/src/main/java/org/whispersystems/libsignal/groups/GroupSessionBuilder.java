@@ -31,6 +31,12 @@ import org.whispersystems.libsignal.util.KeyHelper;
 
 public class GroupSessionBuilder {
 
+  private static native long CreateSenderKeyDistributionMessage(long senderKeyNameHandle,
+                                                                SenderKeyStore senderKeyStore);
+  private static native void ProcessSenderKeyDistributionMessage(long senderKeyNameHandle,
+                                                                 long senderKeyDistributionMessageHandle,
+                                                                 SenderKeyStore senderKeyStore);
+
   private final SenderKeyStore senderKeyStore;
 
   public GroupSessionBuilder(SenderKeyStore senderKeyStore) {
@@ -45,12 +51,9 @@ public class GroupSessionBuilder {
    */
   public void process(SenderKeyName senderKeyName, SenderKeyDistributionMessage senderKeyDistributionMessage) {
     synchronized (GroupCipher.LOCK) {
-      SenderKeyRecord senderKeyRecord = senderKeyStore.loadSenderKey(senderKeyName);
-      senderKeyRecord.addSenderKeyState(senderKeyDistributionMessage.getId(),
-                                        senderKeyDistributionMessage.getIteration(),
-                                        senderKeyDistributionMessage.getChainKey(),
-                                        senderKeyDistributionMessage.getSignatureKey());
-      senderKeyStore.storeSenderKey(senderKeyName, senderKeyRecord);
+       ProcessSenderKeyDistributionMessage(senderKeyName.nativeHandle(),
+                                           senderKeyDistributionMessage.nativeHandle(),
+                                           senderKeyStore);
     }
   }
 
@@ -62,27 +65,7 @@ public class GroupSessionBuilder {
    */
   public SenderKeyDistributionMessage create(SenderKeyName senderKeyName) {
     synchronized (GroupCipher.LOCK) {
-      try {
-        SenderKeyRecord senderKeyRecord = senderKeyStore.loadSenderKey(senderKeyName);
-
-        if (senderKeyRecord.isEmpty()) {
-          senderKeyRecord.setSenderKeyState(KeyHelper.generateSenderKeyId(),
-                                            0,
-                                            KeyHelper.generateSenderKey(),
-                                            KeyHelper.generateSenderSigningKey());
-          senderKeyStore.storeSenderKey(senderKeyName, senderKeyRecord);
-        }
-
-        SenderKeyState state = senderKeyRecord.getSenderKeyState();
-
-        return new SenderKeyDistributionMessage(state.getKeyId(),
-                                                state.getSenderChainKey().getIteration(),
-                                                state.getSenderChainKey().getSeed(),
-                                                state.getSigningKeyPublic());
-
-      } catch (InvalidKeyIdException | InvalidKeyException e) {
-        throw new AssertionError(e);
-      }
+      return new SenderKeyDistributionMessage(CreateSenderKeyDistributionMessage(senderKeyName.nativeHandle(), senderKeyStore));
     }
   }
 }

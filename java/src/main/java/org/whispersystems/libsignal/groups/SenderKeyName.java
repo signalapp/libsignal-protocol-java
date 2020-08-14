@@ -28,6 +28,10 @@ public class SenderKeyName {
     this.handle = New(groupId, sender.getName(), sender.getDeviceId());
   }
 
+  public SenderKeyName(String groupId, String senderName, int senderDeviceId) {
+    this.handle = New(groupId, senderName, senderDeviceId);
+  }
+
   @Override
   protected void finalize() {
     Destroy(this.handle);
@@ -61,6 +65,10 @@ public class SenderKeyName {
   @Override
   public int hashCode() {
     return this.serialize().hashCode();
+  }
+
+  public long nativeHandle() {
+    return this.handle;
   }
 
 }
