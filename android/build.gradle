@@ -55,6 +55,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':java')
 }
 
 def isReleaseBuild() {
