@@ -10,22 +10,10 @@ import org.whispersystems.libsignal.InvalidKeyIdException;
 import org.whispersystems.libsignal.InvalidMessageException;
 import org.whispersystems.libsignal.LegacyMessageException;
 import org.whispersystems.libsignal.NoSessionException;
-import org.whispersystems.libsignal.groups.ratchet.SenderChainKey;
-import org.whispersystems.libsignal.groups.ratchet.SenderMessageKey;
-import org.whispersystems.libsignal.groups.state.SenderKeyRecord;
-import org.whispersystems.libsignal.groups.state.SenderKeyState;
 import org.whispersystems.libsignal.groups.state.SenderKeyStore;
-import org.whispersystems.libsignal.protocol.SenderKeyMessage;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * The main entry point for Signal Protocol group encrypt/decrypt operations.
@@ -93,51 +81,4 @@ public class GroupCipher {
       }
     }
   }
-
-  private SenderMessageKey getSenderKey(SenderKeyState senderKeyState, int iteration)
-      throws DuplicateMessageException, InvalidMessageException
-  {
-    SenderChainKey senderChainKey = senderKeyState.getSenderChainKey();
-
-    if (senderChainKey.getIteration() > iteration) {
-      if (senderKeyState.hasSenderMessageKey(iteration)) {
-        return senderKeyState.removeSenderMessageKey(iteration);
-      } else {
-        throw new DuplicateMessageException("Received message with old counter: " +
-                                            senderChainKey.getIteration() + " , " + iteration);
-      }
-    }
-
-    if (iteration - senderChainKey.getIteration() > 2000) {
-      throw new InvalidMessageException("Over 2000 messages into the future!");
-    }
-
-    while (senderChainKey.getIteration() < iteration) {
-      senderKeyState.addSenderMessageKey(senderChainKey.getSenderMessageKey());
-      senderChainKey = senderChainKey.getNext();
-    }
-
-    senderKeyState.setSenderChainKey(senderChainKey.getNext());
-    return senderChainKey.getSenderMessageKey();
-  }
-
-  private byte[] getPlainText(byte[] iv, byte[] key, byte[] ciphertext)
-      throws InvalidMessageException
-  {
-    try {
-      IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-      Cipher          cipher          = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), ivParameterSpec);
-
-      return cipher.doFinal(ciphertext);
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | java.security.InvalidKeyException |
-             InvalidAlgorithmParameterException e)
-    {
-      throw new AssertionError(e);
-    } catch (IllegalBlockSizeException | BadPaddingException e) {
-      throw new InvalidMessageException(e);
-    }
-  }
-
 }
