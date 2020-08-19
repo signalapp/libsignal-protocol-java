@@ -12,8 +12,6 @@ import org.whispersystems.libsignal.ecc.ECPublicKey;
 
 import java.io.IOException;
 
-import static org.whispersystems.libsignal.state.StorageProtos.PreKeyRecordStructure;
-
 public class PreKeyRecord {
 
   private static native long New(int id,
@@ -54,5 +52,9 @@ public class PreKeyRecord {
 
   public byte[] serialize() {
     return GetSerialized(this.handle);
+  }
+
+  public long nativeHandle() {
+    return this.handle;
   }
 }

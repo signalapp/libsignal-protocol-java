@@ -114,4 +114,8 @@ public class PreKeyBundle {
   public int getRegistrationId() {
     return GetRegistrationId(this.handle);
   }
+
+  public long nativeHandle() {
+    return this.handle;
+  }
 }

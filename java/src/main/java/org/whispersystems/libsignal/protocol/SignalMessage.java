@@ -58,6 +58,10 @@ public class SignalMessage implements CiphertextMessage {
     handle = Deserialize(serialized);
   }
 
+  public SignalMessage(long handle) {
+    this.handle = handle;
+  }
+
   public SignalMessage(int messageVersion, SecretKeySpec macKey, ECPublicKey senderRatchetKey,
                        int counter, int previousCounter, byte[] ciphertext,
                        IdentityKey senderIdentityKey,

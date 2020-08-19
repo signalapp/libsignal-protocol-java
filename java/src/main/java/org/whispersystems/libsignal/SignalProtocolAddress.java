@@ -54,4 +54,8 @@ public class SignalProtocolAddress {
   public int hashCode() {
     return toString().hashCode();
   }
+
+  public long nativeHandle() {
+    return this.handle;
+  }
 }
