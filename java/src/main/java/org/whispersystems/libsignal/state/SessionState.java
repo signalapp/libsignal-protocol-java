@@ -27,6 +27,8 @@ import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.Pending
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
 
+import java.io.IOException;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,9 +40,71 @@ import static org.whispersystems.libsignal.state.StorageProtos.SessionStructure;
 
 public class SessionState {
 
-  private static final int MAX_MESSAGE_KEYS = 2000;
+  static {
+       System.loadLibrary("signal_jni");
+  }
 
   private SessionStructure sessionStructure;
+
+  private static native byte[] InitializeAliceSession(long identityKeyPrivateHandle,
+                                                      long identityKeyPublicHandle,
+                                                      long baseKeyPrivateHandle,
+                                                      long baseKeyPublicKeyHandle,
+                                                      long theirIdentityKeyPublicHandle,
+                                                      long theirSignedPreKeyPublicHandle,
+                                                      long theirRatchetKeyPublicHandle);
+
+  private static native byte[] InitializeBobSession(long identityKeyPrivateHandle,
+                                                    long identityKeyPublicHandle,
+                                                    long signedPreKeyPrivateHandle,
+                                                    long signedPreKeyPublicKeyHandle,
+                                                    long ephemeralKeyPrivateHandle,
+                                                    long ephemeralKeyPublicHandle,
+                                                    long theirIdentityKeyPublicHandle,
+                                                    long theirBaseKeyPublicHandle);
+
+  static public SessionState initializeAliceSession(IdentityKeyPair identityKey,
+                                                    ECKeyPair baseKey,
+                                                    IdentityKey theirIdentityKey,
+                                                    ECPublicKey theirSignedPreKey,
+                                                    ECPublicKey theirRatchetKey) {
+  try {
+      return new SessionState(InitializeAliceSession(identityKey.getPrivateKey().nativeHandle(),
+                                                     identityKey.getPublicKey().getPublicKey().nativeHandle(),
+                                                     baseKey.getPrivateKey().nativeHandle(),
+                                                     baseKey.getPublicKey().nativeHandle(),
+                                                     theirIdentityKey.getPublicKey().nativeHandle(),
+                                                     theirSignedPreKey.nativeHandle(),
+                                                     theirRatchetKey.nativeHandle()));
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  static public SessionState initializeBobSession(IdentityKeyPair identityKey,
+                                                  ECKeyPair signedPreKey,
+                                                  ECKeyPair ephemeralKey,
+                                                  IdentityKey theirIdentityKey,
+                                                  ECPublicKey theirBaseKey) {
+    try {
+      return new SessionState(InitializeBobSession(identityKey.getPrivateKey().nativeHandle(),
+                                                   identityKey.getPublicKey().getPublicKey().nativeHandle(),
+                                                   signedPreKey.getPrivateKey().nativeHandle(),
+                                                   signedPreKey.getPublicKey().nativeHandle(),
+                                                   ephemeralKey.getPrivateKey().nativeHandle(),
+                                                   ephemeralKey.getPublicKey().nativeHandle(),
+                                                   theirIdentityKey.getPublicKey().nativeHandle(),
+                                                   theirBaseKey.nativeHandle()));
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  public SessionState(byte[] serialized) throws IOException {
+    this.sessionStructure = SessionStructure.parseFrom(serialized);
+  }
+
+  private static final int MAX_MESSAGE_KEYS = 2000;
 
   public SessionState() {
     this.sessionStructure = SessionStructure.newBuilder().build();

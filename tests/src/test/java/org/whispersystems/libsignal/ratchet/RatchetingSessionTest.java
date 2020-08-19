@@ -122,18 +122,11 @@ public class RatchetingSessionTest extends TestCase {
     ECPublicKey     aliceEphemeralPublicKey  = Curve.decodePoint(aliceEphemeralPublic, 0);
     IdentityKey     aliceIdentityPublicKey   = new IdentityKey(aliceIdentityPublic, 0);
 
-    BobSignalProtocolParameters parameters = BobSignalProtocolParameters.newBuilder()
-                                                                        .setOurIdentityKey(bobIdentityKey)
-                                                                        .setOurSignedPreKey(bobSignedPreKey)
-                                                                        .setOurRatchetKey(bobEphemeralKey)
-                                                                        .setOurOneTimePreKey(Optional.<ECKeyPair>absent())
-                                                                        .setTheirIdentityKey(aliceIdentityPublicKey)
-                                                                        .setTheirBaseKey(aliceBasePublicKey)
-                                                                        .create();
-
-    SessionState session = new SessionState();
-
-    RatchetingSession.initializeSession(session, parameters);
+    SessionState session = SessionState.initializeBobSession(bobIdentityKey,
+                                                             bobSignedPreKey,
+                                                             bobEphemeralKey,
+                                                             aliceIdentityPublicKey,
+                                                             aliceBasePublicKey);
 
     assertTrue(session.getLocalIdentityKey().equals(bobIdentityKey.getPublicKey()));
     assertTrue(session.getRemoteIdentityKey().equals(aliceIdentityPublicKey));
@@ -254,18 +247,11 @@ public static String bytesToHex(byte[] bytes) {
     ECPrivateKey    aliceIdentityPrivateKey  = Curve.decodePrivatePoint(aliceIdentityPrivate);
     IdentityKeyPair aliceIdentityKey         = new IdentityKeyPair(aliceIdentityPublicKey, aliceIdentityPrivateKey);
 
-    SessionState session = new SessionState();
-
-    AliceSignalProtocolParameters parameters = AliceSignalProtocolParameters.newBuilder()
-                                                                            .setOurBaseKey(aliceBaseKey)
-                                                                            .setOurIdentityKey(aliceIdentityKey)
-                                                                            .setTheirIdentityKey(bobIdentityKey)
-                                                                            .setTheirSignedPreKey(bobSignedPreKey)
-                                                                            .setTheirRatchetKey(bobEphemeralPublicKey)
-                                                                            .setTheirOneTimePreKey(Optional.<ECPublicKey>absent())
-                                                                            .create();
-
-    RatchetingSession.initializeSession(session, parameters);
+    SessionState session = SessionState.initializeAliceSession(aliceIdentityKey,
+                                                               aliceBaseKey,
+                                                               bobIdentityKey,
+                                                               bobSignedPreKey,
+                                                               bobEphemeralPublicKey);
 
     assertTrue(session.getLocalIdentityKey().equals(aliceIdentityKey.getPublicKey()));
     assertTrue(session.getRemoteIdentityKey().equals(bobIdentityKey));
