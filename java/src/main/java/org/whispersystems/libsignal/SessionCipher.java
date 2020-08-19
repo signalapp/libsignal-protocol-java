@@ -26,18 +26,6 @@ import org.whispersystems.libsignal.util.guava.Optional;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import static org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreKeyMessageItems;
 
 /**
  * The main entry point for Signal Protocol encrypt/decrypt operations.
@@ -50,12 +38,11 @@ import static org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreK
  */
 public class SessionCipher {
 
-   /*
   private static native CiphertextMessage EncryptMessage(byte[] message,
                                                          long remoteAddressHandle,
                                                          SessionStore sessionStore,
                                                          IdentityKeyStore identityKeyStore);
-   */
+
   private static native byte[] DecryptSignalMessage(long signalMessageHandle,
                                                     long remoteAddressHandle,
                                                     SessionStore sessionStore,
@@ -107,40 +94,10 @@ public class SessionCipher {
    */
   public CiphertextMessage encrypt(byte[] paddedMessage) throws UntrustedIdentityException {
     synchronized (SESSION_LOCK) {
-      SessionRecord sessionRecord   = sessionStore.loadSession(remoteAddress);
-      SessionState  sessionState    = sessionRecord.getSessionState();
-      ChainKey      chainKey        = sessionState.getSenderChainKey();
-      MessageKeys   messageKeys     = chainKey.getMessageKeys();
-      ECPublicKey   senderEphemeral = sessionState.getSenderRatchetKey();
-      int           previousCounter = sessionState.getPreviousCounter();
-      int           sessionVersion  = sessionState.getSessionVersion();
-
-      byte[]            ciphertextBody    = getCiphertext(messageKeys, paddedMessage);
-      CiphertextMessage ciphertextMessage = new SignalMessage(sessionVersion, messageKeys.getMacKey(),
-                                                              senderEphemeral, chainKey.getIndex(),
-                                                              previousCounter, ciphertextBody,
-                                                              sessionState.getLocalIdentityKey(),
-                                                              sessionState.getRemoteIdentityKey());
-
-      if (sessionState.hasUnacknowledgedPreKeyMessage()) {
-        UnacknowledgedPreKeyMessageItems items = sessionState.getUnacknowledgedPreKeyMessageItems();
-        int localRegistrationId = sessionState.getLocalRegistrationId();
-
-        ciphertextMessage = new PreKeySignalMessage(sessionVersion, localRegistrationId, items.getPreKeyId(),
-                                                    items.getSignedPreKeyId(), items.getBaseKey(),
-                                                    sessionState.getLocalIdentityKey(),
-                                                    (SignalMessage) ciphertextMessage);
-      }
-
-      sessionState.setSenderChainKey(chainKey.getNextChainKey());
-
-      if (!identityKeyStore.isTrustedIdentity(remoteAddress, sessionState.getRemoteIdentityKey(), IdentityKeyStore.Direction.SENDING)) {
-        throw new UntrustedIdentityException(remoteAddress.getName(), sessionState.getRemoteIdentityKey());
-      }
-
-      identityKeyStore.saveIdentity(remoteAddress, sessionState.getRemoteIdentityKey());
-      sessionStore.storeSession(remoteAddress, sessionRecord);
-      return ciphertextMessage;
+       return EncryptMessage(paddedMessage,
+                             this.remoteAddress.nativeHandle(),
+                             sessionStore,
+                             identityKeyStore);
     }
   }
 
@@ -212,27 +169,6 @@ public class SessionCipher {
 
       SessionRecord record = sessionStore.loadSession(remoteAddress);
       return record.getSessionState().getSessionVersion();
-    }
-  }
-
-  private byte[] getCiphertext(MessageKeys messageKeys, byte[] plaintext) {
-    try {
-      Cipher cipher = getCipher(Cipher.ENCRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
-      return cipher.doFinal(plaintext);
-    } catch (IllegalBlockSizeException | BadPaddingException e) {
-      throw new AssertionError(e);
-    }
-  }
-
-  private Cipher getCipher(int mode, SecretKeySpec key, IvParameterSpec iv) {
-    try {
-      Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-      cipher.init(mode, key, iv);
-      return cipher;
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | java.security.InvalidKeyException |
-             InvalidAlgorithmParameterException e)
-    {
-      throw new AssertionError(e);
     }
   }
 }
