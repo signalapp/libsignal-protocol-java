@@ -47,10 +47,13 @@ public class PreKeySignalMessage implements CiphertextMessage {
     this.handle = Deserialize(serialized);
   }
 
+  public PreKeySignalMessage(long handle) {
+    this.handle = handle;
+  }
+
   public PreKeySignalMessage(int messageVersion, int registrationId, Optional<Integer> preKeyId,
                              int signedPreKeyId, ECPublicKey baseKey, IdentityKey identityKey,
-                             SignalMessage message)
-  {
+                             SignalMessage message) {
     this.handle = New(messageVersion, registrationId, preKeyId.or(-1),
                       signedPreKeyId, baseKey.nativeHandle(),
                       identityKey.getPublicKey().nativeHandle(),
