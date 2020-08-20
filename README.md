@@ -20,9 +20,9 @@ Sessions are established in one of three ways:
 
 1. PreKeyBundles. A client that wishes to send a message to a recipient can establish a session by
    retrieving a PreKeyBundle for that recipient from the server.
-1. PreKeySignalMessages.  A client can receive a PreKeySignalMessage from a recipient and use it
+2. PreKeySignalMessages.  A client can receive a PreKeySignalMessage from a recipient and use it
    to establish a session.
-1. KeyExchangeMessages.  Two clients can exchange KeyExchange messages to establish a session.
+3. KeyExchangeMessages.  Two clients can exchange KeyExchange messages to establish a session.
 
 ## State
 
@@ -33,9 +33,9 @@ State is kept in the following places:
 
 1. Identity State.  Clients will need to maintain the state of their own identity key pair, as well
    as identity keys received from other clients.
-1. PreKey State. Clients will need to maintain the state of their generated PreKeys.
-1. Signed PreKey States. Clients will need to maintain the state of their signed PreKeys.
-1. Session State.  Clients will need to maintain the state of the sessions they have established.
+2. PreKey State. Clients will need to maintain the state of their generated PreKeys.
+3. Signed PreKey States. Clients will need to maintain the state of their signed PreKeys.
+4. Session State.  Clients will need to maintain the state of the sessions they have established.
 
 # Using libsignal-protocol
 
@@ -64,7 +64,7 @@ For pure Java apps:
 At install time, a libsignal client needs to generate its identity keys, registration id, and
 prekeys.
 
- ```java
+```java
  IdentityKeyPair    identityKeyPair = KeyHelper.generateIdentityKeyPair();
  int                registrationId  = KeyHelper.generateRegistrationId();
  List<PreKeyRecord> preKeys         = KeyHelper.generatePreKeys(startId, 100);
@@ -75,8 +75,8 @@ prekeys.
 
  // Store preKeys in PreKeyStore.
  // Store signed prekey in SignedPreKeyStore.
- ```
-    
+```
+
 ## Building a session
 
 A libsignal client needs to implement four interfaces: IdentityKeyStore, PreKeyStore,
@@ -85,26 +85,31 @@ prekeys, signed prekeys, and session state.
 
 Once those are implemented, building a session is fairly straightforward:
 
- ```java
+```java
  SessionStore      sessionStore      = new MySessionStore();
  PreKeyStore       preKeyStore       = new MyPreKeyStore();
  SignedPreKeyStore signedPreKeyStore = new MySignedPreKeyStore();
  IdentityKeyStore  identityStore     = new MyIdentityKeyStore();
 
- // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
- SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
-                                                    identityStore, recipientId, deviceId);
+ // Instantiate a SessionBuilder for a remote SignalProtocolAddress.
+ SignalProtocolAddress remoteAddress = new SignalProtocolAddress(recipientId, deviceId)
+ SessionBuilder sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore, identityStore, remoteAddress);
 
  // Build a session with a PreKey retrieved from the server.
  sessionBuilder.process(retrievedPreKey);
 
- SessionCipher     sessionCipher = new SessionCipher(sessionStore, recipientId, deviceId);
- CiphertextMessage message      = sessionCipher.encrypt("Hello world!".getBytes("UTF-8"));
+ SessionCipher  sessionCipher = new SessionCipher(sessionStore, remoteAddress);
+ CiphertextMessage message    = sessionCipher.encrypt("Hello world!".getBytes("UTF-8"));
 
  deliver(message.serialize());
- ```
-    
+
+//To decrypt a message first check if message is PreKeySignalMessage or regular SignalMessage
+SignalMessage signalMessage = new SignalMessage(serializedMessageBody)
+sessionCipher.decrypt(signalMessage)
+```
+
 # Legal things
+
 ## Cryptography Notice
 
 This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
@@ -119,4 +124,3 @@ The form and manner of this distribution makes it eligible for export under the 
 Copyright 2013-2019 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
-
