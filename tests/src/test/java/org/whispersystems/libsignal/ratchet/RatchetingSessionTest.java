@@ -130,7 +130,7 @@ public class RatchetingSessionTest extends TestCase {
 
     assertTrue(session.getLocalIdentityKey().equals(bobIdentityKey.getPublicKey()));
     assertTrue(session.getRemoteIdentityKey().equals(aliceIdentityPublicKey));
-    assertTrue(Arrays.equals(session.getSenderChainKey().getKey(), senderChain));
+    assertTrue(Arrays.equals(session.getSenderChainKeyValue(), senderChain));
   }
 
 private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
@@ -255,7 +255,7 @@ public static String bytesToHex(byte[] bytes) {
 
     assertTrue(session.getLocalIdentityKey().equals(aliceIdentityKey.getPublicKey()));
     assertTrue(session.getRemoteIdentityKey().equals(bobIdentityKey));
-    assertTrue(Arrays.equals(session.getReceiverChainKey(bobEphemeralPublicKey).getKey(),
+    assertTrue(Arrays.equals(session.getReceiverChainKeyValue(bobEphemeralPublicKey),
                              receiverChain));
 
   }

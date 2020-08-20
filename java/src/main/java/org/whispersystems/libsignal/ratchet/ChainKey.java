@@ -38,27 +38,4 @@ public class ChainKey {
     return index;
   }
 
-  public ChainKey getNextChainKey() {
-    byte[] nextKey = getBaseMaterial(CHAIN_KEY_SEED);
-    return new ChainKey(kdf, nextKey, index + 1);
-  }
-
-  public MessageKeys getMessageKeys() {
-    byte[]                inputKeyMaterial = getBaseMaterial(MESSAGE_KEY_SEED);
-    byte[]                keyMaterialBytes = kdf.deriveSecrets(inputKeyMaterial, "WhisperMessageKeys".getBytes(), DerivedMessageSecrets.SIZE);
-    DerivedMessageSecrets keyMaterial      = new DerivedMessageSecrets(keyMaterialBytes);
-
-    return new MessageKeys(keyMaterial.getCipherKey(), keyMaterial.getMacKey(), keyMaterial.getIv(), index);
-  }
-
-  private byte[] getBaseMaterial(byte[] seed) {
-    try {
-      Mac mac = Mac.getInstance("HmacSHA256");
-      mac.init(new SecretKeySpec(key, "HmacSHA256"));
-
-      return mac.doFinal(seed);
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      throw new AssertionError(e);
-    }
-  }
 }
