@@ -18,7 +18,6 @@ import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.kdf.HKDF;
 import org.whispersystems.libsignal.logging.Log;
-import org.whispersystems.libsignal.ratchet.ChainKey;
 import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.Chain;
 import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.PendingKeyExchange;
 import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.PendingPreKey;
