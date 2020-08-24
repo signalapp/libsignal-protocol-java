@@ -16,24 +16,24 @@ import org.whispersystems.libsignal.ecc.ECPublicKey;
  */
 public class PreKeyBundle {
 
-  private static native long New(int registrationId, int deviceId, int preKeyId, long preKeyPublicHandle,
+  private static native long nativeNew(int registrationId, int deviceId, int preKeyId, long preKeyPublicHandle,
                                  int signedPreKeyId, long signedPreKeyPublicHandle, byte[] signedPreKeySignature,
                                  long identityKeyHandle);
-  private static native void Destroy(long handle);
-  private static native int GetRegistrationId(long handle);
-  private static native int GetDeviceId(long handle);
-  private static native int GetPreKeyId(long handle);
-  private static native int GetSignedPreKeyId(long handle);
-  private static native long GetPreKeyPublic(long handle);
-  private static native long GetSignedPreKeyPublic(long handle);
-  private static native byte[] GetSignedPreKeySignature(long handle);
-  private static native long GetIdentityKey(long handle);
+  private static native void nativeDestroy(long handle);
+  private static native int nativeGetRegistrationId(long handle);
+  private static native int nativeGetDeviceId(long handle);
+  private static native int nativeGetPreKeyId(long handle);
+  private static native int nativeGetSignedPreKeyId(long handle);
+  private static native long nativeGetPreKeyPublic(long handle);
+  private static native long nativeGetSignedPreKeyPublic(long handle);
+  private static native byte[] nativeGetSignedPreKeySignature(long handle);
+  private static native long nativeGetIdentityKey(long handle);
 
   private long handle;
 
   @Override
   protected void finalize() {
-    Destroy(this.handle);
+    nativeDestroy(this.handle);
   }
 
   public PreKeyBundle(int registrationId, int deviceId, int preKeyId, ECPublicKey preKeyPublic,
@@ -47,7 +47,7 @@ public class PreKeyBundle {
       preKeyId = -1;
     }
 
-    this.handle = New(registrationId, deviceId, preKeyId,
+    this.handle = nativeNew(registrationId, deviceId, preKeyId,
                       preKeyPublicHandle,
                       signedPreKeyId,
                       signedPreKeyPublic.nativeHandle(),
@@ -59,21 +59,21 @@ public class PreKeyBundle {
    * @return the device ID this PreKey belongs to.
    */
   public int getDeviceId() {
-    return GetDeviceId(this.handle);
+    return nativeGetDeviceId(this.handle);
   }
 
   /**
    * @return the unique key ID for this PreKey.
    */
   public int getPreKeyId() {
-    return GetPreKeyId(this.handle);
+    return nativeGetPreKeyId(this.handle);
   }
 
   /**
    * @return the public key for this PreKey.
    */
   public ECPublicKey getPreKey() {
-    long handle = GetPreKeyPublic(this.handle);
+    long handle = nativeGetPreKeyPublic(this.handle);
     if(handle != 0) {
       return new ECPublicKey(handle);
     }
@@ -84,35 +84,35 @@ public class PreKeyBundle {
    * @return the unique key ID for this signed prekey.
    */
   public int getSignedPreKeyId() {
-    return GetSignedPreKeyId(this.handle);
+    return nativeGetSignedPreKeyId(this.handle);
   }
 
   /**
    * @return the signed prekey for this PreKeyBundle.
    */
   public ECPublicKey getSignedPreKey() {
-    return new ECPublicKey(GetSignedPreKeyPublic(this.handle));
+    return new ECPublicKey(nativeGetSignedPreKeyPublic(this.handle));
   }
 
   /**
    * @return the signature over the signed  prekey.
    */
   public byte[] getSignedPreKeySignature() {
-    return GetSignedPreKeySignature(this.handle);
+    return nativeGetSignedPreKeySignature(this.handle);
   }
 
   /**
    * @return the {@link org.whispersystems.libsignal.IdentityKey} of this PreKeys owner.
    */
   public IdentityKey getIdentityKey() {
-    return new IdentityKey(new ECPublicKey(GetIdentityKey(this.handle)));
+    return new IdentityKey(new ECPublicKey(nativeGetIdentityKey(this.handle)));
   }
 
   /**
    * @return the registration ID associated with this PreKey.
    */
   public int getRegistrationId() {
-    return GetRegistrationId(this.handle);
+    return nativeGetRegistrationId(this.handle);
   }
 
   public long nativeHandle() {

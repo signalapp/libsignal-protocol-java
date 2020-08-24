@@ -35,17 +35,17 @@ import java.security.NoSuchAlgorithmException;
  */
 public class SessionCipher {
 
-  private static native CiphertextMessage EncryptMessage(byte[] message,
+  private static native CiphertextMessage nativeEncryptMessage(byte[] message,
                                                          long remoteAddressHandle,
                                                          SessionStore sessionStore,
                                                          IdentityKeyStore identityKeyStore);
 
-  private static native byte[] DecryptSignalMessage(long signalMessageHandle,
+  private static native byte[] nativeDecryptSignalMessage(long signalMessageHandle,
                                                     long remoteAddressHandle,
                                                     SessionStore sessionStore,
                                                     IdentityKeyStore identityKeyStore);
 
-  private static native byte[] DecryptPreKeySignalMessage(long preKeySignalMessageHandle,
+  private static native byte[] nativeDecryptPreKeySignalMessage(long preKeySignalMessageHandle,
                                                           long remoteAddressHandle,
                                                           SessionStore sessionStore,
                                                           IdentityKeyStore identityKeyStore,
@@ -91,7 +91,7 @@ public class SessionCipher {
    */
   public CiphertextMessage encrypt(byte[] paddedMessage) throws UntrustedIdentityException {
     synchronized (SESSION_LOCK) {
-       return EncryptMessage(paddedMessage,
+       return nativeEncryptMessage(paddedMessage,
                              this.remoteAddress.nativeHandle(),
                              sessionStore,
                              identityKeyStore);
@@ -118,7 +118,7 @@ public class SessionCipher {
              InvalidKeyIdException, InvalidKeyException, UntrustedIdentityException
   {
     synchronized (SESSION_LOCK) {
-      return DecryptPreKeySignalMessage(ciphertext.nativeHandle(),
+      return nativeDecryptPreKeySignalMessage(ciphertext.nativeHandle(),
                                         remoteAddress.nativeHandle(),
                                         sessionStore,
                                         identityKeyStore,
@@ -144,7 +144,7 @@ public class SessionCipher {
       NoSessionException, UntrustedIdentityException
   {
     synchronized (SESSION_LOCK) {
-       return DecryptSignalMessage(ciphertext.nativeHandle(),
+       return nativeDecryptSignalMessage(ciphertext.nativeHandle(),
                                    remoteAddress.nativeHandle(),
                                    sessionStore,
                                    identityKeyStore);

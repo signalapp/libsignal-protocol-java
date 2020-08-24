@@ -17,20 +17,20 @@ import org.whispersystems.libsignal.util.ByteUtil;
 
 public class SenderKeyDistributionMessage implements CiphertextMessage {
 
-  private static native long Deserialize(byte[] data);
-  private static native long New(int id, int iteration, byte[] chainkey, long pkHandle);
-  private static native long Destroy(long handle);
-  private static native int GetIteration(long handle);
-  private static native int GetId(long handle);
-  private static native byte[] GetChainKey(long handle);
-  private static native byte[] GetSignatureKey(long handle);
-  private static native byte[] GetSerialized(long handle);
+  private static native long nativeDeserialize(byte[] data);
+  private static native long nativeNew(int id, int iteration, byte[] chainkey, long pkHandle);
+  private static native long nativeDestroy(long handle);
+  private static native int nativeGetIteration(long handle);
+  private static native int nativeGetId(long handle);
+  private static native byte[] nativeGetChainKey(long handle);
+  private static native byte[] nativeGetSignatureKey(long handle);
+  private static native byte[] nativeGetSerialized(long handle);
 
   private final long handle;
 
   @Override
   protected void finalize() {
-     Destroy(this.handle);
+     nativeDestroy(this.handle);
   }
 
   public SenderKeyDistributionMessage(long handle) {
@@ -38,16 +38,16 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
   }
 
   public SenderKeyDistributionMessage(int id, int iteration, byte[] chainKey, ECPublicKey signatureKey) {
-    handle = New(id, iteration, chainKey, signatureKey.nativeHandle());
+    handle = nativeNew(id, iteration, chainKey, signatureKey.nativeHandle());
   }
 
   public SenderKeyDistributionMessage(byte[] serialized) throws LegacyMessageException, InvalidMessageException {
-    handle = Deserialize(serialized);
+    handle = nativeDeserialize(serialized);
   }
 
   @Override
   public byte[] serialize() {
-    return GetSerialized(this.handle);
+    return nativeGetSerialized(this.handle);
   }
 
   @Override
@@ -56,19 +56,19 @@ public class SenderKeyDistributionMessage implements CiphertextMessage {
   }
 
   public int getIteration() {
-    return GetIteration(this.handle);
+    return nativeGetIteration(this.handle);
   }
 
   public byte[] getChainKey() {
-    return GetChainKey(this.handle);
+    return nativeGetChainKey(this.handle);
   }
 
   public ECPublicKey getSignatureKey() {
-    return new ECPublicKey(GetSignatureKey(this.handle));
+    return new ECPublicKey(nativeGetSignatureKey(this.handle));
   }
 
   public int getId() {
-    return GetId(this.handle);
+    return nativeGetId(this.handle);
   }
 
   public long nativeHandle() {

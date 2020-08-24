@@ -9,14 +9,14 @@ import org.whispersystems.libsignal.IdentityKey;
 
 public class NumericFingerprintGenerator implements FingerprintGenerator {
 
-  private static native long New(int iterations, int version,
+  private static native long nativeNew(int iterations, int version,
                                  byte[] localIdentifier, byte[] localKey,
                                  byte[] remoteIdentifier, byte[] remoteKey);
 
-  private static native String GetDisplayString(long handle);
-  private static native byte[] GetScannableEncoding(long handle);
+  private static native String nativeGetDisplayString(long handle);
+  private static native byte[] nativeGetScannableEncoding(long handle);
 
-  private static native void Destroy(long handle);
+  private static native void nativeDestroy(long handle);
 
   private static final int FINGERPRINT_VERSION = 0;
 
@@ -56,17 +56,17 @@ public class NumericFingerprintGenerator implements FingerprintGenerator {
                                byte[] remoteStableIdentifier,
                                final IdentityKey remoteIdentityKey) {
 
-    long handle = New(this.iterations, version,
+    long handle = nativeNew(this.iterations, version,
                       localStableIdentifier,
                       localIdentityKey.serialize(),
                       remoteStableIdentifier,
                       remoteIdentityKey.serialize());
 
-    DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(GetDisplayString(handle));
+    DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(nativeGetDisplayString(handle));
 
-    ScannableFingerprint scannableFingerprint = new ScannableFingerprint(GetScannableEncoding(handle));
+    ScannableFingerprint scannableFingerprint = new ScannableFingerprint(nativeGetScannableEncoding(handle));
 
-    Destroy(handle);
+    nativeDestroy(handle);
 
     return new Fingerprint(displayableFingerprint, scannableFingerprint);
   }

@@ -43,7 +43,7 @@ public class SessionState {
 
   private SessionStructure sessionStructure;
 
-  private static native byte[] InitializeAliceSession(long identityKeyPrivateHandle,
+  private static native byte[] nativeInitializeAliceSession(long identityKeyPrivateHandle,
                                                       long identityKeyPublicHandle,
                                                       long baseKeyPrivateHandle,
                                                       long baseKeyPublicKeyHandle,
@@ -51,7 +51,7 @@ public class SessionState {
                                                       long theirSignedPreKeyPublicHandle,
                                                       long theirRatchetKeyPublicHandle);
 
-  private static native byte[] InitializeBobSession(long identityKeyPrivateHandle,
+  private static native byte[] nativeInitializeBobSession(long identityKeyPrivateHandle,
                                                     long identityKeyPublicHandle,
                                                     long signedPreKeyPrivateHandle,
                                                     long signedPreKeyPublicKeyHandle,
@@ -66,7 +66,7 @@ public class SessionState {
                                                     ECPublicKey theirSignedPreKey,
                                                     ECPublicKey theirRatchetKey) {
   try {
-      return new SessionState(InitializeAliceSession(identityKey.getPrivateKey().nativeHandle(),
+      return new SessionState(nativeInitializeAliceSession(identityKey.getPrivateKey().nativeHandle(),
                                                      identityKey.getPublicKey().getPublicKey().nativeHandle(),
                                                      baseKey.getPrivateKey().nativeHandle(),
                                                      baseKey.getPublicKey().nativeHandle(),
@@ -84,7 +84,7 @@ public class SessionState {
                                                   IdentityKey theirIdentityKey,
                                                   ECPublicKey theirBaseKey) {
     try {
-      return new SessionState(InitializeBobSession(identityKey.getPrivateKey().nativeHandle(),
+      return new SessionState(nativeInitializeBobSession(identityKey.getPrivateKey().nativeHandle(),
                                                    identityKey.getPublicKey().getPublicKey().nativeHandle(),
                                                    signedPreKey.getPrivateKey().nativeHandle(),
                                                    signedPreKey.getPublicKey().nativeHandle(),

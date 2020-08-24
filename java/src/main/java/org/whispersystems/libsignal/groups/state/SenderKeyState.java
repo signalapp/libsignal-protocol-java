@@ -22,13 +22,13 @@ import static org.whispersystems.libsignal.state.StorageProtos.SenderKeyStateStr
  */
 public class SenderKeyState {
 
-  private static native long New(int id, int iteration, byte[] chainKey,
+  private static native long nativeNew(int id, int iteration, byte[] chainKey,
                                  long signaturePublicHandle,
                                  long signaturePrivateHandle);
-  private static native void Destroy(long handle);
+  private static native void nativeDestroy(long handle);
 
-  private static native long Deserialize(byte[] serialized);
-  private static native byte[] GetSerialized(long handle);
+  private static native long nativeDeserialize(byte[] serialized);
+  private static native byte[] nativeGetSerialized(long handle);
 
   private long handle;
 
@@ -46,17 +46,17 @@ public class SenderKeyState {
   {
     long signatureKeyPrivateHandle = signatureKeyPrivate.isPresent() ? signatureKeyPrivate.get().nativeHandle() : 0;
 
-    this.handle = New(id, iteration, chainKey, signatureKeyPublic.nativeHandle(),
+    this.handle = nativeNew(id, iteration, chainKey, signatureKeyPublic.nativeHandle(),
                       signatureKeyPrivateHandle);
   }
 
   public SenderKeyState(SenderKeyStateStructure senderKeyStateStructure) {
-    this.handle = Deserialize(senderKeyStateStructure.toByteArray());
+    this.handle = nativeDeserialize(senderKeyStateStructure.toByteArray());
   }
 
   public SenderKeyStateStructure getStructure() {
     try {
-      return SenderKeyStateStructure.parseFrom(GetSerialized(this.handle));
+      return SenderKeyStateStructure.parseFrom(nativeGetSerialized(this.handle));
     } catch (InvalidProtocolBufferException e) {
       throw new AssertionError(e);
     }

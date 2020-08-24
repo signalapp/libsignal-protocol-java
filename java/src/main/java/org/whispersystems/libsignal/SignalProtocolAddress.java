@@ -7,11 +7,11 @@ package org.whispersystems.libsignal;
 
 public class SignalProtocolAddress {
 
-  private static native long New(String name, int device_id);
-  private static native long Destroy(long handle);
+  private static native long nativeNew(String name, int device_id);
+  private static native long nativeDestroy(long handle);
 
-  private static native String Name(long handle);
-  private static native int DeviceId(long handle);
+  private static native String nativeName(long handle);
+  private static native int nativeDeviceId(long handle);
 
   static {
        System.loadLibrary("signal_jni");
@@ -20,20 +20,20 @@ public class SignalProtocolAddress {
   private final long handle;
 
   public SignalProtocolAddress(String name, int deviceId) {
-    this.handle = New(name, deviceId);
+    this.handle = nativeNew(name, deviceId);
   }
 
   @Override
   protected void finalize() {
-    Destroy(this.handle);
+    nativeDestroy(this.handle);
   }
 
   public String getName() {
-    return Name(this.handle);
+    return nativeName(this.handle);
   }
 
   public int getDeviceId() {
-    return DeviceId(this.handle);
+    return nativeDeviceId(this.handle);
   }
 
   @Override

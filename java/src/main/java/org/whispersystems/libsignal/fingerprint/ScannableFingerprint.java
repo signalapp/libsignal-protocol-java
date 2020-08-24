@@ -7,7 +7,7 @@ package org.whispersystems.libsignal.fingerprint;
 
 public class ScannableFingerprint {
 
-  private static native boolean Compare(byte[] ourFingerprint, byte[] scannedFingerprint);
+  private static native boolean nativeCompare(byte[] ourFingerprint, byte[] scannedFingerprint);
 
   private final byte[] encodedFingerprint;
 
@@ -23,7 +23,7 @@ public class ScannableFingerprint {
   }
 
   /**
-   * Compare a scanned QR code with what we expect.
+   * nativeCompare a scanned QR code with what we expect.
    *
    * @param scannedFingerprintData The scanned data
    * @return True if matching, otherwise false.
@@ -33,6 +33,6 @@ public class ScannableFingerprint {
       throws FingerprintVersionMismatchException,
              FingerprintParsingException
   {
-    return Compare(this.encodedFingerprint, scannedFingerprintData);
+    return nativeCompare(this.encodedFingerprint, scannedFingerprintData);
   }
 }

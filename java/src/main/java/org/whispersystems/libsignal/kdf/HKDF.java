@@ -8,7 +8,7 @@ package org.whispersystems.libsignal.kdf;
 
 public abstract class HKDF {
 
-  private static native byte[] DeriveSecrets(int version, byte[] inputKeyMaterial,
+  private static native byte[] nativeDeriveSecrets(int version, byte[] inputKeyMaterial,
                                              byte[] salt, byte[] info, int outputLength);
 
   private static final int HASH_OUTPUT_SIZE  = 32;
@@ -22,11 +22,11 @@ public abstract class HKDF {
   }
 
   public byte[] deriveSecrets(byte[] inputKeyMaterial, byte[] info, int outputLength) {
-    return DeriveSecrets(getVersion(), inputKeyMaterial, null, info, outputLength);
+    return nativeDeriveSecrets(getVersion(), inputKeyMaterial, null, info, outputLength);
   }
 
   public byte[] deriveSecrets(byte[] inputKeyMaterial, byte[] salt, byte[] info, int outputLength) {
-    return DeriveSecrets(getVersion(), inputKeyMaterial, salt, info, outputLength);
+    return nativeDeriveSecrets(getVersion(), inputKeyMaterial, salt, info, outputLength);
   }
 
   protected abstract int getVersion();

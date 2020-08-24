@@ -31,9 +31,9 @@ import org.whispersystems.libsignal.util.KeyHelper;
 
 public class GroupSessionBuilder {
 
-  private static native long CreateSenderKeyDistributionMessage(long senderKeyNameHandle,
+  private static native long nativeCreateSenderKeyDistributionMessage(long senderKeyNameHandle,
                                                                 SenderKeyStore senderKeyStore);
-  private static native void ProcessSenderKeyDistributionMessage(long senderKeyNameHandle,
+  private static native void nativeProcessSenderKeyDistributionMessage(long senderKeyNameHandle,
                                                                  long senderKeyDistributionMessageHandle,
                                                                  SenderKeyStore senderKeyStore);
 
@@ -51,7 +51,7 @@ public class GroupSessionBuilder {
    */
   public void process(SenderKeyName senderKeyName, SenderKeyDistributionMessage senderKeyDistributionMessage) {
     synchronized (GroupCipher.LOCK) {
-       ProcessSenderKeyDistributionMessage(senderKeyName.nativeHandle(),
+       nativeProcessSenderKeyDistributionMessage(senderKeyName.nativeHandle(),
                                            senderKeyDistributionMessage.nativeHandle(),
                                            senderKeyStore);
     }
@@ -65,7 +65,7 @@ public class GroupSessionBuilder {
    */
   public SenderKeyDistributionMessage create(SenderKeyName senderKeyName) {
     synchronized (GroupCipher.LOCK) {
-      return new SenderKeyDistributionMessage(CreateSenderKeyDistributionMessage(senderKeyName.nativeHandle(), senderKeyStore));
+      return new SenderKeyDistributionMessage(nativeCreateSenderKeyDistributionMessage(senderKeyName.nativeHandle(), senderKeyStore));
     }
   }
 }

@@ -29,8 +29,8 @@ public class SignalMessage implements CiphertextMessage {
        System.loadLibrary("signal_jni");
   }
 
-  private static native long Deserialize(byte[] serialized);
-  private static native long New(int messageVersion,
+  private static native long nativeDeserialize(byte[] serialized);
+  private static native long nativeNew(int messageVersion,
                                  byte[] macKey,
                                  long senderRatchetKeyHandle,
                                  int counter,
@@ -38,24 +38,24 @@ public class SignalMessage implements CiphertextMessage {
                                  byte[] ciphertext,
                                  long senderIdentityKeyHandle,
                                  long receiverIdentityKeyHandle);
-  private static native void Destroy(long handle);
-  private static native byte[] GetSenderRatchetKey(long handle);
-  private static native int GetMessageVersion(long handle);
-  private static native int GetCounter(long handle);
-  private static native byte[] GetBody(long handle);
-  private static native byte[] GetSerialized(long handle);
-  private static native boolean VerifyMac(long messageHandle,
+  private static native void nativeDestroy(long handle);
+  private static native byte[] nativeGetSenderRatchetKey(long handle);
+  private static native int nativeGetMessageVersion(long handle);
+  private static native int nativeGetCounter(long handle);
+  private static native byte[] nativeGetBody(long handle);
+  private static native byte[] nativeGetSerialized(long handle);
+  private static native boolean nativeVerifyMac(long messageHandle,
                                           long senderIdentityKeyHandle, long receiverIdentityKeyHandle, byte[] macKey);
 
   private final long handle;
 
   @Override
   protected void finalize() {
-     Destroy(this.handle);
+     nativeDestroy(this.handle);
   }
 
   public SignalMessage(byte[] serialized) throws InvalidMessageException, LegacyMessageException {
-    handle = Deserialize(serialized);
+    handle = nativeDeserialize(serialized);
   }
 
   public SignalMessage(long handle) {
@@ -67,32 +67,32 @@ public class SignalMessage implements CiphertextMessage {
                        IdentityKey senderIdentityKey,
                        IdentityKey receiverIdentityKey)
   {
-    handle = New(messageVersion, macKey.getEncoded(), senderRatchetKey.nativeHandle(),
+    handle = nativeNew(messageVersion, macKey.getEncoded(), senderRatchetKey.nativeHandle(),
                  counter, previousCounter, ciphertext,
                  senderIdentityKey.getPublicKey().nativeHandle(),
                  receiverIdentityKey.getPublicKey().nativeHandle());
   }
 
   public ECPublicKey getSenderRatchetKey()  {
-    return new ECPublicKey(GetSenderRatchetKey(this.handle));
+    return new ECPublicKey(nativeGetSenderRatchetKey(this.handle));
   }
 
   public int getMessageVersion() {
-    return GetMessageVersion(this.handle);
+    return nativeGetMessageVersion(this.handle);
   }
 
   public int getCounter() {
-    return GetCounter(this.handle);
+    return nativeGetCounter(this.handle);
   }
 
   public byte[] getBody() {
-    return GetBody(this.handle);
+    return nativeGetBody(this.handle);
   }
 
   public void verifyMac(IdentityKey senderIdentityKey, IdentityKey receiverIdentityKey, SecretKeySpec macKey)
       throws InvalidMessageException
   {
-    if(!VerifyMac(this.handle,
+    if(!nativeVerifyMac(this.handle,
                   senderIdentityKey.getPublicKey().nativeHandle(),
                   receiverIdentityKey.getPublicKey().nativeHandle(),
                   macKey.getEncoded())) {
@@ -102,7 +102,7 @@ public class SignalMessage implements CiphertextMessage {
 
   @Override
   public byte[] serialize() {
-    return GetSerialized(this.handle);
+    return nativeGetSerialized(this.handle);
   }
 
   @Override

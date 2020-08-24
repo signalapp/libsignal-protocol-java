@@ -14,44 +14,44 @@ import java.io.IOException;
 
 public class PreKeyRecord {
 
-  private static native long New(int id,
+  private static native long nativeNew(int id,
                                  long pubKeyHandle,
                                  long privKeyHandle);
-  private static native long Deserialize(byte[] serialized);
-  private static native void Destroy(long handle);
+  private static native long nativeDeserialize(byte[] serialized);
+  private static native void nativeDestroy(long handle);
 
-  private static native int GetId(long handle);
-  private static native long GetPublicKey(long handle);
-  private static native long GetPrivateKey(long handle);
-  private static native byte[] GetSerialized(long handle);
+  private static native int nativeGetId(long handle);
+  private static native long nativeGetPublicKey(long handle);
+  private static native long nativeGetPrivateKey(long handle);
+  private static native byte[] nativeGetSerialized(long handle);
 
   private long handle;
 
   @Override
   protected void finalize() {
-    Destroy(this.handle);
+    nativeDestroy(this.handle);
   }
 
   public PreKeyRecord(int id, ECKeyPair keyPair) {
-    this.handle = New(id, keyPair.getPublicKey().nativeHandle(), keyPair.getPrivateKey().nativeHandle());
+    this.handle = nativeNew(id, keyPair.getPublicKey().nativeHandle(), keyPair.getPrivateKey().nativeHandle());
   }
 
   public PreKeyRecord(byte[] serialized) throws IOException {
-    this.handle = Deserialize(serialized);
+    this.handle = nativeDeserialize(serialized);
   }
 
   public int getId() {
-    return GetId(this.handle);
+    return nativeGetId(this.handle);
   }
 
   public ECKeyPair getKeyPair() {
-    ECPublicKey publicKey = new ECPublicKey(GetPublicKey(this.handle));
-    ECPrivateKey privateKey = new ECPrivateKey(GetPrivateKey(this.handle));
+    ECPublicKey publicKey = new ECPublicKey(nativeGetPublicKey(this.handle));
+    ECPrivateKey privateKey = new ECPrivateKey(nativeGetPrivateKey(this.handle));
     return new ECKeyPair(publicKey, privateKey);
   }
 
   public byte[] serialize() {
-    return GetSerialized(this.handle);
+    return nativeGetSerialized(this.handle);
   }
 
   public long nativeHandle() {

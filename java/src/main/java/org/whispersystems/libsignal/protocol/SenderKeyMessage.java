@@ -20,54 +20,54 @@ import java.text.ParseException;
 
 public class SenderKeyMessage implements CiphertextMessage {
 
-  private static native long Deserialize(byte[] serialized);
-  private static native long New(int keyId, int iteration, byte[] ciphertext, long pkHandle);
-  private static native void Destroy(long handle);
+  private static native long nativeDeserialize(byte[] serialized);
+  private static native long nativeNew(int keyId, int iteration, byte[] ciphertext, long pkHandle);
+  private static native void nativeDestroy(long handle);
 
-  private static native int GetKeyId(long handle);
-  private static native int GetIteration(long handle);
-  private static native byte[] GetCipherText(long handle);
-  private static native byte[] GetSerialized(long handle);
-  private static native boolean VerifySignature(long handle, long pkHandle);
+  private static native int nativeGetKeyId(long handle);
+  private static native int nativeGetIteration(long handle);
+  private static native byte[] nativeGetCipherText(long handle);
+  private static native byte[] nativeGetSerialized(long handle);
+  private static native boolean nativeVerifySignature(long handle, long pkHandle);
 
   private long handle;
 
   @Override
   protected void finalize() {
-     Destroy(this.handle);
+     nativeDestroy(this.handle);
   }
 
   public SenderKeyMessage(byte[] serialized) throws InvalidMessageException, LegacyMessageException {
-    handle = Deserialize(serialized);
+    handle = nativeDeserialize(serialized);
   }
 
   public SenderKeyMessage(int keyId, int iteration, byte[] ciphertext, ECPrivateKey signatureKey) {
-    handle = New(keyId, iteration, ciphertext, signatureKey.nativeHandle());
+    handle = nativeNew(keyId, iteration, ciphertext, signatureKey.nativeHandle());
   }
 
   public int getKeyId() {
-    return GetKeyId(this.handle);
+    return nativeGetKeyId(this.handle);
   }
 
   public int getIteration() {
-    return GetIteration(this.handle);
+    return nativeGetIteration(this.handle);
   }
 
   public byte[] getCipherText() {
-    return GetCipherText(this.handle);
+    return nativeGetCipherText(this.handle);
   }
 
   public void verifySignature(ECPublicKey signatureKey)
       throws InvalidMessageException
   {
-    if(!VerifySignature(this.handle, signatureKey.nativeHandle())) {
+    if(!nativeVerifySignature(this.handle, signatureKey.nativeHandle())) {
       throw new InvalidMessageException("Invalid signature!");
     }
   }
 
   @Override
   public byte[] serialize() {
-    return GetSerialized(this.handle);
+    return nativeGetSerialized(this.handle);
   }
 
   @Override

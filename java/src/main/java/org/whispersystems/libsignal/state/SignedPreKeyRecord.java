@@ -14,58 +14,58 @@ import java.io.IOException;
 
 public class SignedPreKeyRecord {
 
-  private static native long New(int id, long timestamp,
+  private static native long nativeNew(int id, long timestamp,
                                  long pubKeyHandle,
                                  long privKeyHandle,
                                  byte[] signature);
-  private static native long Deserialize(byte[] serialized);
-  private static native void Destroy(long handle);
+  private static native long nativeDeserialize(byte[] serialized);
+  private static native void nativeDestroy(long handle);
 
-  private static native int GetId(long handle);
-  private static native long GetTimestamp(long handle);
-  private static native long GetPublicKey(long handle);
-  private static native long GetPrivateKey(long handle);
-  private static native byte[] GetSignature(long handle);
-  private static native byte[] GetSerialized(long handle);
+  private static native int nativeGetId(long handle);
+  private static native long nativeGetTimestamp(long handle);
+  private static native long nativeGetPublicKey(long handle);
+  private static native long nativeGetPrivateKey(long handle);
+  private static native byte[] nativeGetSignature(long handle);
+  private static native byte[] nativeGetSerialized(long handle);
 
   private long handle;
 
   @Override
   protected void finalize() {
-    Destroy(this.handle);
+    nativeDestroy(this.handle);
   }
 
   public SignedPreKeyRecord(int id, long timestamp, ECKeyPair keyPair, byte[] signature) {
-    this.handle = New(id, timestamp,
+    this.handle = nativeNew(id, timestamp,
                       keyPair.getPublicKey().nativeHandle(),
                       keyPair.getPrivateKey().nativeHandle(),
                       signature);
   }
 
   public SignedPreKeyRecord(byte[] serialized) throws IOException {
-    this.handle = Deserialize(serialized);
+    this.handle = nativeDeserialize(serialized);
   }
 
   public int getId() {
-    return GetId(this.handle);
+    return nativeGetId(this.handle);
   }
 
   public long getTimestamp() {
-    return GetTimestamp(this.handle);
+    return nativeGetTimestamp(this.handle);
   }
 
   public ECKeyPair getKeyPair() {
-    ECPublicKey publicKey = new ECPublicKey(GetPublicKey(this.handle));
-    ECPrivateKey privateKey = new ECPrivateKey(GetPrivateKey(this.handle));
+    ECPublicKey publicKey = new ECPublicKey(nativeGetPublicKey(this.handle));
+    ECPrivateKey privateKey = new ECPrivateKey(nativeGetPrivateKey(this.handle));
     return new ECKeyPair(publicKey, privateKey);
   }
 
   public byte[] getSignature() {
-    return GetSignature(this.handle);
+    return nativeGetSignature(this.handle);
   }
 
   public byte[] serialize() {
-    return GetSerialized(this.handle);
+    return nativeGetSerialized(this.handle);
   }
 
   public long nativeHandle() {

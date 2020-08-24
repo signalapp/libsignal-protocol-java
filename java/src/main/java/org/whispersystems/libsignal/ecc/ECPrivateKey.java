@@ -11,22 +11,22 @@ public class ECPrivateKey {
        System.loadLibrary("signal_jni");
   }
 
-  private static native long Generate();
-  private static native long Deserialize(byte[] data);
-  private static native byte[] Serialize(long handle);
-  private static native byte[] Sign(long handle, byte[] message);
-  private static native byte[] Agree(long handle, long pubkey_handle);
-  private static native long GetPublicKey(long handle);
-  private static native void Destroy(long handle);
+  private static native long nativeGenerate();
+  private static native long nativeDeserialize(byte[] data);
+  private static native byte[] nativeSerialize(long handle);
+  private static native byte[] nativeSign(long handle, byte[] message);
+  private static native byte[] nativeAgree(long handle, long pubkey_handle);
+  private static native long nativeGetPublicKey(long handle);
+  private static native void nativeDestroy(long handle);
 
   private long handle;
 
   ECPrivateKey() {
-    this.handle = Generate();
+    this.handle = nativeGenerate();
   }
 
   ECPrivateKey(byte[] privateKey) {
-    this.handle = Deserialize(privateKey);
+    this.handle = nativeDeserialize(privateKey);
   }
 
   public ECPrivateKey(long nativeHandle) {
@@ -38,19 +38,19 @@ public class ECPrivateKey {
 
   @Override
   protected void finalize() {
-     Destroy(this.handle);
+     nativeDestroy(this.handle);
   }
 
   public byte[] serialize() {
-    return Serialize(this.handle);
+    return nativeSerialize(this.handle);
   }
 
   public byte[] calculateSignature(byte[] message) {
-     return Sign(this.handle, message);
+     return nativeSign(this.handle, message);
   }
 
   public byte[] calculateAgreement(ECPublicKey other) {
-    return Agree(this.handle, other.nativeHandle());
+    return nativeAgree(this.handle, other.nativeHandle());
   }
 
   public long nativeHandle() {
@@ -58,6 +58,6 @@ public class ECPrivateKey {
   }
 
   public ECPublicKey publicKey() {
-    return new ECPublicKey(GetPublicKey(this.handle));
+    return new ECPublicKey(nativeGetPublicKey(this.handle));
   }
 }

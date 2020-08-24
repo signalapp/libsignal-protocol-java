@@ -9,12 +9,12 @@ import org.whispersystems.libsignal.util.ByteUtil;
 
 public class DisplayableFingerprint {
 
-  private static native String Format(byte[] localFingerprint, byte[] remoteFingerprint);
+  private static native String nativeFormat(byte[] localFingerprint, byte[] remoteFingerprint);
 
   private String displayString;
 
   DisplayableFingerprint(byte[] localFingerprint, byte[] remoteFingerprint) {
-    this.displayString = Format(localFingerprint, remoteFingerprint);
+    this.displayString = nativeFormat(localFingerprint, remoteFingerprint);
   }
 
   DisplayableFingerprint(String displayString) {

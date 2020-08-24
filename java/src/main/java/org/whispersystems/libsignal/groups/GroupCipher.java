@@ -29,10 +29,10 @@ public class GroupCipher {
 
   static final Object LOCK = new Object();
 
-  private static native byte[] EncryptMessage(long senderKeyNameHandle,
+  private static native byte[] nativeEncryptMessage(long senderKeyNameHandle,
                                               byte[] paddedPlaintext,
                                               SenderKeyStore senderKeyStore);
-  private static native byte[] DecryptMessage(long senderKeyNameHandle,
+  private static native byte[] nativeDecryptMessage(long senderKeyNameHandle,
                                               byte[] ciphertext,
                                               SenderKeyStore senderKeyStore);
 
@@ -54,7 +54,7 @@ public class GroupCipher {
   public byte[] encrypt(byte[] paddedPlaintext) throws NoSessionException {
     synchronized (LOCK) {
     try {
-      return EncryptMessage(this.senderKeyId.nativeHandle(), paddedPlaintext, this.senderKeyStore);
+      return nativeEncryptMessage(this.senderKeyId.nativeHandle(), paddedPlaintext, this.senderKeyStore);
     } catch (IllegalStateException e) {
       throw new NoSessionException(e);
     }
@@ -75,7 +75,7 @@ public class GroupCipher {
   {
     synchronized (LOCK) {
       try {
-        return DecryptMessage(this.senderKeyId.nativeHandle(), senderKeyMessageBytes, this.senderKeyStore);
+        return nativeDecryptMessage(this.senderKeyId.nativeHandle(), senderKeyMessageBytes, this.senderKeyStore);
     } catch (IllegalStateException e) {
       throw new NoSessionException(e);
       }

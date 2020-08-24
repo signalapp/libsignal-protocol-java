@@ -40,7 +40,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
  */
 public class SessionBuilder {
 
-   private static native void ProcessPreKeyBundle(long preKeyBundleHandle,
+   private static native void nativeProcessPreKeyBundle(long preKeyBundleHandle,
                                                   long remoteAddressHandle,
                                                   SessionStore sessionStore,
                                                   IdentityKeyStore identityKeyStore);
@@ -96,7 +96,7 @@ public class SessionBuilder {
    */
   public void process(PreKeyBundle preKey) throws InvalidKeyException, UntrustedIdentityException {
     synchronized (SessionCipher.SESSION_LOCK) {
-      ProcessPreKeyBundle(preKey.nativeHandle(),
+      nativeProcessPreKeyBundle(preKey.nativeHandle(),
                           remoteAddress.nativeHandle(),
                           sessionStore,
                           identityKeyStore);
