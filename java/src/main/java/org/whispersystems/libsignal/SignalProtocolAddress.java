@@ -52,7 +52,7 @@ public class SignalProtocolAddress {
 
   @Override
   public int hashCode() {
-    return toString().hashCode();
+    return this.getName().hashCode() ^ this.getDeviceId();
   }
 
   public long nativeHandle() {
