@@ -17,15 +17,19 @@ public class ECPublicKey implements Comparable<ECPublicKey> {
        System.loadLibrary("signal_jni");
   }
 
-  private static native long nativeDeserialize(byte[] data);
+  private static native long nativeDeserialize(byte[] data, int offset);
   private static native byte[] nativeSerialize(long handle);
   private static native boolean nativeVerify(long handle, byte[] message, byte[] signature);
   private static native void nativeDestroy(long handle);
 
   private final long handle;
 
+  public ECPublicKey(byte[] serialized, int offset) {
+    this.handle = nativeDeserialize(serialized, offset);
+  }
+
   public ECPublicKey(byte[] serialized) {
-    this.handle = nativeDeserialize(serialized);
+    this.handle = nativeDeserialize(serialized, 0);
   }
 
   public ECPublicKey(long nativeHandle) {

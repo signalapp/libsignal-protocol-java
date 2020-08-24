@@ -31,14 +31,7 @@ public class Curve {
       throw new InvalidKeyException("No key type identifier");
     }
 
-    if (offset == 0) {
-      return new ECPublicKey(bytes);
-    } else {
-      int wantedLen = bytes.length - offset;
-      byte[] wanted = new byte[wantedLen];
-      System.arraycopy(bytes, offset, wanted, 0, wantedLen);
-      return new ECPublicKey(wanted);
-    }
+    return new ECPublicKey(bytes, offset);
   }
 
   public static ECPrivateKey decodePrivatePoint(byte[] bytes) {
