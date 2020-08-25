@@ -16,11 +16,6 @@ import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.util.ByteUtil;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-
-import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class SignalMessage implements CiphertextMessage {

@@ -6,7 +6,6 @@
 
 package org.whispersystems.libsignal.state;
 
-
 import com.google.protobuf.ByteString;
 
 import org.whispersystems.libsignal.IdentityKey;
@@ -16,7 +15,6 @@ import org.whispersystems.libsignal.ecc.Curve;
 import org.whispersystems.libsignal.ecc.ECKeyPair;
 import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
-import org.whispersystems.libsignal.kdf.HKDF;
 import org.whispersystems.libsignal.logging.Log;
 import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.Chain;
 import org.whispersystems.libsignal.state.StorageProtos.SessionStructure.PendingKeyExchange;
@@ -27,11 +25,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import java.io.IOException;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import static org.whispersystems.libsignal.state.StorageProtos.SessionStructure;
 
