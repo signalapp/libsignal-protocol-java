@@ -19,6 +19,7 @@ public class ECPublicKey implements Comparable<ECPublicKey> {
 
   private static native long nativeDeserialize(byte[] data, int offset);
   private static native byte[] nativeSerialize(long handle);
+  private static native int nativeCompare(long handle1, long handle2);
   private static native boolean nativeVerify(long handle, byte[] message, byte[] signature);
   private static native void nativeDestroy(long handle);
 
@@ -77,6 +78,6 @@ public class ECPublicKey implements Comparable<ECPublicKey> {
 
   @Override
   public int compareTo(ECPublicKey another) {
-    return new BigInteger(this.serialize()).compareTo(new BigInteger(another.serialize()));
+    return nativeCompare(this.nativeHandle(), another.nativeHandle());
   }
 }
