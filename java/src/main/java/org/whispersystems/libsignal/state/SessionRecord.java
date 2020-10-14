@@ -71,6 +71,24 @@ public class SessionRecord {
     return fresh;
   }
 
+  /**
+   * Move the current {@link SessionState} into the list of "previous" session states,
+   * and replace the current {@link org.whispersystems.libsignal.state.SessionState}
+   * with a fresh reset instance.
+   */
+  public void archiveCurrentState() {
+    promoteState(new SessionState());
+  }
+
+  public void promoteState(SessionState promotedState) {
+    this.previousStates.addFirst(sessionState);
+    this.sessionState = promotedState;
+
+    if (previousStates.size() > ARCHIVED_STATES_MAX_LENGTH) {
+      previousStates.removeLast();
+    }
+  }
+
   public void setState(SessionState sessionState) {
     this.sessionState = sessionState;
   }

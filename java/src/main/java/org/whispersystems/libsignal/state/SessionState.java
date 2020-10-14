@@ -166,6 +166,10 @@ public class SessionState {
     return new ECKeyPair(publicKey, privateKey);
   }
 
+  public boolean hasSenderChain() {
+    return sessionStructure.hasSenderChain();
+  }
+
   private Pair<Chain,Integer> getReceiverChain(ECPublicKey senderEphemeral) {
     List<Chain> receiverChains = sessionStructure.getReceiverChainsList();
     int         index          = 0;
