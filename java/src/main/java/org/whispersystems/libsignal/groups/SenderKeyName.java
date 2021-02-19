@@ -49,4 +49,8 @@ public class SenderKeyName {
     return this.groupId.hashCode() ^ this.sender.hashCode();
   }
 
+  @Override
+  public String toString() {
+    return groupId + ":" + sender.getName() + ":" + sender.getDeviceId();
+  }
 }
