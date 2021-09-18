@@ -71,8 +71,8 @@ public class Curve {
 
     if (publicKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .calculateAgreement(((DjbECPublicKey) publicKey).getPublicKey(),
-                                           ((DjbECPrivateKey) privateKey).getPrivateKey());
+                       .calculateAgreement(((DjbECPublicKey) publicKey).getEncoded(),
+                                           ((DjbECPrivateKey) privateKey).getEncoded());
     } else {
       throw new InvalidKeyException("Unknown type: " + publicKey.getType());
     }
@@ -87,7 +87,7 @@ public class Curve {
 
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .verifySignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
+                       .verifySignature(((DjbECPublicKey) signingKey).getEncoded(), message, signature);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }
@@ -102,7 +102,7 @@ public class Curve {
 
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .calculateSignature(((DjbECPrivateKey) signingKey).getPrivateKey(), message);
+                       .calculateSignature(((DjbECPrivateKey) signingKey).getEncoded(), message);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }
@@ -117,7 +117,7 @@ public class Curve {
 
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .calculateVrfSignature(((DjbECPrivateKey)signingKey).getPrivateKey(), message);
+                       .calculateVrfSignature(((DjbECPrivateKey)signingKey).getEncoded(), message);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }
@@ -132,7 +132,7 @@ public class Curve {
 
     if (signingKey.getType() == DJB_TYPE) {
       return Curve25519.getInstance(BEST)
-                       .verifyVrfSignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
+                       .verifyVrfSignature(((DjbECPublicKey) signingKey).getEncoded(), message, signature);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
     }
