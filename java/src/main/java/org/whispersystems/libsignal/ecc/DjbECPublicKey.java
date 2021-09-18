@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -20,9 +20,24 @@ public class DjbECPublicKey implements ECPublicKey {
   }
 
   @Override
+  public String getAlgorithm() {
+    return "Curve25519";
+  }
+
+  @Override
+  public String getFormat() {
+    return "RAW";
+  }
+
+  @Override
+  public byte[] getEncoded() {
+    return this.publicKey;
+  }
+
+  @Override
   public byte[] serialize() {
     byte[] type = {Curve.DJB_TYPE};
-    return ByteUtil.combine(type, publicKey);
+    return ByteUtil.combine(type, this.publicKey);
   }
 
   @Override
@@ -49,7 +64,4 @@ public class DjbECPublicKey implements ECPublicKey {
     return new BigInteger(publicKey).compareTo(new BigInteger(((DjbECPublicKey)another).publicKey));
   }
 
-  public byte[] getPublicKey() {
-    return publicKey;
-  }
 }

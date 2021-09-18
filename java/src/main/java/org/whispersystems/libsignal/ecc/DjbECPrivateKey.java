@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -15,8 +15,23 @@ public class DjbECPrivateKey implements ECPrivateKey {
   }
 
   @Override
+  public String getAlgorithm() {
+    return "Curve25519";
+  }
+
+  @Override
+  public String getFormat() {
+    return "RAW";
+  }
+
+  @Override
+  public byte[] getEncoded() {
+    return this.privateKey;
+  }
+
+  @Override
   public byte[] serialize() {
-    return privateKey;
+    return this.privateKey;
   }
 
   @Override
@@ -24,7 +39,4 @@ public class DjbECPrivateKey implements ECPrivateKey {
     return Curve.DJB_TYPE;
   }
 
-  public byte[] getPrivateKey() {
-    return privateKey;
-  }
 }

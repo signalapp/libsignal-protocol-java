@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013-2016 Open Whisper Systems
  *
  * Licensed according to the LICENSE file in this repository.
@@ -6,11 +6,13 @@
 
 package org.whispersystems.libsignal.ecc;
 
-public interface ECPublicKey extends Comparable<ECPublicKey> {
+import java.security.PublicKey;
 
-  public static final int KEY_SIZE = 33;
+public interface ECPublicKey extends PublicKey, Comparable<ECPublicKey> {
 
-  public byte[] serialize();
+  int KEY_SIZE = 33;
 
-  public int getType();
+  byte[] serialize();
+
+  int getType();
 }
