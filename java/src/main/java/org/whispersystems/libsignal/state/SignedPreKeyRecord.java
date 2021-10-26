@@ -14,10 +14,11 @@ import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import static org.whispersystems.libsignal.state.StorageProtos.SignedPreKeyRecordStructure;
 
-public class SignedPreKeyRecord {
+public class SignedPreKeyRecord implements Serializable {
 
   private SignedPreKeyRecordStructure structure;
 

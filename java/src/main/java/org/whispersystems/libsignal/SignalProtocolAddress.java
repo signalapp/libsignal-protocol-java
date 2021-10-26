@@ -5,7 +5,9 @@
  */
 package org.whispersystems.libsignal;
 
-public class SignalProtocolAddress {
+import java.io.Serializable;
+
+public class SignalProtocolAddress implements Serializable {
 
   private final String name;
   private final int    deviceId;
